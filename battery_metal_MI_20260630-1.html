@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리 메탈 MI | 2026.06.30</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0e1117;
+    --surface: #161b27;
+    --surface2: #1e2535;
+    --border: #2a3347;
+    --text: #cdd6f4;
+    --text-dim: #6c7a96;
+    --text-muted: #3d4a63;
+    --lithium: #5bc4f5;
+    --nickel: #a6e3a1;
+    --accent: #cba6f7;
+    --high: #f38ba8;
+    --medium: #fab387;
+    --low: #a6e3a1;
+    --insight: #f9e2af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 24px 16px;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; }
+
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  .header-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .header-title { font-size: 20px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+  .header-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  /* Price Snapshot */
+  .snapshot {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  .snapshot-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .price-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .price-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+  .price-item.accent-li { border-top: 2px solid var(--lithium); }
+  .price-item.accent-ni { border-top: 2px solid var(--nickel); }
+  .price-label { font-size: 10px; color: var(--text-dim); margin-bottom: 5px; }
+  .price-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: #fff;
+  }
+  .price-change { font-family: 'IBM Plex Mono', monospace; font-size: 11px; margin-top: 3px; }
+  .price-change.down { color: var(--high); }
+  .price-basis { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+  .disclaimer {
+    margin-top: 12px;
+    font-size: 10px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+    line-height: 1.6;
+  }
+
+  /* Supply Chain */
+  .supply-chain {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--lithium);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  .supply-chain-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--lithium);
+    margin-bottom: 14px;
+  }
+  .supply-flow {
+    display: grid;
+    grid-template-columns: 1fr 24px 1fr;
+    gap: 0;
+    align-items: start;
+  }
+  .flow-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .flow-title { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .flow-item { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+  .flow-item .country { color: var(--text); }
+  .flow-item .pct { font-family: 'IBM Plex Mono', monospace; color: var(--lithium); font-size: 11px; }
+  .flow-item .pct.highlight { color: var(--accent); font-weight: 500; }
+  .flow-item .pct.risk { color: var(--high); font-weight: 500; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 16px; padding-top: 40px; }
+  .flow-note {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    line-height: 1.6;
+  }
+  .flow-note strong { color: var(--insight); }
+
+  /* News Card */
+  .news-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .news-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .news-header-left { flex: 1; }
+  .news-tags { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+  }
+  .tag-lithium { background: rgba(91,196,245,0.12); color: var(--lithium); border: 1px solid rgba(91,196,245,0.25); }
+  .tag-nickel { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .impact-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .impact-HIGH { background: rgba(243,139,168,0.15); color: var(--high); border: 1px solid rgba(243,139,168,0.3); }
+  .impact-MEDIUM { background: rgba(250,179,135,0.15); color: var(--medium); border: 1px solid rgba(250,179,135,0.3); }
+  .news-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 5px; }
+  .news-source { font-size: 10px; color: var(--text-dim); }
+
+  .news-body { padding: 14px 16px; }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+    margin-top: 16px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li {
+    padding: 5px 0 5px 14px;
+    position: relative;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.65;
+    border-bottom: 1px solid var(--border);
+  }
+  .bullet-list li:last-child { border-bottom: none; }
+  .bullet-list li::before { content: '›'; position: absolute; left: 0; color: var(--text-muted); }
+
+  .search-keyword {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-top: 3px;
+  }
+  .search-keyword::before { content: '🔍 '; }
+
+  .paid-notice {
+    display: inline-block;
+    font-size: 9px;
+    color: var(--medium);
+    background: rgba(250,179,135,0.08);
+    border: 1px solid rgba(250,179,135,0.2);
+    border-radius: 3px;
+    padding: 1px 6px;
+    margin-top: 3px;
+    margin-left: 4px;
+  }
+
+  .insight-box {
+    background: rgba(249,226,175,0.06);
+    border: 1px solid rgba(249,226,175,0.2);
+    border-left: 3px solid var(--insight);
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin: 8px 0;
+  }
+  .insight-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--insight);
+    letter-spacing: 0.1em;
+    margin-bottom: 5px;
+  }
+  .insight-text { font-size: 12px; color: var(--text); line-height: 1.65; }
+
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .action-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .action-item-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .action-item-label.now { color: var(--nickel); }
+  .action-item-label.monitor { color: var(--accent); }
+  .action-item p { font-size: 11px; color: var(--text); line-height: 1.6; }
+
+  /* Summary */
+  .summary {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 24px;
+  }
+  .summary-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  td { font-size: 11px; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+  tr:last-child td { border-bottom: none; }
+  .stance {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+  }
+  .stance-buy { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .stance-neutral { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+
+  .footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 480px) {
+    .action-grid { grid-template-columns: 1fr; }
+    .price-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-meta">Battery Metal Market Intelligence · Daily Report</div>
+    <div class="header-title">배터리 메탈 데일리 MI</div>
+    <div class="header-sub">2026년 06월 30일 (화) · Sourcing Analyst Perspective</div>
+  </div>
+
+  <!-- Price Snapshot -->
+  <div class="snapshot">
+    <div class="snapshot-title">📊 Price Snapshot — 전영업일 종가 기준</div>
+    <div class="price-grid">
+      <div class="price-item accent-li">
+        <div class="price-label">탄산리튬 (Li₂CO₃)</div>
+        <div class="price-value">151,750</div>
+        <div class="price-change down">▼ -0.49% (-750)</div>
+        <div class="price-basis">CNY/t · 6/29 종가 · GFEX/SHFE</div>
+      </div>
+      <div class="price-item accent-ni">
+        <div class="price-label">니켈 (LME 3-month)</div>
+        <div class="price-value">$16,311</div>
+        <div class="price-change down">▼ 6개월래 최저 수준</div>
+        <div class="price-basis">USD/t · 6/29 종가 · lme.com</div>
+      </div>
+    </div>
+    <div class="disclaimer">
+      ⚠️ 탄산리튬가는 Trading Economics 경유 GFEX/SHFE 재인용. 니켈은 LME 공홈 3-month 선물 공식 종가(순수 니켈 캐소드) 기준. 본 리포트 가격은 방향성 참고용이며 실거래가와 차이가 있을 수 있습니다.
+    </div>
+  </div>
+
+  <!-- Supply Chain -->
+  <div class="supply-chain">
+    <div class="supply-chain-title">🌐 글로벌 리튬 공급망 구조 (2026 기준)</div>
+    <div class="supply-flow">
+      <div class="flow-box">
+        <div class="flow-title">⛏ 업스트림 (채굴)</div>
+        <div class="flow-item"><span class="country">호주</span><span class="pct">~50%</span></div>
+        <div class="flow-item"><span class="country">칠레</span><span class="pct">~22%</span></div>
+        <div class="flow-item"><span class="country">중국</span><span class="pct">~16%</span></div>
+        <div class="flow-item"><span class="country">아르헨티나</span><span class="pct">~10%</span></div>
+        <div class="flow-item"><span class="country">짐바브웨</span><span class="pct risk">~3% ⚠</span></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">
+        <div class="flow-title">🏭 미드스트림 (정제·CP)</div>
+        <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~67%</span></div>
+        <div class="flow-item"><span class="country">칠레·아르헨</span><span class="pct">~29%</span></div>
+        <div class="flow-item"><span class="country">기타</span><span class="pct">~4%</span></div>
+        <div style="margin-top:8px;font-size:10px;color:var(--text-dim);">호주 스포듀멘의 96%가 중국으로 수출돼 가공</div>
+      </div>
+    </div>
+    <div class="flow-note">
+      <strong>짐바브웨 리스크 핵심:</strong> 비중은 ~3%지만 스팟·단기 계약 중심의 incremental 공급이었음. 쿼터제 하에서 현지 가공시설(CP) 보유 기업만 수출 가능한 구조로, 화유코발트 등 중국 자본이 선점한 상태. <strong>중국 가공 인프라를 거치지 않고는 수출 자격조차 얻기 어려운 구조적 잠식이 심화되고 있다.</strong>
+    </div>
+  </div>
+
+  <!-- News 1: 젠샤워 안전생산허가증 -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-lithium">[리튬]</span></div>
+        <div class="news-title">CATL 젠샤워 안전생산허가증 취득 완료 — 10개월 만에 복산 카운트다운</div>
+        <div class="news-source">CnEVPost (National Business Daily 인용) | 2026.06.29</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          CATL 측 관계자가 6/29 모든 생산 관련 인허가 취득을 완료했으며, 가장 핵심인 안전생산허가증을 이날 취득했다고 밝혔다. 일부 현지 주민들이 복직 훈련을 시작했고, 6/28 투자자가 대형 트레일러로 전기 채굴 트럭이 광산 입구에 운반되는 모습을 목격했다.
+          <br><span class="search-keyword">CATL Jianxiawo final safety production permit June 29 2026</span>
+        </li>
+        <li>젠샤워는 2025.08.10 채굴허가 만료로 가동 중단된 이후, 작년 12월 춘절 전 복산 기대가 있었으나 실현되지 않았다가 이번에 최종 허가 취득에 성공했다.</li>
+        <li>젠샤워는 연간 약 4.6만t LCE 생산 능력으로 글로벌 리튬 공급의 약 3%에 해당한다.</li>
+      </ul>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>레피돌라이트(리튬운모) 광석 특성상 채굴 재개 → 파쇄 → 중국 CP 가공 투입 → 탄산리튬 실물 출하까지 통상 6~8주 시차가 발생. 실공급 증가는 8월 중순 이후 본격화 예상.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">정보의 영향 경로를 구분해야 한다. ① 안전생산허가증 취득이라는 "복산 확정" 시그널은 GFEX 선물(3개월물 등)에 즉시 반영되어 추가 하락 압력으로 작용할 가능성이 크다. ② 그러나 레피돌라이트 채굴→CP 가공→실물 출하까지의 6~8주 시차는 스팟 현물 가격에만 영향을 미친다. 즉 선물은 지금 당장 하락해도, 현물 공급은 8월 중순 이전에는 늘지 않는다. 이 괴리 구간에서 선물-현물 스프레드 확대 가능성을 주시할 필요가 있다.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>선물 약세를 현물 부족 해소로 오인하지 말 것. CIF 현물가는 별도 트래킹 필요.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>GFEX 3개월 선물 vs 현물 스프레드 추이. 실제 채굴 재개 공식 발표 시점.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News 2: 지오씨엘 짐바브웨 -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-lithium">[리튬]</span></div>
+        <div class="news-title">한국 지오씨엘, 짐바브웨 리튬 정광 샘플 생산 — 쿼터 미배정, 중국 가공 의존 구조 노출</div>
+        <div class="news-source">헤럴드경제 | 2026.06.25</div>
+      </div>
+      <span class="impact-badge impact-MEDIUM">MEDIUM</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          지오씨엘이 짐바브웨 치샤와샤 광산에서 순도 약 6% 리튬 정광 샘플을 생산했으며, 현지 가공업체인 중국 K사와 협력해 생산. 수출을 위한 행정 절차는 짐바브웨 광산부·에너지부와 별도로 진행 중.
+          <br><span class="search-keyword">지오씨엘 짐바브웨 치샤와샤 리튬 정광 샘플</span>
+        </li>
+        <li>샘플은 약 3개월 내 부산항 도착 예정이며, 품질 분석 완료 후 국내 기업 대상 공급 협의 및 장기 구매계약(오프테이크) 추진 계획이다.</li>
+        <li>참고로 기존 화유코발트·청신리튬 등 중국계 기업은 이미 짐바브웨로부터 연간 쿼터를 배정받아 황산리튬 형태로 수출 중이다.</li>
+      </ul>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>지오씨엘은 아직 정식 수출 쿼터를 배정받지 않은 단계. 샘플 생산은 의미 있는 첫걸음이나, 원광·정광 형태 수출이 가능할지는 행정절차 완료 및 짐바브웨 정부의 쿼터 배정 여부에 달려 있다.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">짐바브웨 쿼터제의 구조적 한계가 드러난다. 쿼터는 "현지 가공시설(CP) 보유 기업"에만 부여되는데, 현재 짐바브웨 내 CP 능력은 사실상 중국 자본(화유코발트, 청신리튬 등)이 선점한 상태. 지오씨엘조차 자체 가공이 아닌 중국 K사와의 협력을 통해 정광을 만드는 구조 — 이는 한국 기업이 짐바브웨에 직접 진출해도 중국 가공 인프라를 거치지 않고는 쿼터 자격조차 얻기 어렵다는 점을 보여준다. 짐바브웨의 원광 통제 정책이 역설적으로 중국의 미드스트림 지배력을 더 공고히 하는 결과로 이어지고 있다. 국내 기업의 진정한 의미는 향후 독자 CP 시설 구축 여부에 달려 있으며, 현 단계는 그 이전 탐색기다.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>지오씨엘 쿼터 배정 여부 및 독자 CP 시설 계획 확인. 현 단계는 투자·공급 판단 보류.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>짐바브웨 정부의 쿼터 배정 발표. 지오씨엘 자체 가공시설 투자 계획 발표 여부.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News 3: 니켈 RKAB -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-nickel">[니켈]</span></div>
+        <div class="news-title">인도네시아 RKAB 7월 증량 신청 마감 임박 — 니켈 6개월래 최저 수준, 공식 결과가 방향 결정</div>
+        <div class="news-source">SMM (Shanghai Metals Market) / Mysteel | 2026.06 기준</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          ESDM 장관령 제17호(2025.10.03 발표)에 따라 광업 허가 보유자는 연 1회 RKAB 수정 신청이 가능하며, 늦어도 7월 31일까지 제출해야 한다. IWIP·PT Vale 등 주요 업체들이 7월 증량 신청을 준비 중.
+          <br><span class="search-keyword">SMM Indonesia RKAB nickel quota revision July 2026 deadline</span>
+        </li>
+        <li>2026년 RKAB 확정 배분량은 2.6억~2.7억t으로 2025년 3.79억t 대비 약 1/3 감소했으며, INSG는 2026년 시장 균형 전망을 28.3만t 흑자에서 3.2만t 소폭 적자로 수정했다.</li>
+      </ul>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>7월 RKAB 증량 신청 결과 확정 전까지 $16,000~$17,000 구간에서 등락 예상. 이번 주 들어 추가 하락하며 최근 6개월래 최저 수준을 형성 중.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">루머 수준의 쿼터 확대설은 에너지부 정식 승인 없이는 투기적 신호에 불과하다. 7/31 신청 마감 이후 승인까지 통상 수주 소요. 현재 $16,311은 6개월래 최저 수준으로, RKAB 불확실성에 투기적 매도세까지 가세한 것으로 보인다. 다만 여전히 정식 승인 전 단계이므로 펀더멘털보다 심리 요인이 크게 작용 중이며, $16,000 선 붕괴 여부가 단기 분수령이 될 전망이다.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>황산니켈/MHP 계약가 재검토. $16,500 이하 구간 일부 물량 단기 고정 검토.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>7월 RKAB 수정 신청 결과 공식 발표. PT Vale Pomalaa HPAL 8월 기계 완공 여부. $16,000 선 붕괴 여부.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-title">📌 소싱 판단 요약</div>
+    <table>
+      <thead>
+        <tr><th>메탈</th><th>현황</th><th>스탠스</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-lithium">[리튬]</span></td>
+          <td>젠샤워 안전생산허가증 취득, 선물 추가 하락 압력. 단 실공급 반영까지 6~8주 시차. 짐바브웨는 중국 자본 잠식 지속.</td>
+          <td>
+            <div class="stance stance-neutral">중립·관망</div>
+            <div style="font-size:10px;margin-top:3px">선물-현물 스프레드 확대 구간 매수 타이밍 점검</div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-nickel">[니켈]</span></td>
+          <td>RKAB 불확실성 지속, 가격 6개월래 최저 수준. $16,000 선 붕괴 여부가 단기 분수령.</td>
+          <td>
+            <div class="stance stance-neutral">중립</div>
+            <div style="font-size:10px;margin-top:3px">$16,500 이하 일부 고정 계약 검토.</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    본 리포트는 소싱 전략 수립 목적의 참고 자료입니다. 가격 정보는 공개 소스 기반이며 실거래가와 차이가 있을 수 있습니다. 투자 권유 목적이 아닙니다.<br>
+    Generated: 2026.06.30 · Battery Metal MI v4
+  </div>
+
+</div>
+</body>
+</html>
