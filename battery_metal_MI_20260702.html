@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리 메탈 MI | 2026.07.02</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0e1117;
+    --surface: #161b27;
+    --surface2: #1e2535;
+    --border: #2a3347;
+    --text: #cdd6f4;
+    --text-dim: #6c7a96;
+    --text-muted: #3d4a63;
+    --lithium: #5bc4f5;
+    --nickel: #a6e3a1;
+    --cobalt: #94e2d5;
+    --accent: #cba6f7;
+    --high: #f38ba8;
+    --medium: #fab387;
+    --low: #a6e3a1;
+    --insight: #f9e2af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 24px 16px;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; }
+
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  .header-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .header-title { font-size: 20px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+  .header-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  .keypoints {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 16px;
+  }
+  .keypoints-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .keypoints ul { list-style: none; }
+  .keypoints li {
+    font-size: 12px;
+    color: var(--text);
+    padding: 3px 0 3px 14px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .keypoints li::before { content: '›'; position: absolute; left: 0; color: var(--nickel); }
+
+  /* Price Snapshot */
+  .snapshot {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  .snapshot-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .price-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .price-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+  .price-item.accent-li { border-top: 2px solid var(--lithium); }
+  .price-item.accent-ni { border-top: 2px solid var(--nickel); }
+  .price-label { font-size: 10px; color: var(--text-dim); margin-bottom: 5px; }
+  .price-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: #fff;
+  }
+  .price-change { font-family: 'IBM Plex Mono', monospace; font-size: 11px; margin-top: 3px; }
+  .price-change.down { color: var(--high); }
+  .price-change.flat { color: var(--text-dim); }
+  .price-basis { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+  .disclaimer {
+    margin-top: 12px;
+    font-size: 10px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+    line-height: 1.6;
+  }
+
+  /* Supply Chain */
+  .supply-chain {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  .supply-chain-heading {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 14px;
+  }
+  .supply-metal-block { border-left: 3px solid var(--lithium); padding-left: 12px; margin-bottom: 18px; }
+  .supply-metal-block:last-child { margin-bottom: 0; }
+  .supply-metal-block.ni { border-left-color: var(--nickel); }
+  .supply-metal-block.co { border-left-color: var(--cobalt); }
+  .supply-chain-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .supply-chain-title.li { color: var(--lithium); }
+  .supply-chain-title.ni { color: var(--nickel); }
+  .supply-chain-title.co { color: var(--cobalt); }
+  .supply-flow {
+    display: grid;
+    grid-template-columns: 1fr 24px 1fr;
+    gap: 0;
+    align-items: start;
+  }
+  .flow-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .flow-title { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .flow-item { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+  .flow-item .country { color: var(--text); }
+  .flow-item .pct { font-family: 'IBM Plex Mono', monospace; color: var(--lithium); font-size: 11px; }
+  .ni .flow-item .pct { color: var(--nickel); }
+  .co .flow-item .pct { color: var(--cobalt); }
+  .flow-item .pct.highlight { color: var(--accent); font-weight: 500; }
+  .flow-item .pct.risk { color: var(--high); font-weight: 500; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 16px; padding-top: 40px; }
+  .flow-note {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    line-height: 1.6;
+  }
+  .flow-note strong { color: var(--insight); }
+  .flow-source { font-size: 9px; color: var(--text-muted); margin-top: 6px; }
+
+  /* News Card */
+  .news-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .news-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .news-header-left { flex: 1; }
+  .news-tags { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+  }
+  .tag-lithium { background: rgba(91,196,245,0.12); color: var(--lithium); border: 1px solid rgba(91,196,245,0.25); }
+  .tag-nickel { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .tag-cobalt { background: rgba(148,226,213,0.12); color: var(--cobalt); border: 1px solid rgba(148,226,213,0.25); }
+  .impact-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .impact-HIGH { background: rgba(243,139,168,0.15); color: var(--high); border: 1px solid rgba(243,139,168,0.3); }
+  .impact-MEDIUM { background: rgba(250,179,135,0.15); color: var(--medium); border: 1px solid rgba(250,179,135,0.3); }
+  .news-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 5px; }
+  .news-source { font-size: 10px; color: var(--text-dim); }
+
+  .news-body { padding: 14px 16px; }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+    margin-top: 16px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li {
+    padding: 5px 0 5px 14px;
+    position: relative;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.65;
+    border-bottom: 1px solid var(--border);
+  }
+  .bullet-list li:last-child { border-bottom: none; }
+  .bullet-list li::before { content: '›'; position: absolute; left: 0; color: var(--text-muted); }
+
+  .src-link {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--lithium);
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-top: 4px;
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .src-link::before { content: '🔗 '; }
+  .src-link:hover { border-color: var(--lithium); }
+
+  .paid-notice {
+    display: inline-block;
+    font-size: 9px;
+    color: var(--medium);
+    background: rgba(250,179,135,0.08);
+    border: 1px solid rgba(250,179,135,0.2);
+    border-radius: 3px;
+    padding: 1px 6px;
+    margin-top: 4px;
+  }
+
+  .insight-box {
+    background: rgba(249,226,175,0.06);
+    border: 1px solid rgba(249,226,175,0.2);
+    border-left: 3px solid var(--insight);
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin: 8px 0;
+  }
+  .insight-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--insight);
+    letter-spacing: 0.1em;
+    margin-bottom: 5px;
+  }
+  .insight-text { font-size: 12px; color: var(--text); line-height: 1.65; }
+  .insight-text + .insight-text { margin-top: 8px; }
+
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .action-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .action-item-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .action-item-label.now { color: var(--nickel); }
+  .action-item-label.monitor { color: var(--accent); }
+  .action-item p { font-size: 11px; color: var(--text); line-height: 1.6; }
+
+  /* Summary */
+  .summary {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 24px;
+  }
+  .summary-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  td { font-size: 11px; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+  tr:last-child td { border-bottom: none; }
+  .stance {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+  }
+  .stance-buy { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .stance-neutral { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .stance-watch { background: rgba(148,226,213,0.12); color: var(--cobalt); border: 1px solid rgba(148,226,213,0.25); }
+
+  .footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 480px) {
+    .action-grid { grid-template-columns: 1fr; }
+    .price-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-meta">Battery Metal Market Intelligence · Daily Report</div>
+    <div class="header-title">배터리 메탈 데일리 MI</div>
+    <div class="header-sub">2026년 07월 02일 (목) · Sourcing Analyst Perspective</div>
+    <div class="keypoints">
+      <div class="keypoints-title">Today's Key Points</div>
+      <ul>
+        <li>인니 RKAB 니켈 쿼터 360M wmt 확대설, 공식 부인 유지 — 7월 중간 개정 창구가 실질 분수령</li>
+        <li>에코프로그룹, 인니 BNSI 니켈 제련소 지분 39%로 확대 — Non-FEOC 대응 위한 비중국계 니켈 확보 전략</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Price Snapshot -->
+  <div class="snapshot">
+    <div class="snapshot-title">Price Snapshot</div>
+    <div class="price-grid">
+      <div class="price-item accent-li">
+        <div class="price-label">탄산리튬 (Li₂CO₃)</div>
+        <div class="price-value">160,000</div>
+        <div class="price-change flat">담당자 확인가</div>
+        <div class="price-basis">CNY/t · GFEX/SHFE 기준</div>
+      </div>
+      <div class="price-item accent-ni">
+        <div class="price-label">니켈 (LME 3-month)</div>
+        <div class="price-value">$16,355</div>
+        <div class="price-change flat">7/1 종가</div>
+        <div class="price-basis">USD/t · lme.com 담당자 확인가</div>
+      </div>
+    </div>
+    <div class="disclaimer">
+      ⚠ 탄산리튬가는 Trading Economics 경유 GFEX/SHFE 재인용, 니켈은 LME 공홈 3-month 선물 기준(담당자 직접 확인). 본 리포트 가격은 방향성 참고용이며 실거래가와 차이가 있을 수 있습니다.
+    </div>
+  </div>
+
+  <!-- Supply Chain: Li / Ni / Co -->
+  <div class="supply-chain">
+    <div class="supply-chain-heading">🌐 글로벌 공급망 구조 (2026 기준)</div>
+
+    <div class="supply-metal-block li">
+      <div class="supply-chain-title li">리튬 (Lithium)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 업스트림 (채굴)</div>
+          <div class="flow-item"><span class="country">호주</span><span class="pct">~50%</span></div>
+          <div class="flow-item"><span class="country">칠레</span><span class="pct">~22%</span></div>
+          <div class="flow-item"><span class="country">중국</span><span class="pct">~16%</span></div>
+          <div class="flow-item"><span class="country">아르헨티나</span><span class="pct">~10%</span></div>
+          <div class="flow-item"><span class="country">짐바브웨</span><span class="pct risk">~3% ⚠</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 미드스트림 (정제·CP)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~67%</span></div>
+          <div class="flow-item"><span class="country">칠레·아르헨</span><span class="pct">~29%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~4%</span></div>
+          <div style="margin-top:8px;font-size:10px;color:var(--text-dim);">호주 스포듀멘의 96%가 중국으로 수출돼 가공</div>
+        </div>
+      </div>
+      <div class="flow-note">짐바브웨(수출쿼터제) — 비중은 ~3%지만 스팟 시장 incremental 공급 핵심. 정부가 수출량을 직접 조절하는 자원민족주의 구조.</div>
+      <div class="flow-source">Source: USGS MCS, Our World in Data, ING Think</div>
+    </div>
+
+    <div class="supply-metal-block ni">
+      <div class="supply-chain-title ni">니켈 (Nickel)</div>
+      <div class="supply-flow ni">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 업스트림 (채굴)</div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct risk">~60% ⚠</span></div>
+          <div class="flow-item"><span class="country">필리핀</span><span class="pct">~9%</span></div>
+          <div class="flow-item"><span class="country">러시아</span><span class="pct">~7%</span></div>
+          <div class="flow-item"><span class="country">뉴칼레도니아</span><span class="pct">~6%</span></div>
+          <div class="flow-item"><span class="country">캐나다</span><span class="pct">~4%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~14%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 미드스트림 (정제)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~45%</span></div>
+          <div class="flow-item"><span class="country">인니 정제</span><span class="pct highlight">~30%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~25%</span></div>
+          <div style="margin-top:8px;font-size:10px;color:var(--text-dim);">인니 정제능력의 약 75%가 중국계 자본 소유</div>
+        </div>
+      </div>
+      <div class="flow-note">인도네시아(채굴상한제/RKAB) — 정부가 연간 채굴 승인량을 직접 조절. 짐바브웨와 규제 수단은 다르지만 "정부가 공급을 조절"한다는 패턴은 동일.</div>
+      <div class="flow-source">Source: USGS MCS 2026, ASPI Strategist/C4ADS, ING Think</div>
+    </div>
+
+    <div class="supply-metal-block co">
+      <div class="supply-chain-title co">코발트 (Cobalt)</div>
+      <div class="supply-flow co">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 업스트림 (채굴)</div>
+          <div class="flow-item"><span class="country">DRC(콩고)</span><span class="pct risk">~73% ⚠</span></div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct">~14%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~13%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 미드스트림 (정제)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~78%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~22%</span></div>
+          <div style="margin-top:8px;font-size:10px;color:var(--text-dim);">DRC 광산의 상당수가 중국계 자본 지분 보유</div>
+        </div>
+      </div>
+      <div class="flow-note">DRC 채굴 집중 + 중국 정제 집중이 이중으로 겹쳐 코발트는 3개 메탈 중 공급망 리스크가 가장 높음. 트리거 이벤트(쿼터 조정·전략비축 등) 발생 시에만 별도 커버.</div>
+      <div class="flow-source">Source: USGS MCS 2025, Our World in Data, Metalshub/IEA</div>
+    </div>
+  </div>
+
+  <!-- News 1: RKAB -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-nickel">[니켈]</span></div>
+        <div class="news-title">인니 RKAB 360M wmt 확대설, 공식 부인 유지 — 7월이 실질 분수령</div>
+        <div class="news-source">Petromindo / ING Think / Bloomberg(유료) | 2026.06.24~30</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          ESDM(에너지광물자원부)은 6/24 "그런 발언 한 적 없다"고 공식 부인했으나, 담당 국장(Tri Winarno)은 "아직 평가 중"이라는 여지도 남김. IWIP, PT Central Omega, PT Vale 등 주요 업체는 7월 쿼터 확대 신청을 준비 중.
+          <a class="src-link" href="https://www.petromindo.com/news/article/energy-ministry-denies-report-of-approving-360-million-ton-nickel-output-quota" target="_blank">petromindo.com</a>
+        </li>
+        <li>
+          최초 보도는 Bloomberg(6/24, 익명 소식통 인용, 유료) — RKAB를 260M → 360M wmt로 상향 검토 중이라는 내용.
+          <span class="paid-notice">유료</span>
+        </li>
+        <li>
+          ING Think(은행 리서치) 분석: 쿼터가 실제 3.6억t으로 확대되면 INSG가 전망한 2026년 3.2만t 공급 적자 전망이 순식간에 사라질 수 있음. 다만 "쿼터 확대 ≠ 즉각 증산" — 작년에도 승인 쿼터 대비 실제 생산은 크게 못 미쳤음.
+          <a class="src-link" href="https://think.ing.com/articles/indonesia-caps-nickels-rally-with-a-quota-rethink" target="_blank">think.ing.com</a>
+        </li>
+        <li>RKAB 중간 개정 신청 창구는 매년 7월 정례 개시(마감 7/31). 올해도 이 창구를 통해 확대 여부가 최종 결정될 예정.</li>
+      </ul>
+
+      <div class="section-label">가격 추이 (5~6월, 참고용)</div>
+      <ul class="bullet-list">
+        <li>5월 초 $19,600대 고점 → 6/23 $17,200(2개월래 최저: 차익실현 + 중국 니켈염 수요 부진 + 거래소 재고 증가) → 6/24~25 RKAB 확대설 확산 구간 $16,300대 → 7/1 $16,355</li>
+        <li>5~6월 하락 국면은 차익실현·중국 수요·재고 증가·RKAB 이슈가 순차적으로 겹쳐 있어, 특정 시점 가격을 RKAB 하나로 귀속시키기는 어려움</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">짐바브웨(수출쿼터제)와 인도네시아(채굴상한제)는 규제 수단은 다르지만 "정부가 승인량을 통해 공급을 직접 조절"한다는 점에서 같은 패턴. 두 국가 모두 자원민족주의 기조 하에 자국 가공·부가가치 확보를 목표로 하고 있어, 배터리 메탈 공급망 전반에서 정책 리스크 프리미엄이 구조적으로 형성되는 흐름.</div>
+        <div class="insight-text">7월 한 달간 RKAB 공식 결과가 나올 가능성이 높아 변동성 재확대 구간 진입 가능. $16,000~$18,000 구간이 정책 기대와 실수요 사이 균형 밴드로 작용 중.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>7월 RKAB 공식 결과 발표 전까지 대량 신규 계약 체결 보류, $16,000대 초반 구간 일부 물량만 분할 고정 검토.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>7월 31일 RKAB 개정 마감 및 공식 발표. PT Vale Pomalaa HPAL 가동 진행상황(8월 목표).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News 2: Ecopro BNSI -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-nickel">[니켈]</span></div>
+        <div class="news-title">에코프로그룹, 인니 BNSI 니켈 제련소 지분 39%로 확대 — Non-FEOC 대응 위한 비중국계 니켈 확보</div>
+        <div class="news-source">Pressian / 한국경제 / 헤럴드경제 | 2026.06.30~07.01</div>
+      </div>
+      <span class="impact-badge impact-MEDIUM">MEDIUM~HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          에코프로·에코프로비엠이 6/30 인도네시아 술라웨시 IGIP 내 BNSI(Bahodopi Nickel Smelting Indonesia) 제련소 2단계 프로젝트 지분을 기존 18.35% → 39%로 확대, 대주주로 참여 발표. 총 투자액 약 1조5,000억원. PT Vale Indonesia(PTVI) 등과 합작.
+          <a class="src-link" href="https://www.pressian.com/pages/articles/2026063019172097592" target="_blank">pressian.com</a>
+        </li>
+        <li>
+          재원 마련을 위해 에코프로비엠은 보통주 유상증자(1조2,000억원) 결정. 이 중 9,150억원이 BNSI 지분 확보 + 헝가리 법인 투자에 투입.
+          <a class="src-link" href="https://www.hankyung.com/article/2026063074371" target="_blank">hankyung.com</a>
+        </li>
+        <li>
+          이번 투자로 BNSI 생산능력이 연 6.6만t → 9만t으로 확대되며, 에코프로 그룹의 니켈 오프테이크 물량도 1단계(IMIP) 2.9만t 대비 2단계 3.6만t이 추가돼 총 6.5만t 규모로 확대. 기존 최대주주였던 중국계 GEM(GEM Hong Kong International)의 BNSI 지분율은 55.13% → 21%로 축소.
+          <a class="src-link" href="https://mbiz.heraldcorp.com/article/10793491" target="_blank">mbiz.heraldcorp.com</a>
+        </li>
+      </ul>
+
+      <div class="section-label">배경: Non-FEOC 요건</div>
+      <ul class="bullet-list">
+        <li>미국은 중국·러시아 등 정부의 실질적 통제를 받는 기업을 FEOC(Foreign Entity of Concern)로 지정. 배터리 공급망(핵심광물 포함)에 FEOC 지배력이 기준 이상 포함되면 IRA 세액공제 대상에서 제외됨.</li>
+        <li>GEM(중국계)은 2025년 3월 PTVI로부터 BNSI 지분 51%를 인수하며 대주주가 된 바 있음 — 즉 GEM도 제련소를 직접 소유·운영하는 게 아니라 에코프로와 동일하게 BNSI에 지분 투자한 주주. 이번 에코프로의 지분 확대는 같은 제련소 안에서 중국계 주주 비중을 낮추고 한국계 비중을 높이는 자본구조 재편.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">핵심은 물량 증가보다 자본구조 재편. 트럼프 행정부가 FEOC 규정을 배터리 소재 전반으로 확대 적용하는 흐름 속에서, 에코프로가 지분을 늘려 GEM 지분율을 낮춘 것은 BNSI산 니켈로 만든 하이니켈 양극재가 향후 Non-FEOC 요건을 충족해 미국向 완성차·배터리사에 세액공제 대상으로 납품될 수 있도록 원산지·자본구조 리스크를 선제 차단하려는 조치.</div>
+        <div class="insight-text">니켈 가격·RKAB 쿼터 불확실성과 무관하게 국내 양극재사가 장기 오프테이크를 확대하는 것은, 단기 가격 변동성과 별개로 "비중국계 니켈 공급망 프리미엄"이 구조적으로 형성되고 있다는 신호로 해석 가능.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>Non-FEOC 대응이 필요한 하이니켈 양극재 공급망이라면, 에코프로 계열 오프테이크向 니켈 확보 동향을 비중국계 소싱 벤치마크로 참고.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>BNSI 제련소 가동 시점, GEM 지분 변동 관련 후속 공시. 에코프로비엠 유상증자 발행가 확정(10/12).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-title">📌 소싱 판단 요약</div>
+    <table>
+      <thead>
+        <tr><th>메탈</th><th>현황</th><th>스탠스</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-nickel">[니켈]</span></td>
+          <td>RKAB 360M wmt 확대설, 공식 부인 유지. 7월 중간 개정 창구가 실질 분수령. 변동성 재확대 가능 구간.</td>
+          <td>
+            <div class="stance stance-neutral">중립 · 관망</div>
+            <div style="font-size:10px;margin-top:3px">$16,000대 초반 일부 물량만 분할 고정</div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-nickel">[니켈]</span></td>
+          <td>에코프로 BNSI 지분 확대(39%) — Non-FEOC 대응 위한 비중국계 니켈 공급망 재편.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">비중국계 소싱 벤치마크로 참고</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    본 리포트는 소싱 전략 수립 목적의 참고 자료입니다. 가격 정보는 공개 소스 기반이며 실거래가와 차이가 있을 수 있습니다. 투자 권유 목적이 아닙니다.<br>
+    Generated: 2026.07.02 · Battery Metal MI
+  </div>
+
+</div>
+</body>
+</html>
