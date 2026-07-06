@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리 메탈 MI | 2026.07.06</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0e1117;
+    --surface: #161b27;
+    --surface2: #1e2535;
+    --border: #2a3347;
+    --text: #cdd6f4;
+    --text-dim: #6c7a96;
+    --text-muted: #3d4a63;
+    --lithium: #5bc4f5;
+    --nickel: #a6e3a1;
+    --accent: #cba6f7;
+    --high: #f38ba8;
+    --medium: #fab387;
+    --low: #a6e3a1;
+    --insight: #f9e2af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 24px 16px;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; }
+
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  .header-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .header-title { font-size: 20px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+  .header-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  /* Price Snapshot */
+  .snapshot {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  .snapshot-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .price-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .price-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+  .price-item.accent-li { border-top: 2px solid var(--lithium); }
+  .price-item.accent-ni { border-top: 2px solid var(--nickel); }
+  .price-label { font-size: 10px; color: var(--text-dim); margin-bottom: 5px; }
+  .price-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: #fff;
+  }
+  .price-change { font-family: 'IBM Plex Mono', monospace; font-size: 11px; margin-top: 3px; }
+  .price-change.up { color: var(--nickel); }
+  .price-change.down { color: var(--high); }
+  .price-change.flat { color: var(--text-dim); }
+  .price-basis { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+  .disclaimer {
+    margin-top: 12px;
+    font-size: 10px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+    line-height: 1.6;
+  }
+
+  /* Supply Chain */
+  .supply-chain {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  .supply-chain-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .supply-chain-sub {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+  .metal-block {
+    border-left: 3px solid var(--lithium);
+    padding-left: 12px;
+    margin-bottom: 16px;
+  }
+  .metal-block:last-of-type { margin-bottom: 0; }
+  .metal-block.nickel { border-left-color: var(--nickel); }
+  .metal-block.cobalt { border-left-color: var(--accent); }
+  .metal-block-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .supply-flow {
+    display: grid;
+    grid-template-columns: 1fr 20px 1fr;
+    gap: 0;
+    align-items: start;
+  }
+  .flow-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .flow-title { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .flow-item { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+  .flow-item .country { color: var(--text); }
+  .flow-item .pct { font-family: 'IBM Plex Mono', monospace; color: var(--lithium); font-size: 10px; }
+  .flow-item .pct.highlight { color: var(--accent); font-weight: 500; }
+  .flow-item .pct.risk { color: var(--high); font-weight: 500; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; padding-top: 34px; }
+  .flow-note {
+    font-size: 10.5px;
+    color: var(--text-dim);
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+  .flow-note strong { color: var(--insight); }
+  .supply-source {
+    font-size: 9px;
+    color: var(--text-muted);
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* News Card */
+  .news-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .news-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .news-header-left { flex: 1; }
+  .news-tags { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+  }
+  .tag-lithium { background: rgba(91,196,245,0.12); color: var(--lithium); border: 1px solid rgba(91,196,245,0.25); }
+  .tag-nickel { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .tag-cobalt { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .impact-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .impact-HIGH { background: rgba(243,139,168,0.15); color: var(--high); border: 1px solid rgba(243,139,168,0.3); }
+  .impact-MEDIUM { background: rgba(250,179,135,0.15); color: var(--medium); border: 1px solid rgba(250,179,135,0.3); }
+  .news-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 5px; }
+  .news-source { font-size: 10px; color: var(--text-dim); }
+
+  .news-body { padding: 14px 16px; }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+    margin-top: 16px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li {
+    padding: 5px 0 5px 14px;
+    position: relative;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.65;
+    border-bottom: 1px solid var(--border);
+  }
+  .bullet-list li:last-child { border-bottom: none; }
+  .bullet-list li::before { content: '›'; position: absolute; left: 0; color: var(--text-muted); }
+
+  .source-link {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--lithium);
+    margin-top: 3px;
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .source-link::before { content: '🔗 '; }
+
+  /* Background info box */
+  .bg-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 10px 0;
+  }
+  .bg-box-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--lithium);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .bg-box p { font-size: 12px; color: var(--text); line-height: 1.7; margin-bottom: 6px; }
+  .bg-box p:last-child { margin-bottom: 0; }
+  .bg-box .timeline { margin-top: 8px; }
+  .bg-box .timeline-item {
+    display: flex;
+    gap: 8px;
+    font-size: 11px;
+    padding: 4px 0;
+    color: var(--text-dim);
+  }
+  .bg-box .timeline-item .yr { font-family: 'IBM Plex Mono', monospace; color: var(--accent); flex-shrink: 0; width: 78px; }
+
+  .insight-box {
+    background: rgba(249,226,175,0.06);
+    border: 1px solid rgba(249,226,175,0.2);
+    border-left: 3px solid var(--insight);
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin: 8px 0;
+  }
+  .insight-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--insight);
+    letter-spacing: 0.1em;
+    margin-bottom: 5px;
+  }
+  .insight-text { font-size: 12px; color: var(--text); line-height: 1.65; }
+
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .action-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .action-item-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .action-item-label.now { color: var(--nickel); }
+  .action-item-label.monitor { color: var(--accent); }
+  .action-item p { font-size: 11px; color: var(--text); line-height: 1.6; }
+
+  /* Summary */
+  .summary {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 24px;
+  }
+  .summary-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  td { font-size: 11px; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+  tr:last-child td { border-bottom: none; }
+  .stance {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+  }
+  .stance-buy { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .stance-neutral { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .stance-watch { background: rgba(250,179,135,0.12); color: var(--medium); border: 1px solid rgba(250,179,135,0.25); }
+
+  .footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 480px) {
+    .action-grid { grid-template-columns: 1fr; }
+    .price-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-meta">Battery Metal Market Intelligence · Daily Report</div>
+    <div class="header-title">배터리 메탈 데일리 MI</div>
+    <div class="header-sub">2026년 07월 06일 (월) · Sourcing Analyst Perspective</div>
+  </div>
+
+  <!-- Price Snapshot -->
+  <div class="snapshot">
+    <div class="snapshot-title">📊 Price Snapshot — 7/3(금) 전영업일 종가</div>
+    <div class="price-grid">
+      <div class="price-item accent-li">
+        <div class="price-label">탄산리튬 (Li₂CO₃)</div>
+        <div class="price-value">165,250</div>
+        <div class="price-change flat">— 전영업일(7/3) 종가</div>
+        <div class="price-basis">CNY/t · GFEX/SHFE</div>
+      </div>
+      <div class="price-item accent-ni">
+        <div class="price-label">니켈 (LME 3-month)</div>
+        <div class="price-value">$16,424</div>
+        <div class="price-change up">▲ +1.07%</div>
+        <div class="price-basis">USD/t · 7/3 종가 · lme.com</div>
+      </div>
+    </div>
+    <div class="disclaimer">
+      ⚠️ 탄산리튬가는 Trading Economics 경유 GFEX/SHFE 재인용. 니켈은 LME 공홈 3-month 선물 공식 종가(순수 니켈 캐소드) 기준. 주말 미거래로 가격은 7/3(금) 종가 적용. 본 리포트 가격은 방향성 참고용이며 실거래가와 차이가 있을 수 있습니다.
+    </div>
+  </div>
+
+  <!-- Supply Chain -->
+  <div class="supply-chain">
+    <div class="supply-chain-title">🌐 글로벌 공급망 구조</div>
+    <div class="supply-chain-sub">2026 기준 · 업스트림(채굴) / 미드스트림(정제) · 리튬·니켈·코발트 고정 섹션</div>
+
+    <!-- Lithium -->
+    <div class="metal-block">
+      <div class="metal-block-title">리튬 (Lithium)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">호주</span><span class="pct">~50%</span></div>
+          <div class="flow-item"><span class="country">칠레</span><span class="pct">~22%</span></div>
+          <div class="flow-item"><span class="country">중국</span><span class="pct">~16%</span></div>
+          <div class="flow-item"><span class="country">아르헨티나</span><span class="pct">~10%</span></div>
+          <div class="flow-item"><span class="country">짐바브웨</span><span class="pct risk">~3% ⚠</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~67%</span></div>
+          <div class="flow-item"><span class="country">칠레·아르헨</span><span class="pct">~29%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~4%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>짐바브웨(수출쿼터제)</strong> — 비중은 작지만 스팟시장 incremental 공급의 핵심</div>
+    </div>
+
+    <!-- Nickel -->
+    <div class="metal-block nickel">
+      <div class="metal-block-title">니켈 (Nickel)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct risk">~60%</span></div>
+          <div class="flow-item"><span class="country">필리핀</span><span class="pct">~9%</span></div>
+          <div class="flow-item"><span class="country">러시아</span><span class="pct">~7%</span></div>
+          <div class="flow-item"><span class="country">뉴칼레도니아</span><span class="pct">~6%</span></div>
+          <div class="flow-item"><span class="country">캐나다</span><span class="pct">~4%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~14%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~45%</span></div>
+          <div class="flow-item"><span class="country">인니 정제</span><span class="pct highlight">~30%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~25%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>인도네시아(채굴상한제/RKAB)</strong> — 정부가 연간 채굴 승인량을 직접 조절</div>
+    </div>
+
+    <!-- Cobalt -->
+    <div class="metal-block cobalt">
+      <div class="metal-block-title">코발트 (Cobalt)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">DRC(콩고)</span><span class="pct risk">~73%</span></div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct">~14%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~13%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~78%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~22%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>DRC 채굴 집중 + 중국 정제 집중 이중 리스크.</strong> 트리거 이벤트 발생 시만 별도 커버</div>
+    </div>
+
+    <div class="supply-source">Source: USGS MCS, Our World in Data, ASPI Strategist/C4ADS, ING Think, Metalshub/IEA</div>
+  </div>
+
+  <!-- News 1: Codelco-SQM Salar Futuro -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-lithium">[리튬]</span></div>
+        <div class="news-title">Codelco-SQM 합작사 Nova Andino Litio, 아타카마 염호 "Salar Futuro" 프로젝트 환경승인 신청 (30억 달러)</div>
+        <div class="news-source">Reuters via Mining.com | 2026.07.03</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          칠레 Codelco(국영 구리기업)-SQM 합작사 Nova Andino Litio가 7/3(금) 아타카마 염호 운영 지속·미래 채굴 개발을 위한 "Salar Futuro" 프로젝트의 환경영향평가(EIA) 승인을 신청. 총 투자규모 20억~35억 달러, 연산 28만~30만t LCE 목표로 세계 최대급 리튬 생산 프로젝트 중 하나가 될 전망.
+          <br><a class="source-link" href="https://www.mining.com/web/chiles-novandino-litio-seeks-environmental-approval-for-3b-atacama-lithium-project/">mining.com</a>
+        </li>
+        <li>기존 운영 유지 + 신규 인프라·기술 단계적 도입이 핵심 — 담수 사용량 감축 신기술, 브라인 재주입, 환경 모니터링 강화 등을 포함.</li>
+        <li>SQM CEO Ricardo Ramos는 5월 발언에서 최종 승인 2029년, 투자 개시 2030년을 예상한다고 밝힌 바 있음 — 이번 신청은 그 장기 인허가 절차의 시작점.</li>
+        <li>아타카마 염호는 2026년 기준 전세계 채굴 리튬의 약 12%를 생산하는 세계 2위 규모(Benchmark Lithium Service) — 이번 프로젝트는 신규 생산능력 확대라기보다 기존 운영의 2060년까지 연장이 핵심 목적.</li>
+      </ul>
+
+      <div class="section-label">배경 — 왜 "국가 개입 확대 정책"인가</div>
+      <div class="bg-box">
+        <div class="bg-box-title">Codelco는 국영기업, Nova Andino Litio는 국가전략의 실행체</div>
+        <p><strong>Codelco</strong>는 칠레 국영 구리기업(National Copper Corporation of Chile)으로, 리튬 사업과는 원래 무관한 회사. 이 회사가 SQM의 리튬 사업에 직접 지분을 갖고 들어온 것 자체가 "민간(SQM) 단독 운영 → 국가 지분 참여" 전환을 의미함.</p>
+        <p>이 합작은 2023년 Boric 정부가 발표한 <strong>국가 리튬전략(National Lithium Strategy)</strong>의 실행 결과물 — 호주에 뺏긴 리튬 생산 주도권을 국가 주도로 되찾겠다는 정책 목표 하에 추진됨.</p>
+        <div class="timeline">
+          <div class="timeline-item"><span class="yr">2023</span> Boric 정부, 국가 리튬전략 발표 — 국가 지분 참여 확대 방침 천명</div>
+          <div class="timeline-item"><span class="yr">2024.05</span> Codelco-SQM 파트너십 협약 체결</div>
+          <div class="timeline-item"><span class="yr">2025.12</span> 합병 완료, Nova Andino Litio SpA 공식 출범. SQM은 Salar de Maricunga 채굴권 전량을 Codelco에 이양</div>
+          <div class="timeline-item"><span class="yr">~2030</span> 1기: SQM이 경영 주도</div>
+          <div class="timeline-item"><span class="yr">2031~2060</span> 2기: Codelco(국영)가 경영권 인수 — 국가 통제 강화</div>
+        </div>
+        <p>즉 시간이 지날수록 경영권이 민간(SQM)에서 국가(Codelco)로 넘어가도록 설계된 구조라, 이번 Salar Futuro 프로젝트도 "국가가 지분·경영권을 확대해가는 틀 안에서 나온 확장 프로젝트"로 해석하는 게 정확함.</p>
+      </div>
+
+      <div class="section-label">배경 — SQM은 왜 경영권을 넘기면서까지 JV를 했나</div>
+      <div class="bg-box">
+        <div class="bg-box-title">경영권 이전 ≠ 지분 축소 — SQM이 이 딜에서 얻는 것</div>
+        <p>SQM의 기존 CORFO 채굴계약은 2030년 만료 예정이었고, 이 JV 없이는 재계약이 보장되지 않았음 — 즉 대안은 "지분 축소"가 아니라 "2030년 사업 완전 종료"였을 가능성이 큼. 그 기준으로 보면 2060년까지의 연장 자체가 SQM엔 핵심 이득.</p>
+        <p><strong>지분율은 50:50 유지</strong> — Codelco가 갖는 건 2031년부터의 "golden share"(경영 통제권)이지 지분 자체가 줄어드는 게 아님. Codelco CEO가 JV 회장을 맡는 동안 SQM CEO(Ricardo Ramos)는 부회장직을 유지 — 이사회·지배구조에서 완전히 밀려나지 않음.</p>
+        <p><strong>2030년까지는 오히려 SQM이 이득 보는 구간</strong> — JV가 2025년 안에 성사되면서 SQM은 2030년까지 채굴쿼터를 30만t LCE 늘려 총 165만t까지 확보(2031~2060년은 연산 165만~330만t 규모로 확대). 즉 향후 5년은 SQM이 계속 경영하면서 물량까지 추가로 받는 구간.</p>
+        <p><strong>2031년 이후 마진 배분 85%(국가)는 "신규 생산분" 한정</strong> — SQM은 여전히 지분 50% 보유 주주로서 남은 마진과 기존 물량 지분법 이익을 계속 수취. 완전히 손 떼는 게 아니라 "주요 경영권은 넘기되 배당은 유지"하는 구조.</p>
+        <p>정리하면 SQM 입장에선 "경영권은 넘기지만 지분·배당은 유지한 채, 국유화·계약 미갱신으로 아예 쫓겨날 리스크를 없애고 사업 수명을 30년 연장받는" 트레이드로 해석 가능.</p>
+      </div>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>칠레 정부의 리튬 부문 개입 확대 정책 기조 하에 추진되는 초장기 프로젝트. 승인까지 최소 3년, 투자 개시까지 4년 이상 걸려 단기 공급에는 영향 없음.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">아타카마 염호는 이미 전세계 리튬 브라인 생산의 핵심 축인데, 이번 신청은 신규 생산능력 확대라기보다 "기존 운영을 2060년까지 지속 가능하게 만드는" 성격이 강함. 다만 담수 사용 감축·브라인 재주입 등 강화된 환경 기준은 향후 다른 남미 브라인 프로젝트 인허가에도 참고선이 될 가능성이 있어 트래킹 가치는 있음. 또한 국영기업이 세계 2위 리튬 생산지의 장기 경영권을 확보해가는 구조는, 향후 다른 자원보유국들의 "자원 국유화·국가지분 확대" 트렌드에 참고 사례가 될 수 있어 정책 동향 차원에서도 주시할 필요. 인허가 타임라인이 워낙 길어 지금 당장 소싱 전략에 반영할 요소는 없음.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>칠레 환경당국(SEA) 심사 진행상황, Nova Andino Litio 연간 생산 가이던스 변화 여부.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News 2: GFEX Internationalization -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-lithium">[리튬]</span></div>
+        <div class="news-title">GFEX 리튬 탄산염 선물, 해외 투자자에 첫 개방 (7/3 시행)</div>
+        <div class="news-source">Orient Futures Singapore / 업계 분석 | 2026.07 초</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          광저우선물거래소(GFEX)가 7/3부로 리튬 탄산염 선물·옵션에 해외 투자자 참여를 처음 허용. 2023년 7월 리튬 탄산염 선물을 상장한 이래 첫 국제화 조치.
+          <br><a class="source-link" href="https://www.orientfutures.com.sg/china-market-access/gfex-lithium-carbonate-futures/">orientfutures.com.sg</a>
+        </li>
+        <li>중국 증권감독관리위원회(CSRC)가 2026년 초 발표한 14개 선물·옵션 상품 국제화 프로그램의 일환. 4월 SHFE 니켈 선물 국제화에 이은 두 번째 배터리 메탈 사례.</li>
+        <li>해외 참여자는 USD로 증거금 납부 가능하나 5% 헤어컷 적용 — 담보 인정가치가 액면가 대비 95%로 깎임. 모든 계약은 위안화로 결제되어, 포지션 손익 자체가 위안화 기준으로 발생 — 환율 변동 리스크는 거래소가 아닌 투자자가 그대로 부담.</li>
+        <li>해외 참여는 라이선스 보유 중개사(예: Orient Futures Singapore 등 GFEX 승인 Overseas Intermediary)를 통해서만 가능.</li>
+      </ul>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>실질적인 해외 참여 확대는 브로커 연결·컴플라이언스 검증에 시간이 걸려 점진적으로 이뤄질 전망. 장기적으로는 중국 내수 가격(GFEX)이 국제 벤치마크로서의 위상을 강화하는 방향.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">이번 조치는 세 가지 복합 목적으로 해석 가능: ① 해외 자금 유입을 통한 시장 유동성·규모 확대, ② 참여자 풀 확대를 통한 가격 안정화(변동성·청산 리스크 완화), ③ Fastmarkets CIF CJK 등 서구 벤치마크와의 가격 갭 축소를 통한 GFEX 자체의 국제 벤치마크 지위 강화. 지금까지 리튬 탄산염 가격 벤치마크는 사실상 서구 평가기관이 주도해왔는데, GFEX가 해외 자금까지 받기 시작하면 중국 국내 가격이 글로벌 벤치마크로서 영향력을 키우는 구조로 갈 가능성. 소싱 담당 입장에선 당장 실무 영향은 적지만, 향후 장기계약 가격 연동을 GFEX 지수로 거는 사례가 늘어날 수 있다는 점은 트래킹해둘 만함.</div>
+      </div>
+
+      <div class="section-label">국제화 이후 변동성 전망 — 완화 vs 확대 시나리오</div>
+      <div class="bg-box">
+        <div class="bg-box-title">개방 직전(6월) 유동성: 일평균 34.7만 계약·미결제약정 46.5만 계약·거래대금 258억 위안, 선물-현물 상관계수 0.98 — GFEX가 5월 기준 630만 계약으로 CME(1,051계약) 대비 압도적 유동성 우위인 상태에서 국제화 시작</div>
+        <p><strong>① 변동성 완화 시나리오</strong> — 참여자 풀이 넓어지면 소수 중국 로컬 트레이더의 쏠림 매매로 인한 급등락이 희석됨. 유동성이 두꺼워질수록 이론적으로 가격이 더 안정적으로 형성되는 게 일반적.</p>
+        <p><strong>② 변동성 확대 시나리오</strong> — GFEX·LME·CME 세 시장에 리튬 관련 계약이 분산되어 있는데, 유동성이 얇은 시장이 끼어있으면 계약 간 베이시스 리스크(가격 괴리)가 생겨 오히려 변동성을 키울 수 있다는 우려도 있음. 다만 이 리스크는 이미 압도적 유동성을 가진 GFEX보다는 상대적으로 얇은 CME·LME 리튬 계약 쪽에 더 해당.</p>
+        <p>결론적으로 GFEX 자체는 원래도 유동성이 두꺼운 시장이라, 해외자금 유입이 단기간에 변동성을 급격히 흔들 가능성은 낮다는 게 중립적 추론. 다만 개방 첫 거래일(7/3) 이후 데이터가 아직 1거래일 남짓뿐이라 실제 영향 판단은 이르며, 향후 1~2주 거래 데이터 누적 후 재평가 필요.</p>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요. 장기계약 가격 조항에 GFEX 지수 연동 요구가 들어올 경우 대비해 조건 검토.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>해외 브로커사 GFEX 리튬 접근권 확대 현황, 거래량 국제화 진행 속도.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-title">📌 소싱 판단 요약</div>
+    <table>
+      <thead>
+        <tr><th>메탈</th><th>현황</th><th>스탠스</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-lithium">[리튬]</span></td>
+          <td>Codelco-SQM Salar Futuro 프로젝트 환경승인 신청 — 국가 리튬전략의 실행 사례. 승인까지 최소 3년, 단기 공급 영향 없음.</td>
+          <td>
+            <div class="stance stance-neutral">중립</div>
+            <div style="font-size:10px;margin-top:3px">장기 정책 동향으로 모니터링</div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-lithium">[리튬]</span></td>
+          <td>GFEX 리튬 탄산염 선물 해외투자자 개방(7/3) — 중국 내수 가격의 국제 벤치마크화 시도.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">장기계약 가격조항 영향 여부 확인</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    본 리포트는 소싱 전략 수립 목적의 참고 자료입니다. 가격 정보는 공개 소스 기반이며 실거래가와 차이가 있을 수 있습니다. 투자 권유 목적이 아닙니다.<br>
+    Generated: 2026.07.06 · Battery Metal MI v4
+  </div>
+
+</div>
+</body>
+</html>
