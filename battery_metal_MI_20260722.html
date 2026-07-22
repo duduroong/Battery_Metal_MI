@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리 메탈 MI | 2026.07.22</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0e1117;
+    --surface: #161b27;
+    --surface2: #1e2535;
+    --border: #2a3347;
+    --text: #cdd6f4;
+    --text-dim: #6c7a96;
+    --text-muted: #3d4a63;
+    --lithium: #5bc4f5;
+    --nickel: #a6e3a1;
+    --accent: #cba6f7;
+    --high: #f38ba8;
+    --medium: #fab387;
+    --low: #a6e3a1;
+    --insight: #f9e2af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 24px 16px;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; }
+
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 24px; }
+  .header-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .header-title { font-size: 20px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+  .header-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  .supply-chain { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  .supply-chain-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .supply-chain-sub { font-size: 10px; color: var(--text-muted); margin-bottom: 14px; }
+  .metal-block { border-left: 3px solid var(--lithium); padding-left: 12px; margin-bottom: 16px; }
+  .metal-block:last-of-type { margin-bottom: 0; }
+  .metal-block.nickel { border-left-color: var(--nickel); }
+  .metal-block.cobalt { border-left-color: var(--accent); }
+  .metal-block-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .supply-flow { display: grid; grid-template-columns: 1fr 20px 1fr; gap: 0; align-items: start; }
+  .flow-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .flow-title { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .flow-item { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+  .flow-item .country { color: var(--text); }
+  .flow-item .pct { font-family: 'IBM Plex Mono', monospace; color: var(--lithium); font-size: 10px; }
+  .flow-item .pct.highlight { color: var(--accent); font-weight: 500; }
+  .flow-item .pct.risk { color: var(--high); font-weight: 500; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; padding-top: 34px; }
+  .flow-note { font-size: 10.5px; color: var(--text-dim); margin-top: 10px; line-height: 1.6; }
+  .flow-note strong { color: var(--insight); }
+  .supply-source { font-size: 9px; color: var(--text-muted); margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border); }
+
+  .news-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+  .news-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  .news-header-left { flex: 1; }
+  .news-tags { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.08em; }
+  .tag-lithium { background: rgba(91,196,245,0.12); color: var(--lithium); border: 1px solid rgba(91,196,245,0.25); }
+  .tag-nickel { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .tag-cobalt { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .impact-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.1em; white-space: nowrap; flex-shrink: 0; }
+  .impact-HIGH { background: rgba(243,139,168,0.15); color: var(--high); border: 1px solid rgba(243,139,168,0.3); }
+  .impact-MEDIUM { background: rgba(250,179,135,0.15); color: var(--medium); border: 1px solid rgba(250,179,135,0.3); }
+  .news-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 5px; }
+  .news-source { font-size: 10px; color: var(--text-dim); }
+  .news-body { padding: 14px 16px; }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; margin-top: 16px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+  .section-label:first-child { margin-top: 0; }
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li { padding: 5px 0 5px 14px; position: relative; font-size: 12px; color: var(--text); line-height: 1.65; border-bottom: 1px solid var(--border); }
+  .bullet-list li:last-child { border-bottom: none; }
+  .bullet-list li::before { content: '›'; position: absolute; left: 0; color: var(--text-muted); }
+  .source-link { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--lithium); margin-top: 3px; text-decoration: none; word-break: break-all; }
+  .source-link::before { content: '🔗 '; }
+
+  .bg-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; margin: 10px 0; }
+  .bg-box-title { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--lithium); text-transform: uppercase; margin-bottom: 8px; }
+  .bg-box p { font-size: 12px; color: var(--text); line-height: 1.7; margin-bottom: 6px; }
+  .bg-box p:last-child { margin-bottom: 0; }
+  .bg-box .caveat { font-size: 11px; color: var(--medium); font-style: italic; }
+
+  .scenario-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
+  .scenario-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; }
+  .scenario-item .stitle { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--accent); margin-bottom: 4px; }
+  .scenario-item p { font-size: 11px; color: var(--text); line-height: 1.5; }
+
+  .insight-box { background: rgba(249,226,175,0.06); border: 1px solid rgba(249,226,175,0.2); border-left: 3px solid var(--insight); border-radius: 4px; padding: 10px 12px; margin: 8px 0; }
+  .insight-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--insight); letter-spacing: 0.1em; margin-bottom: 5px; }
+  .insight-text { font-size: 12px; color: var(--text); line-height: 1.65; }
+
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .action-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .action-item-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+  .action-item-label.now { color: var(--nickel); }
+  .action-item-label.monitor { color: var(--accent); }
+  .action-item p { font-size: 11px; color: var(--text); line-height: 1.6; }
+
+  .summary { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 24px; }
+  .summary-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px; }
+  table.summary-table { width: 100%; border-collapse: collapse; }
+  .summary-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .summary-table td { font-size: 11px; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .stance { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; margin-bottom: 4px; }
+  .stance-buy { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .stance-neutral { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .stance-watch { background: rgba(250,179,135,0.12); color: var(--medium); border: 1px solid rgba(250,179,135,0.25); }
+
+  .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-muted); line-height: 1.7; }
+
+  @media (max-width: 480px) {
+    .action-grid { grid-template-columns: 1fr; }
+    .scenario-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-meta">Battery Metal Market Intelligence · Daily Report</div>
+    <div class="header-title">배터리 메탈 데일리 MI</div>
+    <div class="header-sub">2026년 07월 22일 (수) · Sourcing Analyst Perspective</div>
+  </div>
+
+  <!-- News 1: Zimbabwe rail -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-lithium">[리튬]</span></div>
+        <div class="news-title">짐바브웨, 리튬 수출에 철도 옵션 추가 — Gwanda-마푸투 항 신규 철도 루트 개통</div>
+        <div class="news-source">Reuters via NewZimbabwe.com / Mining.com | 2026.07.21~22</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          짐바브웨 국영철도(NRZ)가 남아공 Grindrod 자회사 BBR(Beitbridge Bulawayo Railway), 현지 물류사 Silvergill과 협력해 Tsingshan Holding Group 소유 Gwanda 리튬광산에서 모잠비크 마푸투항까지 리튬 정광 1,000t을 철도로 첫 운송 완료(7/21 발표).
+          <br><a class="source-link" href="https://www.newzimbabwe.com/zimbabwe-adds-freight-rail-option-to-lithium-export-gateway/">newzimbabwe.com</a>
+        </li>
+        <li>운송 경로: Gwanda→Beitbridge(BBR 구간, 180km) → Beitbridge→Chicualacuala 국경(NRZ 구간, 300km) → Chicualacuala→마푸투(Limpopo 라인, 522km) — 총 약 1,000km 철도 구간.</li>
+        <li>NRZ는 정부 투자 부족으로 수년간 어려움을 겪어온 국영철도사(화물량이 1990년대 정점 1,200만t → 2025년 200만t으로 붕괴) — 민간 물류사와의 협력 확대로 화물량 회복을 노리는 전략의 일환.</li>
+        <li>짐바브웨는 현지가공 확대를 요구하는 정책 기조 속에서도, 생산업체들은 2030년까지 황산리튬(정제 전구체) 수출이 34만4,000t에 이를 것으로 전망 — 우리가 계속 추적해온 원광 수출금지·현지가공 전환 흐름과 연결됨.</li>
+        <li>참고: Tsingshan Holding(Gwanda 광산 소유주)은 기존에 다뤘던 화유(Arcadia)·시노마인(Bikita)·야화(Kamativi)·청신(Sabi Star)에 이은 짐바브웨 리튬 생산 5번째 주요 중국계 주체로 확인됨.</li>
+      </ul>
+
+      <div class="section-label">중기 전망 — 두 가지 관점</div>
+      <div class="scenario-grid">
+        <div class="scenario-item">
+          <div class="stitle">관점 A — 형태 불문 공통 인프라 구축</div>
+          <p>이 철도는 특정 화물형태(정광)에 맞춘 게 아니라 범용 벌크 광물 운송 인프라 — 2027년 이후 황산리튬(전구체) 수출이 본격화돼도 동일 인프라를 그대로 활용 가능. 도로 대비 철도 운송비 절감이 원광이든 전구체든 밸류체인 전체의 원가경쟁력 개선으로 이어질 수 있음.</p>
+        </div>
+        <div class="scenario-item">
+          <div class="stitle">관점 B — 수출금지 전 재고 밀어내기</div>
+          <p>2027년 1월 원광 수출 전면금지를 앞둔 시점에, 아직 막히지 않은 정광 수출 경로를 최대한 활용해 물량을 밀어내려는 단기적 동기도 함께 작용하고 있을 가능성.</p>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--text-dim);margin-top:4px;line-height:1.6;">※ 두 관점이 상호배타적이지 않음 — 장기 인프라 투자와 단기 밀어내기 수요가 동시에 이 철도 개통의 배경으로 작용했을 가능성이 큼.</p>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">지난주 다룬 "짐바브웨 유일 정제플랜트의 제3자 처리 불가" 병목 이슈와 겹쳐서 보면, 정제 캐파가 막혀있는 동안에도 물류 인프라는 계속 개선되고 있는 흥미로운 그림. Tsingshan까지 포함하면 짐바브웨 리튬 산업의 중국계 주체가 최소 5개사로 확인되는 점도, 앞서 짚은 "채굴 다변화가 곧 중국 의존도 감소를 의미하지 않는다"는 인사이트를 재차 뒷받침.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>신규 철도 루트의 실제 물동량 확대 여부, 2027년 수출금지 전 짐바브웨발 원광 수출 물량 추이.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News 2: Trafigura Angola transmission -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-cobalt">[코발트]</span></div>
+        <div class="news-title">Trafigura, 앙골라-DRC-잠비아 2,000MW 송전선 프로젝트 철수</div>
+        <div class="news-source">Reuters via Engineering News / Ecofin Agency | 2026.07.15</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          스위스 원자재 트레이더 Trafigura가 앙골라의 잉여 수력발전 전력을 DRC·잠비아의 구리·코발트 광산지대(코퍼벨트)로 송전하려던 2,000MW 규모 송전선 프로젝트에서 철수한 것으로 두 소식통 확인(7/15 로이터 첫 보도).
+          <br><a class="source-link" href="https://www.engineeringnews.co.za/article/trafigura-backs-out-of-angola-transmission-line-project-sources-say-2026-07-15">engineeringnews.co.za</a>
+        </li>
+        <li>2024년 7월 Trafigura·엔지니어링사 ProMarks·앙골라 정부가 타당성조사 MOU 체결했던 프로젝트 — 약 2년 만의 철수. 앙골라 정부는 "컨소시엄 구성원 변경과 함께 협상은 계속되고 있다"는 입장.</li>
+        <li>배경: 앙골라는 Lauca·Capanda 댐 등에서 대규모 수력 잉여전력을 보유하고 있지만 자국 내 수요 부족과 송전 인프라 미비로 활용 못하는 상황. 반면 DRC·잠비아 코퍼벨트는 만성적 전력난에 시달리는 중 — 이 미스매치를 해소하려던 프로젝트였음.</li>
+        <li>Trafigura의 철수에도 대체 프로젝트는 진행 중: 두바이 Averi Finance·모로코 Somagec 합작 Meridia Energy가 ①앙골라 말란제-DRC 풍구루메(주요 구리·코발트 광산지대) 송전선, ②앙골라 소요-DRC 잉가댐 인근 송전선(2,000MW) 등 최소 2개 대체 프로젝트 추진 중. 전체 지역 송전 프로젝트 경쟁 투자액은 32억 달러+ 규모.</li>
+        <li>참고: Trafigura는 이 송전 프로젝트에서는 철수했지만, DRC·잠비아 광산지대를 앙골라 대서양 로비토항까지 연결하는 물류 인프라 "로비토 회랑(Lobito Corridor) 철도" 컨소시엄에는 여전히 참여 중 — 전력 인프라만 철수, 물류 인프라는 유지.</li>
+      </ul>
+
+      <div class="section-label">배경 — Trafigura는 왜 이 프로젝트에 관여했나</div>
+      <div class="bg-box">
+        <p>원자재 트레이더가 전력 인프라에 투자하는 건 전형적인 수직계열화 전략 — 광산에 전력이 안정적으로 공급되면 생산량·생산 안정성이 늘어나고, 그 늘어난 물량을 우선적으로 트레이딩(구매·판매)할 권리를 확보하려는 목적. "인프라 자체로 수익"보다 "인프라가 만들어내는 물동량 트레이딩"이 핵심 논리.</p>
+        <p class="caveat">철수 사유는 회사가 공식 언급하지 않아 확정할 수 없음. 코발트·구리 트레이딩 자체를 전략적으로 축소하려는 결정이라기보다, 로비토 회랑 철도 컨소시엄에는 계속 참여 중이라는 점에서 이 특정 프로젝트만의 개별적 경제성·거버넌스 리스크 판단에 따른 결정일 가능성이 더 커 보이나, 확인된 사실은 아님.</p>
+      </div>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>하나의 프로젝트가 철수해도 전체 "앙골라→코퍼벨트 송전" 구상 자체는 다른 컨소시엄들이 이어받아 진행 중이라 완전히 무산된 건 아님. 다만 대형 트레이더의 철수는 프로젝트 리스크에 대한 부정적 신호로 해석될 수 있어, 다른 투자자들의 참여 속도에도 영향을 줄 가능성.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">오늘 다룬 짐바브웨 철도 인프라 확충과 마찬가지로, 이건 "채굴 자체"가 아니라 "채굴을 뒷받침하는 인프라"가 배터리 메탈 공급망에서 갈수록 중요한 변수가 되고 있다는 걸 보여주는 사례. DRC·잠비아 코퍼벨트의 만성적 전력난은 코발트·구리 생산능력 확장의 실질적 병목 중 하나로 꼽혀왔는데, 이번 철수로 그 해소가 다시 지연될 가능성. 다만 대체 컨소시엄들이 여전히 경쟁적으로 뛰어들고 있다는 건 이 인프라 수요 자체는 확실하다는 방증 — 소싱 관점에서는 "누가 결국 이 송전선을 완공하느냐"보다 "코퍼벨트 전력난이 언제 해소되느냐"가 코발트 생산능력 전망에 더 중요한 변수.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>Meridia Energy 등 대체 컨소시엄의 진행상황, DRC·잠비아 광산업체들의 전력난 관련 감산·증산 계획 변화.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-title">📌 소싱 판단 요약</div>
+    <table class="summary-table">
+      <thead>
+        <tr><th>메탈</th><th>현황</th><th>스탠스</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-lithium">[리튬]</span></td>
+          <td>짐바브웨 Gwanda-마푸투 철도 개통. 인프라 구축과 수출금지 전 밀어내기 동기 동시 작용 추정.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">물동량 추이 확인</div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-cobalt">[코발트]</span></td>
+          <td>Trafigura, 앙골라-DRC-잠비아 송전선 철수. 대체 컨소시엄 진행 중이나 코퍼벨트 전력난 해소 지연 가능성.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">대체 프로젝트·전력난 해소 여부</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Supply Chain -->
+  <div class="supply-chain">
+    <div class="supply-chain-title">🌐 글로벌 공급망 구조</div>
+    <div class="supply-chain-sub">2026 기준 · 업스트림(채굴) / 미드스트림(정제) · 리튬·니켈·코발트 고정 섹션</div>
+
+    <div class="metal-block">
+      <div class="metal-block-title">리튬 (Lithium)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">호주</span><span class="pct">~50%</span></div>
+          <div class="flow-item"><span class="country">칠레</span><span class="pct">~22%</span></div>
+          <div class="flow-item"><span class="country">중국</span><span class="pct">~16%</span></div>
+          <div class="flow-item"><span class="country">아르헨티나</span><span class="pct">~10%</span></div>
+          <div class="flow-item"><span class="country">짐바브웨</span><span class="pct risk">~3% ⚠</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~67%</span></div>
+          <div class="flow-item"><span class="country">칠레·아르헨</span><span class="pct">~29%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~4%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>짐바브웨(수출쿼터제)</strong> — 비중은 작지만 스팟시장 incremental 공급의 핵심</div>
+    </div>
+
+    <div class="metal-block nickel">
+      <div class="metal-block-title">니켈 (Nickel)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct risk">~60%</span></div>
+          <div class="flow-item"><span class="country">필리핀</span><span class="pct">~9%</span></div>
+          <div class="flow-item"><span class="country">러시아</span><span class="pct">~7%</span></div>
+          <div class="flow-item"><span class="country">뉴칼레도니아</span><span class="pct">~6%</span></div>
+          <div class="flow-item"><span class="country">캐나다</span><span class="pct">~4%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~14%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~45%</span></div>
+          <div class="flow-item"><span class="country">인니 정제</span><span class="pct highlight">~30%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~25%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>인도네시아(채굴상한제/RKAB)</strong> — 정부가 연간 채굴 승인량을 직접 조절</div>
+    </div>
+
+    <div class="metal-block cobalt">
+      <div class="metal-block-title">코발트 (Cobalt)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">DRC(콩고)</span><span class="pct risk">~73%</span></div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct">~14%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~13%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~78%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~22%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>DRC 채굴 집중 + 중국 정제 집중 이중 리스크.</strong> 트리거 이벤트 발생 시만 별도 커버</div>
+    </div>
+
+    <div class="supply-source">Source: USGS MCS, Our World in Data, ASPI Strategist/C4ADS, ING Think, Metalshub/IEA</div>
+  </div>
+
+  <div class="footer">
+    본 리포트는 소싱 전략 수립 목적의 참고 자료입니다. 투자 권유 목적이 아닙니다.<br>
+    Generated: 2026.07.22 · Battery Metal MI v5
+  </div>
+
+</div>
+</body>
+</html>
