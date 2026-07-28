@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리 메탈 MI | 2026.07.28</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0e1117;
+    --surface: #161b27;
+    --surface2: #1e2535;
+    --border: #2a3347;
+    --text: #cdd6f4;
+    --text-dim: #6c7a96;
+    --text-muted: #3d4a63;
+    --lithium: #5bc4f5;
+    --nickel: #a6e3a1;
+    --accent: #cba6f7;
+    --high: #f38ba8;
+    --medium: #fab387;
+    --low: #a6e3a1;
+    --insight: #f9e2af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 24px 16px;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; }
+
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 24px; }
+  .header-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .header-title { font-size: 20px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+  .header-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  .supply-chain { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  .supply-chain-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .supply-chain-sub { font-size: 10px; color: var(--text-muted); margin-bottom: 14px; }
+  .metal-block { border-left: 3px solid var(--lithium); padding-left: 12px; margin-bottom: 16px; }
+  .metal-block:last-of-type { margin-bottom: 0; }
+  .metal-block.nickel { border-left-color: var(--nickel); }
+  .metal-block.cobalt { border-left-color: var(--accent); }
+  .metal-block-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .supply-flow { display: grid; grid-template-columns: 1fr 20px 1fr; gap: 0; align-items: start; }
+  .flow-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .flow-title { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .flow-item { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+  .flow-item .country { color: var(--text); }
+  .flow-item .pct { font-family: 'IBM Plex Mono', monospace; color: var(--lithium); font-size: 10px; }
+  .flow-item .pct.highlight { color: var(--accent); font-weight: 500; }
+  .flow-item .pct.risk { color: var(--high); font-weight: 500; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; padding-top: 34px; }
+  .flow-note { font-size: 10.5px; color: var(--text-dim); margin-top: 10px; line-height: 1.6; }
+  .flow-note strong { color: var(--insight); }
+  .supply-source { font-size: 9px; color: var(--text-muted); margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border); }
+
+  .news-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+  .news-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  .news-header-left { flex: 1; }
+  .news-tags { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.08em; }
+  .tag-lithium { background: rgba(91,196,245,0.12); color: var(--lithium); border: 1px solid rgba(91,196,245,0.25); }
+  .tag-nickel { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .tag-cobalt { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .impact-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.1em; white-space: nowrap; flex-shrink: 0; }
+  .impact-HIGH { background: rgba(243,139,168,0.15); color: var(--high); border: 1px solid rgba(243,139,168,0.3); }
+  .impact-MEDIUM { background: rgba(250,179,135,0.15); color: var(--medium); border: 1px solid rgba(250,179,135,0.3); }
+  .news-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 5px; }
+  .news-source { font-size: 10px; color: var(--text-dim); }
+  .news-body { padding: 14px 16px; }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; margin-top: 16px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+  .section-label:first-child { margin-top: 0; }
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li { padding: 5px 0 5px 14px; position: relative; font-size: 12px; color: var(--text); line-height: 1.65; border-bottom: 1px solid var(--border); }
+  .bullet-list li:last-child { border-bottom: none; }
+  .bullet-list li::before { content: '›'; position: absolute; left: 0; color: var(--text-muted); }
+  .source-link { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--lithium); margin-top: 3px; text-decoration: none; word-break: break-all; }
+  .source-link::before { content: '🔗 '; }
+
+  .bg-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; margin: 10px 0; }
+  .bg-box-title { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--lithium); text-transform: uppercase; margin-bottom: 8px; }
+  .bg-box p { font-size: 12px; color: var(--text); line-height: 1.7; margin-bottom: 6px; }
+  .bg-box p:last-child { margin-bottom: 0; }
+  .bg-box .step { display: flex; gap: 8px; margin-bottom: 4px; font-size: 12px; color: var(--text); line-height: 1.6; }
+  .bg-box .step .num { font-family: 'IBM Plex Mono', monospace; color: var(--accent); flex-shrink: 0; }
+
+  .insight-box { background: rgba(249,226,175,0.06); border: 1px solid rgba(249,226,175,0.2); border-left: 3px solid var(--insight); border-radius: 4px; padding: 10px 12px; margin: 8px 0; }
+  .insight-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--insight); letter-spacing: 0.1em; margin-bottom: 5px; }
+  .insight-text { font-size: 12px; color: var(--text); line-height: 1.65; }
+
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .action-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .action-item-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+  .action-item-label.now { color: var(--nickel); }
+  .action-item-label.monitor { color: var(--accent); }
+  .action-item p { font-size: 11px; color: var(--text); line-height: 1.6; }
+
+  .summary { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 24px; }
+  .summary-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px; }
+  table.summary-table { width: 100%; border-collapse: collapse; }
+  .summary-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .summary-table td { font-size: 11px; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .stance { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; margin-bottom: 4px; }
+  .stance-buy { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .stance-neutral { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .stance-watch { background: rgba(250,179,135,0.12); color: var(--medium); border: 1px solid rgba(250,179,135,0.25); }
+
+  .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-muted); line-height: 1.7; }
+
+  @media (max-width: 480px) {
+    .action-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-meta">Battery Metal Market Intelligence · Daily Report</div>
+    <div class="header-title">배터리 메탈 데일리 MI</div>
+    <div class="header-sub">2026년 07월 28일 (화) · Sourcing Analyst Perspective</div>
+  </div>
+
+  <!-- News 1: Indonesia rare earth checks bottleneck -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-nickel">[니켈]</span></div>
+        <div class="news-title">인도네시아, 희토류 검사 병목으로 알루미나·니켈 수출 지연 — 완화 나서</div>
+        <div class="news-source">Reuters via The Star / Mining.com(Bloomberg) | 2026.07.24~27</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          인도네시아 대통령실 참모실장 두둥 압두라흐만이 7/27(월) 정부기관·법집행기관·업계 간 협력을 촉구 — 알루미나·니켈 제품 수출이 희토류 함유량 관련 규정 공백으로 지연되고 있다는 업계 보고에 대응.
+          <br><a class="source-link" href="https://www.thestar.com.my/aseanplus/aseanplus-news/2026/07/27/indonesia-moves-to-ease-rare-earth-checks-bottleneck-delaying-alumina-nickel-exports">thestar.com.my</a>
+        </li>
+        <li>배경: 인도네시아 세관이 이번 달 특정 핵심광물(희토류·우라늄 등 방사성원소)에 대한 추가 검사를 요구하면서 여러 선적이 지연됨(Bloomberg, 7/24 첫 보도).</li>
+        <li>니켈선철(nickel pig iron, 페로니켈 관세분류에 포함)이 직접 영향 — 이 품목 수출의 약 98%가 중국행(1~5월 기준). 알루미나도 말레이시아·인도·카타르·싱가포르·중국이 주요 수출대상.</li>
+        <li>인도네시아는 희토류를 국내우선사용 대상으로 지정하는 규정을 시행 중(2025년 도입)이며, 프라보워 대통령이 관련 응용기술 개발을 위한 전담기구까지 설치한 상태 — 즉 이번 병목은 니켈 정책이 아니라 희토류 정책의 부수적 파급효과.</li>
+        <li>세관 측은 "자의적으로 수출을 중단·금지하는 게 아니며, 요건 충족 물량은 원활히 흘러가도록 하고 있다"는 입장.</li>
+      </ul>
+
+      <div class="section-label">배경 — 왜 갑자기 검사가 강화됐나 (인과관계)</div>
+      <div class="bg-box">
+        <div class="step"><span class="num">①</span><span>밀수 적발: 검찰총장실이 일미나이트(ilmenite) 수출 건에서 약 390t 규모 희토류 함유 물질을 은폐한 혐의로 3명 기소(광산업체 PT Putraprima Mineral Mandiri 관계자, 국영 검수기관 Sucofindo 지사장, 팡칼피낭 세관장 — 민간·공무원 공모 정황).</span></div>
+        <div class="step"><span class="num">②</span><span>과잉 대응: 개별 사건임에도 세관이 알루미나·니켈선철 수출 전체에 독립 검수기관을 투입한 전수 정밀검사로 대응.</span></div>
+        <div class="step"><span class="num">③</span><span>부수 피해: 검사 역량은 그대로인데 대상 물량만 급증 — 무고한 정상 수출업체들의 선적까지 발이 묶임.</span></div>
+        <div class="step"><span class="num">④</span><span>대통령실 개입: 단속 철회가 아니라 "요건 충족 물량은 빨리 통과시켜라"는 행정처리 속도 조율 성격.</span></div>
+        <p style="margin-top:8px;">
+          <a class="source-link" href="https://en.antaranews.com/news/421868/indonesia-charges-three-over-illegal-rare-earth-exports">antaranews.com</a>
+          <a class="source-link" href="https://jakartaglobe.id/news/prosecutors-say-fake-lab-tests-nearly-enabled-390ton-rare-earth-export">jakartaglobe.id</a>
+        </p>
+      </div>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>병목 지속기간이나 영향 물량 규모는 아직 불명확 — 다만 대통령실이 직접 나서 완화를 지시한 만큼 단기간 내 행정처리 정상화 가능성이 있음(전문가들은 "수 주 내 백로그 해소" 시나리오를 유력하게 봄).</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">지난주 다룬 "中이 인니에 안정적·투명한 정책을 요청"한 배경이 바로 이런 종류의 예측 불가능한 행정 병목이라는 게 이번 사례로 다시 확인됨. 흥미로운 건 이번 병목이 니켈 자체 정책(RKAB 등)이 아니라 희토류 단속의 부수적 파급이라는 점 — 즉 인니의 자원민족주의 플레이북(원광수출금지→국내가공 의무화)이 니켈을 넘어 희토류·우라늄 등 다른 광물로 계속 확장되고 있고, 그 과정에서 기존에 정상 흐름이던 니켈·알루미나 물류까지 예기치 않게 얽혀드는 모습. 소싱 관점에서는 인니발 물류가 "니켈 정책이 안정적이어도" 다른 광물 단속에 연쇄적으로 영향받을 수 있다는 새로운 리스크 축을 보여줌.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>인니발 니켈선철·니켈 원료 벤더에 최근 선적 지연 여부 확인.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>세관 검사 백로그 해소 속도, 희토류 은폐 형사사건 후속 전개, 니켈 자체 수출까지 검사 범위 확대 여부.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News 2: US FEOC deadline struggle -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-lithium">[리튬]</span><span class="tag tag-nickel">[니켈]</span><span class="tag tag-cobalt">[코발트]</span></div>
+        <div class="news-title">트럼프 행정부, 2027년 FEOC 시한 못 맞춰 중국산 광물 한시 허용 검토</div>
+        <div class="news-source">Reuters via BNN Bloomberg / Northern Miner 등 다수 | 2026.07.27</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          美 국방·제조업계가 2027년 1월 1일부터 중국·러시아·이란·북한산 희토류·마그넷·텅스텐·몰리브덴·탄탈럼 구매를 금지하는 연방규정 시한을 불과 5개월여 앞두고, 자국 채굴·가공 능력이 수요를 못 따라가는 현실에 직면 — 국방부는 지난 4월 이미 "당분간은 중국 포함 전세계 어디서든 구매해야 할 것"이라고 인정한 바 있음.
+          <br><a class="source-link" href="https://www.bnnbloomberg.ca/business/international/2026/07/27/trump-may-need-to-allow-chinese-minerals-as-us-industry-struggles-to-meet-2027-deadline">bnnbloomberg.ca</a>
+        </li>
+        <li>트럼프 행정부는 집권 후 약 150개 광물기업에 수백억 달러를 투입하며 핵심광물 자립을 국가안보 우선순위로 추진 중 — 지난 2월 착수한 "프로젝트 볼트(Project Vault)"는 120억 달러 규모 전략비축 프로그램(우리가 다룬 DLA의 3억달러 리튬비축은 이 중 일부).</li>
+        <li>다만 트럼프 대통령은 5/10 "모든 연방기관은 미국산만 구매하라, 변명 불가"라고 못박았고, 지난주 월요일엔 국방계약업체의 예외(waiver) 취득을 더 어렵게 만드는 행정명령에 서명 — 정책 의지와 산업 현실 사이의 간극이 심화.</li>
+        <li>국제에너지기구(IEA)는 이달 "중국이 희토류 수출을 통제할 경우 전세계 제조업 6조5,000억달러가 리스크에 노출된다"고 경고. 2025년 기준 美의 대표적 희토류 마그넷 수요는 약 4만8,000t인데 국내 공급은 300t에 불과, 연말까지 자국 생산능력이 5,000t까지 확대될 전망이라 여전히 수요의 10분의 1 수준.</li>
+        <li>中이 여전히 전세계 광물 정제산업의 80% 이상을 장악 — 저가 정책으로 미국 프로젝트의 수익성을 훼손한다는 게 워싱턴의 시각.</li>
+      </ul>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>이번 보도는 희토류·텅스텐 등이 중심이지만, 같은 FEOC 프레임워크가 리튬·니켈·코발트 조달에도 그대로 적용되는 구조 — 즉 "美 공급망의 물리적 준비 부족"이라는 문제는 배터리 메탈에도 유사하게 적용될 가능성이 있음.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">계속 추적해온 美의 Non-FEOC 강화 흐름(DLA 리튬비축, 사모아 심해저 채굴 임대 등)이 사실은 훨씬 큰 그림(프로젝트 볼트, 150개 기업 지원)의 일부였다는 게 이번에 드러남. 동시에 이 기사는 그 흐름의 근본적 한계도 보여줌 — "정책적 의지"와 "산업적 준비" 사이에 수년의 격차가 있고, 결국 트럼프 행정부조차 초기엔 중국산을 계속 쓸 수밖에 없다는 것. 배터리 메탈(리튬·니켈·코발트) 쪽도 이 희토류 사례와 유사한 패턴을 보일 가능성이 커 — 즉 Non-FEOC 요건이 서류상으로는 강화돼도, 실제 준수 시한이 다가올수록 예외·유예가 반복될 여지가 있다는 걸 시사.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요. 美向 공급망 관련 Non-FEOC 요건은 "서류상 강화 vs 실제 유예 가능성"을 함께 고려해 과도한 선제대응은 자제.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>배터리 메탈(Li·Ni·Co) 대상 유사 규정 시한 및 예외조항 발표 여부, 프로젝트 볼트의 구체적 집행 진도.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-title">📌 소싱 판단 요약</div>
+    <table class="summary-table">
+      <thead>
+        <tr><th>메탈</th><th>현황</th><th>스탠스</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-nickel">[니켈]</span></td>
+          <td>인니 희토류 검사發 니켈선철 수출 병목. 대통령실 개입으로 단기 해소 가능성.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">벤더 선적지연 여부 확인</div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-lithium">[리튬]</span><span class="tag tag-nickel">[니켈]</span><span class="tag tag-cobalt">[코발트]</span></td>
+          <td>美 FEOC 2027 시한 산업준비 부족. 정책강화-현실괴리로 예외·유예 반복 가능성.</td>
+          <td>
+            <div class="stance stance-neutral">중립</div>
+            <div style="font-size:10px;margin-top:3px">과도한 선제대응 자제</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Supply Chain -->
+  <div class="supply-chain">
+    <div class="supply-chain-title">🌐 글로벌 공급망 구조</div>
+    <div class="supply-chain-sub">2026 기준 · 업스트림(채굴) / 미드스트림(정제) · 리튬·니켈·코발트 고정 섹션</div>
+
+    <div class="metal-block">
+      <div class="metal-block-title">리튬 (Lithium)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">호주</span><span class="pct">~50%</span></div>
+          <div class="flow-item"><span class="country">칠레</span><span class="pct">~22%</span></div>
+          <div class="flow-item"><span class="country">중국</span><span class="pct">~16%</span></div>
+          <div class="flow-item"><span class="country">아르헨티나</span><span class="pct">~10%</span></div>
+          <div class="flow-item"><span class="country">짐바브웨</span><span class="pct risk">~3% ⚠</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~67%</span></div>
+          <div class="flow-item"><span class="country">칠레·아르헨</span><span class="pct">~29%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~4%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>짐바브웨(수출쿼터제)</strong> — 비중은 작지만 스팟시장 incremental 공급의 핵심</div>
+    </div>
+
+    <div class="metal-block nickel">
+      <div class="metal-block-title">니켈 (Nickel)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct risk">~60%</span></div>
+          <div class="flow-item"><span class="country">필리핀</span><span class="pct">~9%</span></div>
+          <div class="flow-item"><span class="country">러시아</span><span class="pct">~7%</span></div>
+          <div class="flow-item"><span class="country">뉴칼레도니아</span><span class="pct">~6%</span></div>
+          <div class="flow-item"><span class="country">캐나다</span><span class="pct">~4%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~14%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~45%</span></div>
+          <div class="flow-item"><span class="country">인니 정제</span><span class="pct highlight">~30%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~25%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>인도네시아(채굴상한제/RKAB)</strong> — 정부가 연간 채굴 승인량을 직접 조절</div>
+    </div>
+
+    <div class="metal-block cobalt">
+      <div class="metal-block-title">코발트 (Cobalt)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">DRC(콩고)</span><span class="pct risk">~73%</span></div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct">~14%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~13%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~78%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~22%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>DRC 채굴 집중 + 중국 정제 집중 이중 리스크.</strong> 트리거 이벤트 발생 시만 별도 커버</div>
+    </div>
+
+    <div class="supply-source">Source: USGS MCS, Our World in Data, ASPI Strategist/C4ADS, ING Think, Metalshub/IEA</div>
+  </div>
+
+  <div class="footer">
+    본 리포트는 소싱 전략 수립 목적의 참고 자료입니다. 투자 권유 목적이 아닙니다.<br>
+    Generated: 2026.07.28 · Battery Metal MI v5
+  </div>
+
+</div>
+</body>
+</html>
