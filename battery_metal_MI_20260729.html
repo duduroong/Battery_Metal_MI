@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리 메탈 MI | 2026.07.29</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0e1117;
+    --surface: #161b27;
+    --surface2: #1e2535;
+    --border: #2a3347;
+    --text: #cdd6f4;
+    --text-dim: #6c7a96;
+    --text-muted: #3d4a63;
+    --lithium: #5bc4f5;
+    --nickel: #a6e3a1;
+    --accent: #cba6f7;
+    --high: #f38ba8;
+    --medium: #fab387;
+    --low: #a6e3a1;
+    --insight: #f9e2af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 24px 16px;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; }
+
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 24px; }
+  .header-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .header-title { font-size: 20px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+  .header-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  .supply-chain { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  .supply-chain-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .supply-chain-sub { font-size: 10px; color: var(--text-muted); margin-bottom: 14px; }
+  .metal-block { border-left: 3px solid var(--lithium); padding-left: 12px; margin-bottom: 16px; }
+  .metal-block:last-of-type { margin-bottom: 0; }
+  .metal-block.nickel { border-left-color: var(--nickel); }
+  .metal-block.cobalt { border-left-color: var(--accent); }
+  .metal-block-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .supply-flow { display: grid; grid-template-columns: 1fr 20px 1fr; gap: 0; align-items: start; }
+  .flow-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .flow-title { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .flow-item { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+  .flow-item .country { color: var(--text); }
+  .flow-item .pct { font-family: 'IBM Plex Mono', monospace; color: var(--lithium); font-size: 10px; }
+  .flow-item .pct.highlight { color: var(--accent); font-weight: 500; }
+  .flow-item .pct.risk { color: var(--high); font-weight: 500; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; padding-top: 34px; }
+  .flow-note { font-size: 10.5px; color: var(--text-dim); margin-top: 10px; line-height: 1.6; }
+  .flow-note strong { color: var(--insight); }
+  .supply-source { font-size: 9px; color: var(--text-muted); margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border); }
+
+  .news-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+  .news-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  .news-header-left { flex: 1; }
+  .news-tags { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.08em; }
+  .tag-lithium { background: rgba(91,196,245,0.12); color: var(--lithium); border: 1px solid rgba(91,196,245,0.25); }
+  .tag-nickel { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .tag-cobalt { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .impact-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.1em; white-space: nowrap; flex-shrink: 0; }
+  .impact-HIGH { background: rgba(243,139,168,0.15); color: var(--high); border: 1px solid rgba(243,139,168,0.3); }
+  .impact-MEDIUM { background: rgba(250,179,135,0.15); color: var(--medium); border: 1px solid rgba(250,179,135,0.3); }
+  .news-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 5px; }
+  .news-source { font-size: 10px; color: var(--text-dim); }
+  .news-body { padding: 14px 16px; }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; margin-top: 16px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+  .section-label:first-child { margin-top: 0; }
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li { padding: 5px 0 5px 14px; position: relative; font-size: 12px; color: var(--text); line-height: 1.65; border-bottom: 1px solid var(--border); }
+  .bullet-list li:last-child { border-bottom: none; }
+  .bullet-list li::before { content: '›'; position: absolute; left: 0; color: var(--text-muted); }
+  .source-link { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--lithium); margin-top: 3px; text-decoration: none; word-break: break-all; }
+  .source-link::before { content: '🔗 '; }
+
+  .bg-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; margin: 10px 0; }
+  .bg-box-title { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--lithium); text-transform: uppercase; margin-bottom: 8px; }
+  .bg-box p { font-size: 12px; color: var(--text); line-height: 1.7; margin-bottom: 6px; }
+  .bg-box p:last-child { margin-bottom: 0; }
+  .bg-box .caveat { font-size: 11px; color: var(--medium); font-style: italic; }
+
+  .insight-box { background: rgba(249,226,175,0.06); border: 1px solid rgba(249,226,175,0.2); border-left: 3px solid var(--insight); border-radius: 4px; padding: 10px 12px; margin: 8px 0; }
+  .insight-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--insight); letter-spacing: 0.1em; margin-bottom: 5px; }
+  .insight-text { font-size: 12px; color: var(--text); line-height: 1.65; }
+
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .action-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .action-item-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+  .action-item-label.now { color: var(--nickel); }
+  .action-item-label.monitor { color: var(--accent); }
+  .action-item p { font-size: 11px; color: var(--text); line-height: 1.6; }
+
+  .summary { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 24px; }
+  .summary-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px; }
+  table.summary-table { width: 100%; border-collapse: collapse; }
+  .summary-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .summary-table td { font-size: 11px; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .stance { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; margin-bottom: 4px; }
+  .stance-buy { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .stance-neutral { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .stance-watch { background: rgba(250,179,135,0.12); color: var(--medium); border: 1px solid rgba(250,179,135,0.25); }
+
+  .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-muted); line-height: 1.7; }
+
+  @media (max-width: 480px) {
+    .action-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-meta">Battery Metal Market Intelligence · Daily Report</div>
+    <div class="header-title">배터리 메탈 데일리 MI</div>
+    <div class="header-sub">2026년 07월 29일 (수) · Sourcing Analyst Perspective</div>
+  </div>
+
+  <!-- News 1: Rock Tech Lithium -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-lithium">[리튬]</span></div>
+        <div class="news-title">Rock Tech Lithium, Transamine과 연 10만t 규모 스포듀민 오프테이크 계약 체결</div>
+        <div class="news-source">Canadian Mining Journal / Mining Weekly / PR Newswire | 2026.07.27~28</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          캐나다 Rock Tech Lithium(TSXV: RCK)이 제네바 소재 원자재 트레이더 Transamine SA와 온타리오 Georgia Lake 프로젝트산 스포듀민 정광에 대한 구속력 있는 장기 오프테이크 계약 체결(7/24 서명, 7/27 발표).
+          <br><a class="source-link" href="https://www.canadianminingjournal.com/news/rock-tech-secures-100000-tonne-transamine-pact/">canadianminingjournal.com</a>
+        </li>
+        <li>계약 규모: 초기 7년(2028년 인도 개시, 최대 5년 연장 가능), 첫해 5만t → 이후 연 10만t(±10% 유동성)까지 램프업. Georgia Lake 계획생산량 전량을 커버.</li>
+        <li>최대 8,000만달러 규모 개발 선급금(prepayment facility) 프레임워크도 함께 확보 — 프로젝트 자금조달에 직접 도움.</li>
+        <li><strong>가격 구조</strong>: Fastmarkets의 "6% Li₂O 스포듀민 정광, CIF China" 벤치마크에 연동 — 실제 인도 등급이 6%와 다르면 등급조정 반영, "적격 하한가(qualified floor price)" 메커니즘도 포함(재판매시장 조건·인플레이션 조정·프로젝트 파이낸싱 조건에 연동). 구체적 하한가 숫자는 공개되지 않음.</li>
+        <li>Rock Tech는 이 물량을 자사 예정 Red Rock 리튬 전환플랜트(온타리오)로 돌릴 수 있는 유연성도 유지 — 즉 "채굴→전환"까지 온타리오 역내에서 완결하는 통합 공급망을 노리고 있음. CEO: "캐나다와 동맹국을 위한 안정적 배터리그레이드 리튬 공급 플랫폼 구축에 한 걸음 더 다가섰다".</li>
+      </ul>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>물량·시기 등은 최종 타당성조사(DFS) 결과에 따라 조정 가능 — 아직 확정된 상업생산 단계는 아님.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">계속 다뤄온 아프리카(짐바브웨) 리튬 공급망이 "중국 자본 지배력 심화"라는 패턴을 보이는 것과 대비되게, 이번 건은 북미(캐나다)·유럽(스위스 트레이더) 축의 리튬 공급망 구축 사례 — "캐나다와 동맹국을 위한" 표현에서 보듯 Non-PFE/서방 공급망 다변화 맥락과 직결됨. 다만 이번 계약은 원광(채굴) 단계의 Non-PFE화일 뿐, 실제 배터리그레이드 화학물질로 전환할 Red Rock 컨버터는 아직 "계획" 단계라는 점에 유의 — 어제 다룬 美 FEOC 시한 기사에서 확인했듯 원료 소싱보다 정제·가공 캐파 구축이 훨씬 뒤처져 있는 게 서방권 전반의 공통 병목. 채굴 소스가 Non-PFE로 다변화돼도, 실제 화학전환 단계에서는 당분간 중국산(혹은 중국기술 기반 시설) 의존·유예가 이어질 가능성이 높음.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요. 북미산 리튬 대안 공급원 후보로 트래킹 리스트에 등재.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>DFS 완료 및 결과에 따른 물량·일정 조정, Red Rock 전환플랜트 진행상황.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News 2: Rio Tinto earnings -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-lithium">[리튬]</span></div>
+        <div class="news-title">Rio Tinto, 2026년 상반기 실적 호조 — 구리·리튬이 실적 절반 이상 견인</div>
+        <div class="news-source">Reuters / Reuters Breakingviews | 2026.07.29</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          Rio Tinto가 7/29(수) 2026년 상반기 실적 발표(Executive Summary 기준) — 구리환산(CuEq) 생산량 +3% 성장, 철광석(Simandou)·리튬 등 주요 성장프로젝트 실행과 핵심 원자재 전반의 생산 증가가 견인.
+          <br><a class="source-link" href="https://www.reuters.com/business/mining-major-rio-tinto-logs-43-rise-interim-profit-2026-07-28/">reuters.com</a>
+        </li>
+        <li><strong>재무성과 단계적 도약(Step-Change)</strong>: 기초EBITDA 148억달러(+28%), 잉여현금흐름(FCF) 38억달러(+75%).</li>
+        <li><strong>이익</strong>: Rio Tinto 귀속 세후이익 67억달러(+47%), 기초이익(underlying earnings) 69억달러(+43%) — 기초투하자본이익률(ROCE) 17% 달성. 세금·정부 로열티 납부액 56억달러.</li>
+        <li><strong>현금창출력</strong>: 영업활동현금흐름 92억달러(+32%) — 세계적 수준 성장 파이프라인에 대한 지속 투자를 뒷받침하면서도 견고한 재무구조 유지.</li>
+        <li><strong>배당</strong>: 중간 보통배당 34억달러(+43%), 중간배당성향 50%.</li>
+        <li>구리·알루미늄·리튬 세 부문이 처음으로 기초EBITDA의 절반 이상을 차지 — 리튬은 작년 아카디움(Arcadium Lithium) 인수 이후 편입된 신규 사업부로 이번 실적에서 유의미하게 기여.</li>
+        <li>Reuters Breakingviews는 이번 호실적이 향후 M&A(인수합병) 관련 투자자 로드쇼를 앞둔 시점에 나왔다는 점에 주목하는 논평을 게재 — 강한 실적이 잠재적 M&A 논의에서 Rio의 협상력을 뒷받침할 수 있다는 취지로 해석됨(원문 상세 내용은 페이월로 제한적 확인).</li>
+      </ul>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>리튬 사업이 이제 실적에 유의미하게 기여하기 시작했다는 건, Rio가 아카디움 인수(2025년 확정) 이후 리튬을 철광석·구리·알루미늄에 이은 "4번째 핵심 사업부"로 안착시키고 있다는 신호.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">Rio Tinto는 아카디움 인수를 통해 아르헨티나·호주의 대규모 리튬 브라인·경암 자산을 보유하게 된 글로벌 메이저 광산기업 — 계속 다뤄온 SQM·Albemarle 독과점 구조에 이은 또 다른 대형 플레이어의 존재감이 실적으로 확인된 셈. 다만 Breakingviews가 "M&A 로드쇼 직전"이라는 프레임을 쓴 걸 보면, 이 호실적이 시장에 "우리는 여유가 있다"는 신호를 보내려는 목적도 있어 보임 — 즉 향후 Rio가 추가적인 리튬(혹은 다른 배터리 메탈) 자산 인수·매각에 나설 가능성을 열어두고 지켜볼 필요가 있음.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요. Rio Tinto/Arcadium 계열 리튬 물량을 취급 중이라면 주요 거래처 동향으로 인지.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>Breakingviews가 시사한 M&A 관련 구체적 움직임 후속 발표 여부, 리튬 부문 실적 세부 브레이크다운(8/13 최종 상반기실적 발표 예정).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-title">📌 소싱 판단 요약</div>
+    <table class="summary-table">
+      <thead>
+        <tr><th>메탈</th><th>현황</th><th>스탠스</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-lithium">[리튬]</span></td>
+          <td>Rock Tech-Transamine 캐나다산 오프테이크(연 10만t, 2028~). Non-PFE 원광 다변화, 정제캐파는 여전히 과제.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">DFS 결과·전환플랜트 진행 확인</div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-lithium">[리튬]</span></td>
+          <td>Rio Tinto 상반기 호실적, 리튬(아카디움) 유의미 기여. M&A 로드쇼 가능성 시사.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">M&A·리튬부문 세부실적 확인</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Supply Chain -->
+  <div class="supply-chain">
+    <div class="supply-chain-title">🌐 글로벌 공급망 구조</div>
+    <div class="supply-chain-sub">2026 기준 · 업스트림(채굴) / 미드스트림(정제) · 리튬·니켈·코발트 고정 섹션</div>
+
+    <div class="metal-block">
+      <div class="metal-block-title">리튬 (Lithium)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">호주</span><span class="pct">~50%</span></div>
+          <div class="flow-item"><span class="country">칠레</span><span class="pct">~22%</span></div>
+          <div class="flow-item"><span class="country">중국</span><span class="pct">~16%</span></div>
+          <div class="flow-item"><span class="country">아르헨티나</span><span class="pct">~10%</span></div>
+          <div class="flow-item"><span class="country">짐바브웨</span><span class="pct risk">~3% ⚠</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~67%</span></div>
+          <div class="flow-item"><span class="country">칠레·아르헨</span><span class="pct">~29%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~4%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>짐바브웨(수출쿼터제)</strong> — 비중은 작지만 스팟시장 incremental 공급의 핵심</div>
+    </div>
+
+    <div class="metal-block nickel">
+      <div class="metal-block-title">니켈 (Nickel)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct risk">~60%</span></div>
+          <div class="flow-item"><span class="country">필리핀</span><span class="pct">~9%</span></div>
+          <div class="flow-item"><span class="country">러시아</span><span class="pct">~7%</span></div>
+          <div class="flow-item"><span class="country">뉴칼레도니아</span><span class="pct">~6%</span></div>
+          <div class="flow-item"><span class="country">캐나다</span><span class="pct">~4%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~14%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~45%</span></div>
+          <div class="flow-item"><span class="country">인니 정제</span><span class="pct highlight">~30%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~25%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>인도네시아(채굴상한제/RKAB)</strong> — 정부가 연간 채굴 승인량을 직접 조절</div>
+    </div>
+
+    <div class="metal-block cobalt">
+      <div class="metal-block-title">코발트 (Cobalt)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">DRC(콩고)</span><span class="pct risk">~73%</span></div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct">~14%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~13%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~78%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~22%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>DRC 채굴 집중 + 중국 정제 집중 이중 리스크.</strong> 트리거 이벤트 발생 시만 별도 커버</div>
+    </div>
+
+    <div class="supply-source">Source: USGS MCS, Our World in Data, ASPI Strategist/C4ADS, ING Think, Metalshub/IEA</div>
+  </div>
+
+  <div class="footer">
+    본 리포트는 소싱 전략 수립 목적의 참고 자료입니다. 투자 권유 목적이 아닙니다.<br>
+    Generated: 2026.07.29 · Battery Metal MI v5
+  </div>
+
+</div>
+</body>
+</html>
