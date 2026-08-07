@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리 메탈 MI | 2026.08.07</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0e1117;
+    --surface: #161b27;
+    --surface2: #1e2535;
+    --border: #2a3347;
+    --text: #cdd6f4;
+    --text-dim: #6c7a96;
+    --text-muted: #3d4a63;
+    --lithium: #5bc4f5;
+    --nickel: #a6e3a1;
+    --accent: #cba6f7;
+    --high: #f38ba8;
+    --medium: #fab387;
+    --low: #a6e3a1;
+    --insight: #f9e2af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 24px 16px;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; }
+
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 24px; }
+  .header-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .header-title { font-size: 20px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+  .header-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  .supply-chain { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  .supply-chain-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .supply-chain-sub { font-size: 10px; color: var(--text-muted); margin-bottom: 14px; }
+  .metal-block { border-left: 3px solid var(--lithium); padding-left: 12px; margin-bottom: 16px; }
+  .metal-block:last-of-type { margin-bottom: 0; }
+  .metal-block.nickel { border-left-color: var(--nickel); }
+  .metal-block.cobalt { border-left-color: var(--accent); }
+  .metal-block-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .supply-flow { display: grid; grid-template-columns: 1fr 20px 1fr; gap: 0; align-items: start; }
+  .flow-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .flow-title { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .flow-item { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+  .flow-item .country { color: var(--text); }
+  .flow-item .pct { font-family: 'IBM Plex Mono', monospace; color: var(--lithium); font-size: 10px; }
+  .flow-item .pct.highlight { color: var(--accent); font-weight: 500; }
+  .flow-item .pct.risk { color: var(--high); font-weight: 500; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; padding-top: 34px; }
+  .flow-note { font-size: 10.5px; color: var(--text-dim); margin-top: 10px; line-height: 1.6; }
+  .flow-note strong { color: var(--insight); }
+  .supply-source { font-size: 9px; color: var(--text-muted); margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border); }
+
+  .news-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+  .news-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  .news-header-left { flex: 1; }
+  .news-tags { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.08em; }
+  .tag-lithium { background: rgba(91,196,245,0.12); color: var(--lithium); border: 1px solid rgba(91,196,245,0.25); }
+  .tag-nickel { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .tag-cobalt { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .impact-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.1em; white-space: nowrap; flex-shrink: 0; }
+  .impact-HIGH { background: rgba(243,139,168,0.15); color: var(--high); border: 1px solid rgba(243,139,168,0.3); }
+  .impact-MEDIUM { background: rgba(250,179,135,0.15); color: var(--medium); border: 1px solid rgba(250,179,135,0.3); }
+  .news-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 5px; }
+  .news-source { font-size: 10px; color: var(--text-dim); }
+  .news-body { padding: 14px 16px; }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; margin-top: 16px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+  .section-label:first-child { margin-top: 0; }
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li { padding: 5px 0 5px 14px; position: relative; font-size: 12px; color: var(--text); line-height: 1.65; border-bottom: 1px solid var(--border); }
+  .bullet-list li:last-child { border-bottom: none; }
+  .bullet-list li::before { content: '›'; position: absolute; left: 0; color: var(--text-muted); }
+  .source-link { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--lithium); margin-top: 3px; text-decoration: none; word-break: break-all; }
+  .source-link::before { content: '🔗 '; }
+
+  .bg-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; margin: 10px 0; }
+  .bg-box-title { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--lithium); text-transform: uppercase; margin-bottom: 8px; }
+  .bg-box p { font-size: 12px; color: var(--text); line-height: 1.7; margin-bottom: 6px; }
+  .bg-box p:last-child { margin-bottom: 0; }
+
+  .hypothesis-box { background: rgba(203,166,247,0.06); border: 1px dashed rgba(203,166,247,0.35); border-radius: 6px; padding: 12px 14px; margin: 10px 0; }
+  .hypothesis-title { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
+  .hypothesis-box p { font-size: 12px; color: var(--text); line-height: 1.7; margin-bottom: 6px; }
+  .hypothesis-box p:last-child { margin-bottom: 0; }
+  .hypothesis-caveat { font-size: 10.5px; color: var(--medium); font-style: italic; margin-top: 6px; }
+
+  .insight-box { background: rgba(249,226,175,0.06); border: 1px solid rgba(249,226,175,0.2); border-left: 3px solid var(--insight); border-radius: 4px; padding: 10px 12px; margin: 8px 0; }
+  .insight-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--insight); letter-spacing: 0.1em; margin-bottom: 5px; }
+  .insight-text { font-size: 12px; color: var(--text); line-height: 1.65; }
+
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .action-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .action-item-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+  .action-item-label.now { color: var(--nickel); }
+  .action-item-label.monitor { color: var(--accent); }
+  .action-item p { font-size: 11px; color: var(--text); line-height: 1.6; }
+
+  .summary { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 24px; }
+  .summary-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px; }
+  table.summary-table { width: 100%; border-collapse: collapse; }
+  .summary-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .summary-table td { font-size: 11px; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .stance { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; margin-bottom: 4px; }
+  .stance-buy { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .stance-neutral { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .stance-watch { background: rgba(250,179,135,0.12); color: var(--medium); border: 1px solid rgba(250,179,135,0.25); }
+
+  .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-muted); line-height: 1.7; }
+
+  @media (max-width: 480px) {
+    .action-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-meta">Battery Metal Market Intelligence · Daily Report</div>
+    <div class="header-title">배터리 메탈 데일리 MI</div>
+    <div class="header-sub">2026년 08월 07일 (금) · Sourcing Analyst Perspective</div>
+  </div>
+
+  <!-- News 1: DRC copper/cobalt concentrate export ban -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-cobalt">[코발트]</span></div>
+        <div class="news-title">DRC, 구리·코발트 정광 수출 전면 금지 — 현지가공 강제 정책의 최대 강경 조치</div>
+        <div class="news-source">Reuters via Mining.com / US News / Mining Weekly / TechTimes | 2026.08.06</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          DRC 광업부·대외무역부·경제부 3개 부처 장관 공동서명 명령으로 구리·코발트 정광(concentrate) 수출을 전면 금지 — 명령 자체는 6/29 서명됐으나 Reuters가 8/6 단독 입수해 공개. 즉시 발효.
+          <br><a class="source-link" href="https://www.mining.com/web/congo-bans-copper-and-cobalt-concentrates-exports-official-order-says">mining.com</a>
+        </li>
+        <li>채굴부 장관이 "전략적" 상황으로 판단하면 1년짜리 수출 예외(waiver)를 부여할 수 있음. 신설된 부산물(by-product) 과세체계는 3개월 유예기간 적용.</li>
+        <li>명령문: "고부가가치 상업용 광물제품의 시장화·수출을 유도할 필요성"이 도입 배경 — 2023년 규정(예외조항 포함)을 대체하는 더 강경한 버전.</li>
+        <li>주요 영향 대상: <strong>CMOC</strong>(세계 최대 코발트 생산사, Tenke Fungurume·Kisanfu — 2025년 코발트 11만7,500t 생산, 이는 2026~27년 전체 쿼터 9만6,600t을 이미 단독으로 초과하는 규모), <strong>글렌코어</strong>(Mutanda 광산), <strong>Kamoa-Kakula</strong>(Zijin+Ivanhoe 합작, 세계 최대·최고품위 구리광산 중 하나), 화유코발트, Eurasian Resources Group 등.</li>
+        <li>이미 위기 수준인 글로벌 제련업계 TC/RC(제련·정련 수수료)가 톤당 마이너스 78달러 근처까지 떨어진 상황에서, 이번 금지가 원료 부족을 더 심화시킬 전망. 구리는 AI데이터센터 수요 등으로 8/5 파운드당 6.73달러(전년比 +53%) 기록.</li>
+        <li>참고: 1분기 기준 DRC 구리 수출은 정제된 음극(cathode) 형태가 69만6,725t인 반면 정광 형태는 5만3,926t(순수 구리 함량 1만8,863t)에 불과 — 구리는 이미 대부분 정제형태로 수출되고 있어 상대적으로 영향이 제한적일 수 있으나, 코발트는 다름. DRC는 2013·2019·2023년에도 유사한 조치를 시행한 전례.</li>
+      </ul>
+
+      <div class="section-label">배경 — 마이너스 TC/RC란</div>
+      <div class="bg-box">
+        <p>TC(제련비)/RC(정련비)는 원래 광산업체가 정광을 순수금속으로 가공해주는 제련소에 지불하는 수수료 — 원료를 가진 쪽(광산)이 가공능력을 가진 쪽(제련소)에 돈을 내는 구조. 그런데 전세계적으로 제련소는 많은데 원료(정광)가 부족해지면서 제련소들끼리 원료 확보 경쟁이 붙었고, 그 결과 <strong>제련소가 오히려 광산에 웃돈을 얹어주는(마이너스 TC/RC) 상황</strong>이 됨 — 원료업체와 가공업체 간 비용부담 구조가 완전히 역전된 것. 이번 DRC 조치로 이미 원료 기근에 시달리던 전세계 제련산업의 원료 부족이 더 심화될 전망.</p>
+      </div>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>이는 앞서 다룬 "DRC 지분참여 요건"(7/24)과는 별개의 훨씬 강경한 조치 — 지분요건이 "누가 소유하느냐"를 다뤘다면, 이번 건은 "원료 자체를 국외로 못 내보내게" 막는 물리적 봉쇄. CMOC처럼 이미 쿼터를 초과 생산한 기업들은 당장 심각한 재고 적체·조업 조정 압박에 직면할 전망.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">7월에 다룬 DRC 코발트 쿼터제·통관오류·글렌코어 세금분쟁·대통령의 유화적 발언까지 모두 "쿼터 안에서의 관리"를 전제로 한 이슈들이었는데, 이번 조치는 그 틀 자체를 뛰어넘어 "정광 형태로는 아예 못 나간다"는 근본적으로 다른 층위의 규제. 특히 6/29에 이미 서명됐는데 한 달 넘게 공개되지 않다가 이제야 드러났다는 점도 주목할 대목 — 시행 시점과 공개 시점 사이의 간극 자체가 시장 혼란을 키울 수 있음. 어제 다룬 美의 DPA 발동(폐기물 광물 수출제한)과 이 DRC 조치를 나란히 보면, 자원보유국(DRC)과 소비대국(美) 양쪽 모두 "원료·소재가 자국 밖으로 새나가는 걸 막는" 방향으로 동시에 움직이고 있다는 큰 흐름이 보임 — 글로벌 공급망이 전반적으로 "폐쇄적 자원블록화" 경향을 보이는 신호로 해석 가능.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>DRC發 코발트·구리 정광 물량이 있는 벤더는 즉시 영향 확인, 완제품(정련품) 대체 조달선 긴급 검토.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>CMOC·글렌코어 등 주요 기업의 대응(예외 신청·감산 등), 제련업계 TC/RC 추가 악화 여부, DRC 정부의 예외 승인 사례.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News 2: Indonesia nickel quota expansion -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-nickel">[니켈]</span></div>
+        <div class="news-title">인도네시아, 대형 광산에 니켈 쿼터 대폭 상향 검토 — 니켈가 급락</div>
+        <div class="news-source">Bloomberg | 2026.08.06</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          인도네시아가 자국 대형 광산 중 한 곳에 하반기 "수천만 톤(tens of millions of tons)" 규모의 추가 광석채굴 쿼터를 부여할 것이라는 관측이 재부상하며, LME 니켈가가 장중 최대 2.1% 하락한 톤당 1만6,750달러까지 밀림(7월 중순 이후 최저치) — SMM이 보도했으나 해당 광산업체명은 특정하지 않음.
+          <br><a class="source-link" href="https://www.bloomberg.com/news/articles/2026-08-06/nickel-drops-after-report-indonesia-to-lift-quota-for-major-mine">bloomberg.com</a>
+        </li>
+        <li>6월에 다뤘던 "RKAB 360Mt 확대설"과 유사한 패턴 — 그때는 정부가 "전면 확대는 없다"고 공식 부인했었는데, 이번엔 "개별 대형광산 대상 예외적 증량"이라는 형태로 재부상.</li>
+        <li>SMM 니켈 데스크(8/6): 하이그레이드 페로니켈(NPI) 가격이 선물시장에 연동돼 하락 — 하류 구매자들은 여전히 저가매수 기조 유지, 일부 업체는 구매 자체를 중단.</li>
+        <li>Trading Economics 코멘트: 이 쿼터 확대 관측 외에도, 정부가 최근 니켈·알루미나 수출을 지연시켰던 희토류 함유량 규정 불확실성 해소에 나서고 있다는 점도 겹쳐서 니켈가 하락 압력 — 다만 LME 니켈 재고는 6거래일 연속 감소 중이고 필리핀 니켈광 선적도 둔화되며 하락폭은 일부 제한됨.</li>
+      </ul>
+
+      <div class="section-label">토론: 왜 전면 확대가 아닌 개별 광산 한정일까 (미검증 가설)</div>
+      <div class="hypothesis-box">
+        <div class="hypothesis-title">아래 세 가지는 확인된 사실이 아닌 추정임</div>
+        <p><strong>① 정책 일관성 체면 유지</strong> — 이미 "전면 확대는 없다"고 공식 부인한 전례가 있어, 전면 확대로 뒤집으면 명백한 정책 번복. "특정 광산 1곳만의 예외적 조정"이라 하면 정책 후퇴로 안 보이면서도 실질적으로 공급을 풀어주는 효과.</p>
+        <p><strong>② RKAB 제도 자체가 원래 개별 승인 구조</strong> — RKAB(연간 채굴사업계획)은 애초에 광산업체 개별로 제출·승인받는 제도. "전면 vs 개별"이 실제로는 이분법이 아니라, 개별 승인들이 쌓여 사실상 전면 확대와 비슷한 효과를 낼 수도 있는 구조.</p>
+        <p><strong>③ 특정 업체·관계에 대한 선별적 배려 가능성</strong> — 지난달 다룬 "中이 인니에 안정적 정책을 요청"한 배경을 감안하면, 중국계 자본이 관련된 대형 광산·스멜터에 대한 선별적 화답일 가능성. 자원민족주의 정책에서 "전면 완화"는 부담스러워도 "핵심 파트너사에게만 예외"를 주는 건 관계관리 수단으로 흔히 쓰임.</p>
+        <p class="hypothesis-caveat">※ 광산명·업체가 아직 미공개라 ③번 가설은 검증 불가 — 향후 공개되면 확인 필요.</p>
+      </div>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>아직 "관측·추정" 단계 — 구체적 광산명·쿼터 규모·승인 여부는 미확정. 만약 실제 승인되면 하반기 니켈 공급 증가 요인으로 작용해 가격 하방 압력이 지속될 가능성.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">오늘 뉴스1(DRC 코발트·구리 정광 수출금지)과 정확히 대비되는 흐름 — DRC는 자원을 국내에 묶어두는 방향(공급 타이트닝)으로, 인니는 대형광산에 쿼터를 더 풀어주는 방향(공급 완화)으로 움직이고 있음. 같은 "자원국 정책"이라도 광물별·국가별로 정반대 방향성을 보일 수 있다는 걸 보여주는 사례 — 코발트/구리 vs 니켈이 오늘 하루 사이 서로 다른 궤적을 그리고 있음.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>니켈 벤더 중 인니 대형광산과 연결된 곳이 있다면 쿼터 확대 대상 여부 확인.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>쿼터 확대 대상 광산 및 규모 공식 확인(소유·자본구조 포함), 인니 희토류 규정 불확실성 해소 진행상황.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-title">📌 소싱 판단 요약</div>
+    <table class="summary-table">
+      <thead>
+        <tr><th>메탈</th><th>현황</th><th>스탠스</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-cobalt">[코발트]</span></td>
+          <td>DRC 구리·코발트 정광 수출 전면금지(즉시발효). 제련업계 원료난 심화 전망.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">벤더 영향·대체조달선 긴급확인</div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-nickel">[니켈]</span></td>
+          <td>인니 대형광산 니켈쿼터 확대설. 대상·규모 미확정, 니켈가 하락압력.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">대상광산 공식확인 대기</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Supply Chain -->
+  <div class="supply-chain">
+    <div class="supply-chain-title">🌐 글로벌 공급망 구조</div>
+    <div class="supply-chain-sub">2026 기준 · 업스트림(채굴) / 미드스트림(정제) · 리튬·니켈·코발트 고정 섹션</div>
+
+    <div class="metal-block">
+      <div class="metal-block-title">리튬 (Lithium)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">호주</span><span class="pct">~50%</span></div>
+          <div class="flow-item"><span class="country">칠레</span><span class="pct">~22%</span></div>
+          <div class="flow-item"><span class="country">중국</span><span class="pct">~16%</span></div>
+          <div class="flow-item"><span class="country">아르헨티나</span><span class="pct">~10%</span></div>
+          <div class="flow-item"><span class="country">짐바브웨</span><span class="pct risk">~3% ⚠</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~67%</span></div>
+          <div class="flow-item"><span class="country">칠레·아르헨</span><span class="pct">~29%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~4%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>짐바브웨(수출쿼터제)</strong> — 비중은 작지만 스팟시장 incremental 공급의 핵심</div>
+    </div>
+
+    <div class="metal-block nickel">
+      <div class="metal-block-title">니켈 (Nickel)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct risk">~60%</span></div>
+          <div class="flow-item"><span class="country">필리핀</span><span class="pct">~9%</span></div>
+          <div class="flow-item"><span class="country">러시아</span><span class="pct">~7%</span></div>
+          <div class="flow-item"><span class="country">뉴칼레도니아</span><span class="pct">~6%</span></div>
+          <div class="flow-item"><span class="country">캐나다</span><span class="pct">~4%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~14%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~45%</span></div>
+          <div class="flow-item"><span class="country">인니 정제</span><span class="pct highlight">~30%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~25%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>인도네시아(채굴상한제/RKAB)</strong> — 정부가 연간 채굴 승인량을 직접 조절</div>
+    </div>
+
+    <div class="metal-block cobalt">
+      <div class="metal-block-title">코발트 (Cobalt)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">DRC(콩고)</span><span class="pct risk">~73%</span></div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct">~14%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~13%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~78%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~22%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>DRC 채굴 집중 + 중국 정제 집중 이중 리스크.</strong> 트리거 이벤트 발생 시만 별도 커버</div>
+    </div>
+
+    <div class="supply-source">Source: USGS MCS, Our World in Data, ASPI Strategist/C4ADS, ING Think, Metalshub/IEA</div>
+  </div>
+
+  <div class="footer">
+    본 리포트는 소싱 전략 수립 목적의 참고 자료입니다. 투자 권유 목적이 아닙니다.<br>
+    Generated: 2026.08.07 · Battery Metal MI v5
+  </div>
+
+</div>
+</body>
+</html>
