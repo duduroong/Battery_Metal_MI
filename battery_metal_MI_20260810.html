@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리 메탈 MI | 2026.08.10</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0e1117;
+    --surface: #161b27;
+    --surface2: #1e2535;
+    --border: #2a3347;
+    --text: #cdd6f4;
+    --text-dim: #6c7a96;
+    --text-muted: #3d4a63;
+    --lithium: #5bc4f5;
+    --nickel: #a6e3a1;
+    --accent: #cba6f7;
+    --high: #f38ba8;
+    --medium: #fab387;
+    --low: #a6e3a1;
+    --insight: #f9e2af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 24px 16px;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; }
+
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 24px; }
+  .header-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .header-title { font-size: 20px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+  .header-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  .supply-chain { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  .supply-chain-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .supply-chain-sub { font-size: 10px; color: var(--text-muted); margin-bottom: 14px; }
+  .metal-block { border-left: 3px solid var(--lithium); padding-left: 12px; margin-bottom: 16px; }
+  .metal-block:last-of-type { margin-bottom: 0; }
+  .metal-block.nickel { border-left-color: var(--nickel); }
+  .metal-block.cobalt { border-left-color: var(--accent); }
+  .metal-block-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .supply-flow { display: grid; grid-template-columns: 1fr 20px 1fr; gap: 0; align-items: start; }
+  .flow-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .flow-title { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .flow-item { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+  .flow-item .country { color: var(--text); }
+  .flow-item .pct { font-family: 'IBM Plex Mono', monospace; color: var(--lithium); font-size: 10px; }
+  .flow-item .pct.highlight { color: var(--accent); font-weight: 500; }
+  .flow-item .pct.risk { color: var(--high); font-weight: 500; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; padding-top: 34px; }
+  .flow-note { font-size: 10.5px; color: var(--text-dim); margin-top: 10px; line-height: 1.6; }
+  .flow-note strong { color: var(--insight); }
+  .supply-source { font-size: 9px; color: var(--text-muted); margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border); }
+
+  .news-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+  .news-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  .news-header-left { flex: 1; }
+  .news-tags { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.08em; }
+  .tag-lithium { background: rgba(91,196,245,0.12); color: var(--lithium); border: 1px solid rgba(91,196,245,0.25); }
+  .tag-nickel { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .tag-cobalt { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .impact-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.1em; white-space: nowrap; flex-shrink: 0; }
+  .impact-HIGH { background: rgba(243,139,168,0.15); color: var(--high); border: 1px solid rgba(243,139,168,0.3); }
+  .impact-MEDIUM { background: rgba(250,179,135,0.15); color: var(--medium); border: 1px solid rgba(250,179,135,0.3); }
+  .news-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 5px; }
+  .news-source { font-size: 10px; color: var(--text-dim); }
+  .news-body { padding: 14px 16px; }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; margin-top: 16px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+  .section-label:first-child { margin-top: 0; }
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li { padding: 5px 0 5px 14px; position: relative; font-size: 12px; color: var(--text); line-height: 1.65; border-bottom: 1px solid var(--border); }
+  .bullet-list li:last-child { border-bottom: none; }
+  .bullet-list li::before { content: '›'; position: absolute; left: 0; color: var(--text-muted); }
+  .source-link { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--lithium); margin-top: 3px; text-decoration: none; word-break: break-all; }
+  .source-link::before { content: '🔗 '; }
+
+  .bg-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; margin: 10px 0; }
+  .bg-box-title { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--lithium); text-transform: uppercase; margin-bottom: 8px; }
+  .bg-box p { font-size: 12px; color: var(--text); line-height: 1.7; margin-bottom: 6px; }
+  .bg-box p:last-child { margin-bottom: 0; }
+
+  .insight-box { background: rgba(249,226,175,0.06); border: 1px solid rgba(249,226,175,0.2); border-left: 3px solid var(--insight); border-radius: 4px; padding: 10px 12px; margin: 8px 0; }
+  .insight-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--insight); letter-spacing: 0.1em; margin-bottom: 5px; }
+  .insight-text { font-size: 12px; color: var(--text); line-height: 1.65; }
+
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .action-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .action-item-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+  .action-item-label.now { color: var(--nickel); }
+  .action-item-label.monitor { color: var(--accent); }
+  .action-item p { font-size: 11px; color: var(--text); line-height: 1.6; }
+
+  .summary { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 24px; }
+  .summary-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px; }
+  table.summary-table { width: 100%; border-collapse: collapse; }
+  .summary-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .summary-table td { font-size: 11px; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .stance { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; margin-bottom: 4px; }
+  .stance-buy { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .stance-neutral { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .stance-watch { background: rgba(250,179,135,0.12); color: var(--medium); border: 1px solid rgba(250,179,135,0.25); }
+
+  .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-muted); line-height: 1.7; }
+
+  @media (max-width: 480px) {
+    .action-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-meta">Battery Metal Market Intelligence · Daily Report</div>
+    <div class="header-title">배터리 메탈 데일리 MI</div>
+    <div class="header-sub">2026년 08월 10일 (월) · Sourcing Analyst Perspective</div>
+  </div>
+
+  <!-- News 1: CATL Jianxiawo -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-lithium">[리튬]</span></div>
+        <div class="news-title">CATL 젠샤워 광산, 재가동했다가 다시 폐쇄 — 신규 환경영향평가 승인 대기 중</div>
+        <div class="news-source">Mining.com / Mining Weekly / Caixin Global / Prism News | 2026.08.07~08</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          장시성 이춘시 소재 CATL 젠샤워 리튬광산(세계 최대 리피돌라이트 단일광상)이 8/7(금) 기준 여전히 환경영향평가 승인 대기 중이며 정비 중 상태 — 원광 운송·파쇄 작업 없음(이펑현 생태환경국 확인, Shanghai Securities News 보도).
+          <br><a class="source-link" href="https://www.mining.com/web/catls-jianxiawo-lithium-mine-remains-closed-pending-environmental-approval">mining.com</a>
+        </li>
+        <li>배경: 6/17 토지사용 사전승인 → 6/29 안전생산허가 취득 → 6/29 저녁 실제 재가동까지 이뤄졌으나, 이후 광물 분류가 "리튬함유 도자기점토"에서 순수 "리튬광석"으로 변경되며 새 환경영향평가 보고서가 다시 필요해짐 — 이 새 보고서가 7/27 공개열람 절차에 들어간 상태.</li>
+        <li>이춘현 정부는 CATL에 "가능한 한 빨리 환경영향평가 승인 절차를 완료하라"고 요구.</li>
+        <li>참고: 6/17 토지사용 사전승인 발표 당시 이미 탄산리튬 선물가가 하루 만에 6% 넘게 급락한 바 있음 — 시장이 이 광산의 복귀 가능성에 극도로 민감하게 반응하는 패턴.</li>
+        <li>광산은 2025년 8월 채굴허가 만료로 가동 중단된 이후 1년 가까이 지연 중 — 매장량 탄산리튬환산 약 657만t 규모, 전세계 리튬 공급의 약 6% 비중으로 추정(Bank of America).</li>
+      </ul>
+
+      <div class="section-label">배경 — 광물 재분류가 왜 이렇게 큰 파장을 일으켰나</div>
+      <div class="bg-box">
+        <p>젠샤워는 원래 "리튬이 부수적으로 딸린 도자기점토"로 분류돼 낮은 규제 등급을 적용받아왔음. 그런데 중국 신(新)광물자원법이 "리튬함량 0.4% 이상이면 무조건 리튬을 독립 전략광물로 분류"하는 하드 기준을 세우면서, 젠샤워 실제 함량(0.27~0.28%, 기준 미달)에도 불구하고 결국 "순수 리튬광석"으로 재분류됨 — 재분류되면 기존 채굴권·토지이용계획·환경영향평가가 전부 무효화되어 처음부터 재승인 절차를 밟아야 함. 자국 최대 배터리사조차 예외 없이 이 절차를 다시 밟게 만들었다는 점에서, 정책이 선언에 그치지 않고 개별 광산 단위까지 실제로 집행되고 있음을 보여줌.</p>
+      </div>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>안전허가까지 다 받고 한 차례 실제 재가동까지 했던 광산이 광물분류 변경이라는 새로운 행정절차로 다시 막혔다는 건, 중국의 리튬 관리 기조가 생각보다 훨씬 촘촘하게 작동하고 있다는 신호.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">중국 정부가 자국 최대 배터리사·자국 광산인데도 신속한 정상화에 협조하지 않는 이유는, 애널리스트들이 공통적으로 짚는 "안티인볼루션(反內卷)" 산업정책과 관련이 깊음 — 오랜 공급과잉·제살깎기 경쟁으로 업계 마진이 붕괴 직전까지 갔던 상황에서, 베이징이 원가이하 판매 금지·과잉설비 정리 등을 통해 산업 구조조정에 나선 것(장시성에서만 27개 채굴허가 취소, 전세계 리튬공급의 약 17% 영향 추정 - Shaw and Partners). 특히 Shaw and Partners는 "베이징이 리튬 생산량 극대화에서 리튬 자원에 대한 통제력 극대화로 전략을 전환했다"고 분석 — CATL의 갱신 신청이 거부된 것도 우연이 아니라, 가장 상징적인 자국 대기업을 통해 "이제부터 엄격 적용한다"는 본보기를 세우려는 의도로 해석. 즉 "자국 회사이기 때문에" 오히려 정부가 공급 타이밍을 가장 쉽게 조절할 수 있는 대상이라는 역설. 목적은 생산량 극대화가 아니라 가격 붕괴 방지를 위한 공급 속도 관리.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>신규 환경영향평가 승인 여부 및 시점, 승인 후 실제 원광 운송·파쇄 재개 확인, 꼬리광(tailings) 시설 관련 추가 절차, 9/30 이춘 광산업체 매장량 재보고 시한.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News 2: UK Critical Minerals Fund -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-lithium">[리튬]</span><span class="tag tag-nickel">[니켈]</span><span class="tag tag-cobalt">[코발트]</span></div>
+        <div class="news-title">英 정부, 3,400만 달러 규모 핵심광물 액셀러레이터 펀드 신청 개시</div>
+        <div class="news-source">Mining.com / Mining Frontier | 2026.08.06</div>
+      </div>
+      <span class="impact-badge impact-MEDIUM">MEDIUM</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          영국 정부(통상산업부, DBT)가 2,500만 파운드(약 3,400만 달러) 규모 "핵심광물 액셀러레이터" 펀드 신청을 개시 — 채굴·가공·재활용 프로젝트의 상업화를 지원하는 보조금 프로그램.
+          <br><a class="source-link" href="https://www.mining.com/uk-opens-applications-for-34m-critical-minerals-fund">mining.com</a>
+        </li>
+        <li>상업화 단계에 근접했으나 기술 리스크 해소·상업성 입증에 지원이 필요한 프로젝트 대상으로, 건당 15만~300만 파운드(약 20만~400만 달러) 규모 보조금 지급. 지원받은 프로젝트는 2030년 3월까지 상업화 도달 목표.</li>
+        <li>이 펀드는 6월 출범한 "英 핵심광물 프로그램"(총 5,000만 파운드) 중 절반을 차지 — 나머지는 희토류 영구자석 제조 국가거점("마그넷 허브", 2,000만 파운드)과 산업 수요를 통합하는 "수요집약 플랫폼"에 투입.</li>
+        <li>참고: 국가부(National Wealth Fund)는 이미 콘월리튬(Cornish Lithium)에 3,100만 파운드 지분투자를 집행한 바 있음 — 이번 펀드는 그 연장선의 소규모 보완적 지원.</li>
+        <li><strong>리튬·니켈·코발트 포함 여부</strong>: 영국 핵심광물정보센터(CMIC)의 34개 공식 핵심광물 목록에 리튬(애초부터 포함)·니켈(2024년 신규 추가)·코발트가 모두 포함됨. 정부 전략문서(Vision 2035)도 "리튬·구리·텅스텐·니켈·희토류"를 명시적으로 특히 중요한 광물로 지목하며 2035년까지 리튬 5만t 자국 생산 목표를 세워둔 상태 — 이번 펀드도 배터리 메탈 프로젝트를 포함하는 것으로 확인.</li>
+      </ul>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>美(DPA·수백억달러 지원)·中(광옌 국영투자기구) 등 경쟁국 대비 절대적 규모는 작은 편 — 영국 스스로도 "헤드라인 금액보다 명확한 전략이 중요하다"는 업계 반응을 인용.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">앞서 다룬 美 DPA 발동, 마다가스카르 지원, Mariana Minerals 등과 같은 흐름 — 서방권 국가들이 각자 규모는 다르지만 동시다발적으로 핵심광물 자립 프로그램을 가동하는 모습. 다만 영국의 이번 펀드는 5,000만 파운드(약 6,700만 달러) 규모로, 美의 "수백억 달러" 단위 지원과는 자릿수 차이가 있어 — 오히려 "상업화 직전 단계의 틈새 자금 지원"이라는 실용적 역할에 초점을 맞춘 것으로 보임. 콘월리튬처럼 영국 자체 리튬 자원 개발에도 이런 소규모 촉매자금이 계속 투입되는 흐름은 트래킹할 가치가 있음.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>콘월리튬 등 영국 자체 리튬 프로젝트의 펀드 활용 여부, 가을 이후 승인 프로젝트 명단 공개.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-title">📌 소싱 판단 요약</div>
+    <table class="summary-table">
+      <thead>
+        <tr><th>메탈</th><th>현황</th><th>스탠스</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-lithium">[리튬]</span></td>
+          <td>CATL 젠샤워, 재가동 후 광물재분류로 재차 폐쇄. 中 안티인볼루션 정책 하 공급속도 관리 목적.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">신규 환경평가 승인 시점 확인</div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-lithium">[리튬]</span><span class="tag tag-nickel">[니켈]</span><span class="tag tag-cobalt">[코발트]</span></td>
+          <td>英 핵심광물 액셀러레이터 펀드 개시(3,400만불). 배터리메탈 포함, 소규모 촉매자금 성격.</td>
+          <td>
+            <div class="stance stance-neutral">중립</div>
+            <div style="font-size:10px;margin-top:3px">승인 프로젝트 명단 트래킹</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Supply Chain -->
+  <div class="supply-chain">
+    <div class="supply-chain-title">🌐 글로벌 공급망 구조</div>
+    <div class="supply-chain-sub">2026 기준 · 업스트림(채굴) / 미드스트림(정제) · 리튬·니켈·코발트 고정 섹션</div>
+
+    <div class="metal-block">
+      <div class="metal-block-title">리튬 (Lithium)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">호주</span><span class="pct">~50%</span></div>
+          <div class="flow-item"><span class="country">칠레</span><span class="pct">~22%</span></div>
+          <div class="flow-item"><span class="country">중국</span><span class="pct">~16%</span></div>
+          <div class="flow-item"><span class="country">아르헨티나</span><span class="pct">~10%</span></div>
+          <div class="flow-item"><span class="country">짐바브웨</span><span class="pct risk">~3% ⚠</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~67%</span></div>
+          <div class="flow-item"><span class="country">칠레·아르헨</span><span class="pct">~29%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~4%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>짐바브웨(수출쿼터제)</strong> — 비중은 작지만 스팟시장 incremental 공급의 핵심</div>
+    </div>
+
+    <div class="metal-block nickel">
+      <div class="metal-block-title">니켈 (Nickel)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct risk">~60%</span></div>
+          <div class="flow-item"><span class="country">필리핀</span><span class="pct">~9%</span></div>
+          <div class="flow-item"><span class="country">러시아</span><span class="pct">~7%</span></div>
+          <div class="flow-item"><span class="country">뉴칼레도니아</span><span class="pct">~6%</span></div>
+          <div class="flow-item"><span class="country">캐나다</span><span class="pct">~4%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~14%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~45%</span></div>
+          <div class="flow-item"><span class="country">인니 정제</span><span class="pct highlight">~30%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~25%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>인도네시아(채굴상한제/RKAB)</strong> — 정부가 연간 채굴 승인량을 직접 조절</div>
+    </div>
+
+    <div class="metal-block cobalt">
+      <div class="metal-block-title">코발트 (Cobalt)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">DRC(콩고)</span><span class="pct risk">~73%</span></div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct">~14%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~13%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~78%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~22%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>DRC 채굴 집중 + 중국 정제 집중 이중 리스크.</strong> 트리거 이벤트 발생 시만 별도 커버</div>
+    </div>
+
+    <div class="supply-source">Source: USGS MCS, Our World in Data, ASPI Strategist/C4ADS, ING Think, Metalshub/IEA</div>
+  </div>
+
+  <div class="footer">
+    본 리포트는 소싱 전략 수립 목적의 참고 자료입니다. 투자 권유 목적이 아닙니다.<br>
+    Generated: 2026.08.10 · Battery Metal MI v5
+  </div>
+
+</div>
+</body>
+</html>
