@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리 메탈 MI | 2026.08.13</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0e1117;
+    --surface: #161b27;
+    --surface2: #1e2535;
+    --border: #2a3347;
+    --text: #cdd6f4;
+    --text-dim: #6c7a96;
+    --text-muted: #3d4a63;
+    --lithium: #5bc4f5;
+    --nickel: #a6e3a1;
+    --accent: #cba6f7;
+    --high: #f38ba8;
+    --medium: #fab387;
+    --low: #a6e3a1;
+    --insight: #f9e2af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 24px 16px;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; }
+
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 24px; }
+  .header-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .header-title { font-size: 20px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+  .header-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  .supply-chain { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  .supply-chain-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .supply-chain-sub { font-size: 10px; color: var(--text-muted); margin-bottom: 14px; }
+  .metal-block { border-left: 3px solid var(--lithium); padding-left: 12px; margin-bottom: 16px; }
+  .metal-block:last-of-type { margin-bottom: 0; }
+  .metal-block.nickel { border-left-color: var(--nickel); }
+  .metal-block.cobalt { border-left-color: var(--accent); }
+  .metal-block-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .supply-flow { display: grid; grid-template-columns: 1fr 20px 1fr; gap: 0; align-items: start; }
+  .flow-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .flow-title { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .flow-item { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+  .flow-item .country { color: var(--text); }
+  .flow-item .pct { font-family: 'IBM Plex Mono', monospace; color: var(--lithium); font-size: 10px; }
+  .flow-item .pct.highlight { color: var(--accent); font-weight: 500; }
+  .flow-item .pct.risk { color: var(--high); font-weight: 500; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; padding-top: 34px; }
+  .flow-note { font-size: 10.5px; color: var(--text-dim); margin-top: 10px; line-height: 1.6; }
+  .flow-note strong { color: var(--insight); }
+  .supply-source { font-size: 9px; color: var(--text-muted); margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border); }
+
+  .news-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+  .news-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  .news-header-left { flex: 1; }
+  .news-tags { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.08em; }
+  .tag-lithium { background: rgba(91,196,245,0.12); color: var(--lithium); border: 1px solid rgba(91,196,245,0.25); }
+  .tag-nickel { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .tag-cobalt { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .impact-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.1em; white-space: nowrap; flex-shrink: 0; }
+  .impact-HIGH { background: rgba(243,139,168,0.15); color: var(--high); border: 1px solid rgba(243,139,168,0.3); }
+  .impact-MEDIUM { background: rgba(250,179,135,0.15); color: var(--medium); border: 1px solid rgba(250,179,135,0.3); }
+  .news-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 5px; }
+  .news-source { font-size: 10px; color: var(--text-dim); }
+  .news-body { padding: 14px 16px; }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; margin-top: 16px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+  .section-label:first-child { margin-top: 0; }
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li { padding: 5px 0 5px 14px; position: relative; font-size: 12px; color: var(--text); line-height: 1.65; border-bottom: 1px solid var(--border); }
+  .bullet-list li:last-child { border-bottom: none; }
+  .bullet-list li::before { content: '›'; position: absolute; left: 0; color: var(--text-muted); }
+  .source-link { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--lithium); margin-top: 3px; text-decoration: none; word-break: break-all; }
+  .source-link::before { content: '🔗 '; }
+
+  .bg-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; margin: 10px 0; }
+  .bg-box-title { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--lithium); text-transform: uppercase; margin-bottom: 8px; }
+  .bg-box p { font-size: 12px; color: var(--text); line-height: 1.7; margin-bottom: 6px; }
+  .bg-box p:last-child { margin-bottom: 0; }
+
+  .insight-box { background: rgba(249,226,175,0.06); border: 1px solid rgba(249,226,175,0.2); border-left: 3px solid var(--insight); border-radius: 4px; padding: 10px 12px; margin: 8px 0; }
+  .insight-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--insight); letter-spacing: 0.1em; margin-bottom: 5px; }
+  .insight-text { font-size: 12px; color: var(--text); line-height: 1.65; }
+
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .action-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .action-item-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+  .action-item-label.now { color: var(--nickel); }
+  .action-item-label.monitor { color: var(--accent); }
+  .action-item p { font-size: 11px; color: var(--text); line-height: 1.6; }
+
+  .summary { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 24px; }
+  .summary-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px; }
+  table.summary-table { width: 100%; border-collapse: collapse; }
+  .summary-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .summary-table td { font-size: 11px; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .stance { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; margin-bottom: 4px; }
+  .stance-buy { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .stance-neutral { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .stance-watch { background: rgba(250,179,135,0.12); color: var(--medium); border: 1px solid rgba(250,179,135,0.25); }
+
+  .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-muted); line-height: 1.7; }
+
+  @media (max-width: 480px) {
+    .action-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-meta">Battery Metal Market Intelligence · Daily Report</div>
+    <div class="header-title">배터리 메탈 데일리 MI</div>
+    <div class="header-sub">2026년 08월 13일 (목) · Sourcing Analyst Perspective</div>
+  </div>
+
+  <!-- News 1: Savannah Resources Barroso -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-lithium">[리튬]</span></div>
+        <div class="news-title">Savannah Resources, 포르투갈 Barroso 리튬 프로젝트 지역사회와 토지이용 협약 체결</div>
+        <div class="news-source">Mining.com / Investegate / Mining Technology | 2026.08.13</div>
+      </div>
+      <span class="impact-badge impact-MEDIUM">MEDIUM</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">배경 — 프로젝트 운영 주체</div>
+      <div class="bg-box">
+        <p><strong>Savannah Resources Plc</strong> — 2010년 설립된 런던 AIM(대체투자시장) 상장 리튬개발 전문기업. 2017년 Barroso 프로젝트 지분 75%를 인수했다가 현재는 <strong>100% 완전소유</strong>. 최대주주는 네덜란드 광물기업 AMG(지분 15.77%) — 1,600만파운드 투자와 함께 오프테이크 계약(연 4만5,000t 스포듀민 구매, 향후 최대 연 9만t·10년으로 확대 가능)도 체결한 전략적 파트너. 포르투갈 대기업 Grupo Lusiaves도 소액주주(3.2%)로 참여.</p>
+        <p>매장량: 유럽 최대 경암형(스포듀민) 리튬자원 — 3,900만t(Li₂O 1.05% 품위, 탄산리튬환산 100만t 이상), 5개 광체로 구성. <strong>필요 토지 중 약 24%만 사유지, 나머지 약 75%가 이번에 다루는 "baldios"(공유지)</strong> — 즉 이번 협약은 프로젝트 전체 토지의 압도적 다수를 차지하는 부분에 대한 접근권 확보 시도.</p>
+      </div>
+
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          Savannah Resources(LON: SAV)가 Barroso 리튬 프로젝트 인근 공유지("baldios")를 관리하는 지역공동체 3곳과 편익공유 협약을 체결(8/13 발표).
+          <br><a class="source-link" href="https://www.mining.com/savannah-resources-signs-agreements-with-local-communities-for-barroso-lithium-project">mining.com</a>
+        </li>
+        <li>Barroso는 EU 핵심원자재법(CRMA)상 "전략 프로젝트"로 지정된 유럽 최대 스포듀민 리튬 매장지 — 2025년 매장량을 40% 상향 확정. 4개 노천광산 개발로 연간 전기차 약 50만대분 배터리 공급 목표.</li>
+        <li>협약 내용: Alijó·Canedo·Penalonga 마을 공유지 협약, Couto de Dornelas 공유지 협약 부속서, Trás-os-Montes·Alto Douro 지역 공유지 사무국과의 양해각서 — 지역주민의 감독기구 참여, 현지 재투자, 인플레이션 연동 공정 임대료 등이 핵심 원칙.</li>
+        <li>Barroso 지역은 2018년부터 세계유산 농업지역으로 지정된 곳이라 토지·수자원·생물다양성 영향을 둘러싼 지역사회·환경단체의 반대가 지속돼온 상황 — 포르투갈 정부는 올해 이 프로젝트에 1억1,000만유로(약 1억2,800만달러) 보조금을 지급한 바 있음.</li>
+        <li>참고: 6월에는 별도로 10건의 지역 커뮤니티·레크리에이션 단체와의 양해각서도 체결 — 채굴 개시 후 연간 최대 50만유로 지역개발기금 접근권 부여.</li>
+      </ul>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>회사 측은 최종 타당성조사(DFS) 완료를 다음 주요 이정표로 제시 — 다만 유럽위원회의 "전략 프로젝트" 지정 자체에 대해 환경단체들이 이미 소송을 제기한 상태라, 법적 리스크는 여전히 남아있음. DFS도 안 끝났고 공유지 3곳 중 일부만 완료된 상태라 실제 착공까지는 상당한 시간이 소요될 전망.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">지난주 다룬 영국 핵심광물 펀드, 콜인디아의 칠레 리튬 등과 함께 놓고 보면 — 유럽도 자체 리튬 공급원(포르투갈) 확보에 지속적으로 공을 들이고 있다는 걸 보여주는 사례. 다만 이 프로젝트가 유독 부각하는 건 "전략적 중요성"과 "지역사회 수용성" 사이의 긴장 — 정부가 전략프로젝트로 지정하고 거액 보조금까지 줘도, 실제 착공까지는 지역 커뮤니티와의 개별 협상·소송 대응이 계속 필요하다는 걸 보여줌. 이는 다른 서방권 프로젝트(美 네바다 3PL의 NASA 부지 문제 등)에서도 반복적으로 나타나는 "정책 의지 vs 현실적 장애물" 패턴의 유럽판 사례.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요. 유럽산 리튬 대안 공급원 후보로 계속 트래킹.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>DFS 완료 시점, 환경단체 소송 결과, 추가 지역사회 협약 체결 여부.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News 2: US-Japan deep sea mining -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-nickel">[니켈]</span><span class="tag tag-cobalt">[코발트]</span></div>
+        <div class="news-title">美-日, 세계 최심해 해저광산 공동개발 추진 — 中 견제 목적</div>
+        <div class="news-source">Bloomberg via Mining.com | 2026.08.12</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          트럼프 대통령과 타카이치 사나에 일본 총리가 3월 정상회담에서 논의한 미나미토리시마(도쿄에서 남동쪽으로 약 1,600km) 인근 심해저 채굴 협력이 구체화 — 수심 약 6,000m 지점의 희토류·코발트 등 매장지를 공동개발하는 방안.
+          <br><a class="source-link" href="https://www.mining.com/web/us-japan-plan-worlds-deepest-undersea-mine-to-challenge-china">mining.com</a>
+        </li>
+        <li>미나미토리시마 주변은 "수세기 분량의 산업수요를 충족시킬 수 있다"는 평가를 받는 희토류 매장지이자, 코발트가 풍부한 다금속단괴(polymetallic nodules, 코발트·니켈·망간 함유)도 함께 발견된 지역 — Deep Reach Technology가 이미 이 배타적경제수역(EEZ) 내 다금속단괴 채굴 관련 별도 프로젝트를 진행 중.</li>
+        <li>타카이치 총리는 美와의 동맹을 대중 견제의 핵심 자산으로 보는 보수 성향 — 희토류 공동생산이 양국 관계를 더 밀착시키는 동시에, 중국이 오랫동안 이해관계를 가져온 지역에 명확한 전략적 메시지를 보내는 효과가 있다고 판단.</li>
+      </ul>
+
+      <div class="section-label">배경 — 中의 "독점권"은 정확히 어디에 있나</div>
+      <div class="bg-box">
+        <p>中이 확보한 국제해저기구(ISA) 채굴권은 일본 EEZ "안"이 아니라, 미나미토리시마에 <strong>"인접한(near/adjacent)"</strong> 국제공해 구역에 있음. 다만 이 해역은 일본(미나미토리시마)과 美(마리아나제도·괌)의 EEZ가 서로 겹치거나 인접하며 경계가 모호해지는 "회색지대(gray zone)"에 가까움 — 한 안보 전문지(USNI Proceedings)는 이를 "중첩되는 EEZ 주장과 모호한 관할권이 중국에게 법적·전략적 회색지대를 제공한다"고 짚음. 中의 권리 확보 시점은 "수십 년 전"으로, 지금처럼 미중 갈등이 첨예하지 않았던 시기에 상대적으로 조용히 따낸 것으로 추정.</p>
+        <p><strong>실제 긴장 사례</strong>: 2025년 6월, 中 항공모함 랴오닝함이 실제로 미나미토리시마 EEZ에 진입해 한동안 머무름 — 국제법 위반은 아니었으나(EEZ 내 항행 자체는 허용) 일본이 즉각 항의. 같은 시기 산둥함도 별도로 일본 EEZ(오키노토리 인근)에 진입, 中 항모 2척이 동시에 태평양에서 활동한 최초 사례로 확인됨.</p>
+      </div>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>수심 6,000m는 기존 심해저 채굴 기술(우리가 다룬 美 사모아 임대 건 포함)보다도 훨씬 깊은 수준 — 기술적 난이도가 상당히 높아 실제 상업화까지는 오랜 시간이 걸릴 전망.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">지난달 다룬 "美 정부의 사모아 인근 심해저 채굴 임대 제안"이 미국 단독 추진이었다면, 이번 건은 동맹국(일본)과의 공동개발이라는 점에서 한 단계 더 나아간 형태 — 심해저 채굴이 개별 국가 차원을 넘어 동맹 네트워크 차원의 핵심광물 전략으로 확장되는 모습. 특히 코발트·니켈·망간을 포함한 다금속단괴까지 함께 있는 지역이라, 이 프로젝트가 실제로 진전되면 배터리 메탈 공급망에도 장기적으로 의미가 있을 수 있음. 다만 법적 경계가 모호한 "회색지대"라는 특성상, 中과의 물리적 충돌 가능성(2025년 6월 항모 진입 전례)까지 겹쳐 있어 순수 기술·상업적 난이도를 넘어 지정학적 리스크도 상당한 프로젝트로 봐야 함.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>美-日 공동개발 공식 협정 체결 여부, Deep Reach Technology의 다금속단괴 프로젝트 진행상황, 中의 대응 움직임.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-title">📌 소싱 판단 요약</div>
+    <table class="summary-table">
+      <thead>
+        <tr><th>메탈</th><th>현황</th><th>스탠스</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-lithium">[리튬]</span></td>
+          <td>Savannah Barroso, 공유지(전체토지 75%) 협약 체결. DFS 미완료, 착공까지 상당기간 소요.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">DFS·소송 결과 확인</div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-nickel">[니켈]</span><span class="tag tag-cobalt">[코발트]</span></td>
+          <td>美-日 심해저(6,000m) 공동채굴 추진. 中과 관할권 회색지대, 지정학 리스크 상당.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">공식협정·中 대응 확인</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Supply Chain -->
+  <div class="supply-chain">
+    <div class="supply-chain-title">🌐 글로벌 공급망 구조</div>
+    <div class="supply-chain-sub">2026 기준 · 업스트림(채굴) / 미드스트림(정제) · 리튬·니켈·코발트 고정 섹션</div>
+
+    <div class="metal-block">
+      <div class="metal-block-title">리튬 (Lithium)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">호주</span><span class="pct">~50%</span></div>
+          <div class="flow-item"><span class="country">칠레</span><span class="pct">~22%</span></div>
+          <div class="flow-item"><span class="country">중국</span><span class="pct">~16%</span></div>
+          <div class="flow-item"><span class="country">아르헨티나</span><span class="pct">~10%</span></div>
+          <div class="flow-item"><span class="country">짐바브웨</span><span class="pct risk">~3% ⚠</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~67%</span></div>
+          <div class="flow-item"><span class="country">칠레·아르헨</span><span class="pct">~29%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~4%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>짐바브웨(수출쿼터제)</strong> — 비중은 작지만 스팟시장 incremental 공급의 핵심</div>
+    </div>
+
+    <div class="metal-block nickel">
+      <div class="metal-block-title">니켈 (Nickel)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct risk">~60%</span></div>
+          <div class="flow-item"><span class="country">필리핀</span><span class="pct">~9%</span></div>
+          <div class="flow-item"><span class="country">러시아</span><span class="pct">~7%</span></div>
+          <div class="flow-item"><span class="country">뉴칼레도니아</span><span class="pct">~6%</span></div>
+          <div class="flow-item"><span class="country">캐나다</span><span class="pct">~4%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~14%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~45%</span></div>
+          <div class="flow-item"><span class="country">인니 정제</span><span class="pct highlight">~30%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~25%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>인도네시아(채굴상한제/RKAB)</strong> — 정부가 연간 채굴 승인량을 직접 조절</div>
+    </div>
+
+    <div class="metal-block cobalt">
+      <div class="metal-block-title">코발트 (Cobalt)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">DRC(콩고)</span><span class="pct risk">~73%</span></div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct">~14%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~13%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~78%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~22%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>DRC 채굴 집중 + 중국 정제 집중 이중 리스크.</strong> 트리거 이벤트 발생 시만 별도 커버</div>
+    </div>
+
+    <div class="supply-source">Source: USGS MCS, Our World in Data, ASPI Strategist/C4ADS, ING Think, Metalshub/IEA</div>
+  </div>
+
+  <div class="footer">
+    본 리포트는 소싱 전략 수립 목적의 참고 자료입니다. 투자 권유 목적이 아닙니다.<br>
+    Generated: 2026.08.13 · Battery Metal MI v5
+  </div>
+
+</div>
+</body>
+</html>
