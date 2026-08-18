@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리 메탈 MI | 2026.08.18</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0e1117;
+    --surface: #161b27;
+    --surface2: #1e2535;
+    --border: #2a3347;
+    --text: #cdd6f4;
+    --text-dim: #6c7a96;
+    --text-muted: #3d4a63;
+    --lithium: #5bc4f5;
+    --nickel: #a6e3a1;
+    --accent: #cba6f7;
+    --high: #f38ba8;
+    --medium: #fab387;
+    --low: #a6e3a1;
+    --insight: #f9e2af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 24px 16px;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; }
+
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 24px; }
+  .header-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .header-title { font-size: 20px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+  .header-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  .supply-chain { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  .supply-chain-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .supply-chain-sub { font-size: 10px; color: var(--text-muted); margin-bottom: 14px; }
+  .metal-block { border-left: 3px solid var(--lithium); padding-left: 12px; margin-bottom: 16px; }
+  .metal-block:last-of-type { margin-bottom: 0; }
+  .metal-block.nickel { border-left-color: var(--nickel); }
+  .metal-block.cobalt { border-left-color: var(--accent); }
+  .metal-block-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .supply-flow { display: grid; grid-template-columns: 1fr 20px 1fr; gap: 0; align-items: start; }
+  .flow-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .flow-title { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .flow-item { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+  .flow-item .country { color: var(--text); }
+  .flow-item .pct { font-family: 'IBM Plex Mono', monospace; color: var(--lithium); font-size: 10px; }
+  .flow-item .pct.highlight { color: var(--accent); font-weight: 500; }
+  .flow-item .pct.risk { color: var(--high); font-weight: 500; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; padding-top: 34px; }
+  .flow-note { font-size: 10.5px; color: var(--text-dim); margin-top: 10px; line-height: 1.6; }
+  .flow-note strong { color: var(--insight); }
+  .supply-source { font-size: 9px; color: var(--text-muted); margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border); }
+
+  .news-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+  .news-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  .news-header-left { flex: 1; }
+  .news-tags { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.08em; }
+  .tag-lithium { background: rgba(91,196,245,0.12); color: var(--lithium); border: 1px solid rgba(91,196,245,0.25); }
+  .tag-nickel { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .tag-cobalt { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .impact-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.1em; white-space: nowrap; flex-shrink: 0; }
+  .impact-HIGH { background: rgba(243,139,168,0.15); color: var(--high); border: 1px solid rgba(243,139,168,0.3); }
+  .impact-MEDIUM { background: rgba(250,179,135,0.15); color: var(--medium); border: 1px solid rgba(250,179,135,0.3); }
+  .news-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 5px; }
+  .news-source { font-size: 10px; color: var(--text-dim); }
+  .news-body { padding: 14px 16px; }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; margin-top: 16px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+  .section-label:first-child { margin-top: 0; }
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li { padding: 5px 0 5px 14px; position: relative; font-size: 12px; color: var(--text); line-height: 1.65; border-bottom: 1px solid var(--border); }
+  .bullet-list li:last-child { border-bottom: none; }
+  .bullet-list li::before { content: '›'; position: absolute; left: 0; color: var(--text-muted); }
+  .source-link { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--lithium); margin-top: 3px; text-decoration: none; word-break: break-all; }
+  .source-link::before { content: '🔗 '; }
+
+  .bg-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; margin: 10px 0; }
+  .bg-box-title { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--lithium); text-transform: uppercase; margin-bottom: 8px; }
+  .bg-box p { font-size: 12px; color: var(--text); line-height: 1.7; margin-bottom: 6px; }
+  .bg-box p:last-child { margin-bottom: 0; }
+
+  .insight-box { background: rgba(249,226,175,0.06); border: 1px solid rgba(249,226,175,0.2); border-left: 3px solid var(--insight); border-radius: 4px; padding: 10px 12px; margin: 8px 0; }
+  .insight-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--insight); letter-spacing: 0.1em; margin-bottom: 5px; }
+  .insight-text { font-size: 12px; color: var(--text); line-height: 1.65; }
+
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .action-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .action-item-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+  .action-item-label.now { color: var(--nickel); }
+  .action-item-label.monitor { color: var(--accent); }
+  .action-item p { font-size: 11px; color: var(--text); line-height: 1.6; }
+
+  .summary { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 24px; }
+  .summary-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px; }
+  table.summary-table { width: 100%; border-collapse: collapse; }
+  .summary-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .summary-table td { font-size: 11px; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .stance { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 3px; margin-bottom: 4px; }
+  .stance-buy { background: rgba(166,227,161,0.12); color: var(--nickel); border: 1px solid rgba(166,227,161,0.25); }
+  .stance-neutral { background: rgba(203,166,247,0.12); color: var(--accent); border: 1px solid rgba(203,166,247,0.25); }
+  .stance-watch { background: rgba(250,179,135,0.12); color: var(--medium); border: 1px solid rgba(250,179,135,0.25); }
+
+  .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-muted); line-height: 1.7; }
+
+  @media (max-width: 480px) {
+    .action-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-meta">Battery Metal Market Intelligence · Daily Report</div>
+    <div class="header-title">배터리 메탈 데일리 MI</div>
+    <div class="header-sub">2026년 08월 18일 (화) · Sourcing Analyst Perspective</div>
+  </div>
+
+  <!-- News 1: KABIL Argentina -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-lithium">[리튬]</span></div>
+        <div class="news-title">인도 국영 KABIL, 아르헨티나 리튬 생산 4~5년 후 개시 전망 — 의회 보고서</div>
+        <div class="news-source">Mining.com / Business Standard | 2026.08.17</div>
+      </div>
+      <span class="impact-badge impact-MEDIUM">MEDIUM</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">배경 — 사업 구조</div>
+      <div class="bg-box">
+        <p>이 사업은 지분투자(equity)가 아니라 <strong>정부(주정부) 대상 탐사·개발 라이선스 확보</strong> 구조 — KABIL이 아르헨티나 카타마르카주 국영광업사 CAMYEN과 계약해 5개 광구의 "탐사 및 독점권(Exploration and Exclusivity Right)"을 얻은 것. 광물자원 주권은 여전히 아르헨티나에 있고, KABIL은 그 자원을 탐사·개발·채굴할 권리를 확보한 것 — 아르헨티나 법상 현지 파트너 참여도 단계마다 의무화됨.</p>
+        <p>KABIL 자체는 <strong>NALCO·Hindustan Copper·MECL 세 인도 국영기업의 합작으로 2019년 설립</strong> — 민간기업의 자율적 해외투자가 아니라, 처음부터 "인도의 핵심·전략광물 해외확보"를 목적으로 국가가 만든 전담 국영기업.</p>
+      </div>
+
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          인도 국영 Khanij Bidesh India Limited(KABIL)의 아르헨티나 리튬 채굴이 타당성조사 완료 후 4~5년 내 생산 개시할 전망 — 인도 의회 상임위원회 보고서 발표(8/17).
+          <br><a class="source-link" href="https://www.mining.com/web/indias-state-owned-kabil-expects-to-start-lithium-production-in-argentina-in-4-5-years">mining.com</a>
+        </li>
+        <li>2024년 KABIL은 아르헨티나 카타마르카주 5개 리튬브라인 광구에 대해 20억루피(약 2,090만달러) 규모 탐사협약을 체결한 바 있음 — 이번 보고서는 이 사업의 현재 진행상황을 보고.</li>
+        <li>카타마르카 주정부가 기존 협약 하에 그린필드 리튬브라인 광구 7개를 추가로 제안, KABIL이 검토 중. 살타주 정부·에너지광물자원공사와도 예비협약 체결 절차 진행 중이며, 후후이주에서도 그린필드 광구 2건 논의 중.</li>
+        <li><strong>핵심 지적</strong>: KABIL이 아르헨티나에서 지연을 겪는 이유로 "리튬브라인 매장지 처리 전문성 부족"을 스스로 인정 — 위원회는 "해외 광물자산 확보에 제한적 진전, 협상에서 실제 인수·생산까지 이어지는 데 장기간 소요"라고 평가.</li>
+        <li>참고: 호주에서는 KABIL·Oil India·콜인디아·NLC India가 리튬 프로젝트 2건 검토 중(8/12 다룬 콜인디아-칠레 건과는 별개). 말리(우라늄원그룹과 합작)는 정치불안으로 보류, 말라위와도 협상 중, 브라질·캐나다·러시아·인도네시아 등에서도 투자기회 검토.</li>
+      </ul>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>의회 위원회가 스스로 "제한적 진전"을 지적할 정도로, 인도의 해외 리튬자산 확보 노력이 계획 대비 상당히 더디게 진행되고 있음을 시사.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">8/12에 다룬 "콜인디아의 칠레 리튬자산 인수 검토"와 함께 놓고 보면, 인도가 여러 국영기업(KABIL·콜인디아·Oil India·NLC 등)을 통해 동시다발적으로 해외 리튬 확보를 시도하고 있다는 큰 그림이 보임 — 다만 이번 의회 보고서는 그 시도들의 실제 진행 속도가 목표에 크게 못 미치고 있다는 걸 자국 스스로 인정한 드문 사례. "전문성 부족"을 지연 사유로 명시한 점도 눈에 띔 — 단순 자금이나 정치적 의지의 문제가 아니라 실무 역량의 한계가 병목이라는 걸 시사하며, 이는 인도의 해외 자원개발 전반에 적용될 수 있는 구조적 리스크로 볼 수 있음.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>살타·후후이주 추가 광구 확보 여부, KABIL의 전문인력 확충 계획, 실제 생산 개시 시점 추적.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News 2: US Northern Mariana seabed mining -->
+  <div class="news-card">
+    <div class="news-header">
+      <div class="news-header-left">
+        <div class="news-tags"><span class="tag tag-nickel">[니켈]</span><span class="tag tag-cobalt">[코발트]</span></div>
+        <div class="news-title">美 정부, 북마리아나제도 인근 심해저 채굴 임대 경매 제안 (7/20 리포트 후속)</div>
+        <div class="news-source">Reuters via Mining.com / gCaptain | 2026.08.17</div>
+      </div>
+      <span class="impact-badge impact-HIGH">HIGH</span>
+    </div>
+    <div class="news-body">
+      <div class="section-label">뉴스 요약</div>
+      <ul class="bullet-list">
+        <li>
+          美 내무부가 8/17(월) 북마리아나제도(CNMI) 인근 美 영해에서 심해저 채굴 임대 판매를 제안 — 사이판 동·서쪽 해역 약 6,700만 에이커 규모, 경쟁입찰 방식. 매각은 2026년 12월 16일 캘리포니아에서 진행 예정.
+          <br><a class="source-link" href="https://www.mining.com/web/us-proposes-seabed-mining-auction-off-northern-mariana-islands">mining.com</a>
+        </li>
+        <li>해양광물청(MMA)이 임대제안서 발표 및 환경영향평가 완료 — 니켈·코발트·망간·구리를 함유한 다금속단괴 대상. MMA 국장대행 Matt Giacona: "핵심광물은 미국의 국가안보·경제력·자원주권에 필수적"이라고 언급.</li>
+        <li>이는 지난 3월 사이판 동쪽 14만㎢ 구역 조사 발표에 이어, 서쪽에도 유사 규모 구역이 추가된 것 — 사전 정보요청 절차에서 6만5,000건 이상의 공개의견이 접수됐을 정도로 관심(및 반발)이 큼.</li>
+        <li>참고: MMA는 북마리아나(2026)에 이어 알래스카(2027)에도 임대판매를 예고 — 사모아·북마리아나·알래스카 3개 준주를 아우르는 약 87만5,000km² 규모의 "美 역사상 가장 야심찬 해상광물 임대 프로그램"으로 확대 중.</li>
+      </ul>
+
+      <div class="section-label">배경 — 지역사회 반발의 구체적 이유</div>
+      <div class="bg-box">
+        <p>북마리아나제도 주지사 David Apatang의 반발은 크게 두 축 — ① <strong>식량안보 우려</strong>: 해양자원(어업)에 생계를 의존하는 주민들의 식량안보가 훼손될 수 있다는 구체적 우려(추상적 "환경보호"보다 생계와 직결된 논지), ② <strong>절차적 배제</strong>: "주민과 어떤 협의도 없었다"는 점 자체에 대한 반발. 구조적으로도 각 준주(괌·사모아·북마리아나)의 자체 관할은 해안선에서 5km까지만 인정되고 그 바깥은 연방정부 소관이라, 준주가 연방정부의 재정·국방 지원에 의존하는 처지상 실질적 반대력은 제한적.</p>
+      </div>
+
+      <div class="section-label">중기 전망</div>
+      <ul class="bullet-list">
+        <li>사모아 건과 마찬가지로 이번 것도 "탐사권 경쟁입찰" 단계 — 상업채굴까지는 추가 절차와 상당한 시간이 필요.</li>
+      </ul>
+
+      <div class="insight-box">
+        <div class="insight-label">Insight</div>
+        <div class="insight-text">7/20에 "채굴의 무대가 육상에서 심해로 확장되는 상징적 사례"로 짚었던 흐름이, 이젠 사모아 단일 사례가 아니라 사모아·북마리아나·알래스카를 잇는 "3개 준주 프로그램"으로 체계화되고 있음이 확인됨. 이는 계속 추적해온 DLA 비축, DPA 발동(폐기물 광물 수출제한) 등과 함께 놓고 보면, 美 정부가 비축(stockpiling)·수출통제·영토 확장(심해저 임대)을 동시에 밀어붙이는 다방면의 자원 내재화 전략을 지속적·확장적으로 실행하고 있다는 큰 그림을 보여줌. 다만 사모아 건 때와 마찬가지로 지역사회 반발("사전 협의 전무" 비판)이 반복되고 있어, 향후 유사 지역 임대마다 정치적 마찰이 계속될 가능성. 니켈·코발트·망간까지 포함된 다금속단괴가 대상이라 배터리 메탈 공급망 관점에서도 계속 트래킹할 가치가 있으나, 여전히 초장기 프로젝트라는 점은 변함없음.</div>
+      </div>
+
+      <div class="section-label">Action Plan</div>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-item-label now">▶ What to do</div>
+          <p>즉각 액션 불필요.</p>
+        </div>
+        <div class="action-item">
+          <div class="action-item-label monitor">◎ Monitoring</div>
+          <p>12/16 경쟁입찰 결과, 지역사회·환경단체의 법적 대응 여부, 알래스카(2027) 프로그램 진행상황.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-title">📌 소싱 판단 요약</div>
+    <table class="summary-table">
+      <thead>
+        <tr><th>메탈</th><th>현황</th><th>스탠스</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-lithium">[리튬]</span></td>
+          <td>KABIL, 아르헨티나 리튬 생산 4~5년 후 전망. 인도 자체가 "제한적 진전" 인정, 전문성 부족이 병목.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">추가 광구·생산개시 시점 확인</div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-nickel">[니켈]</span><span class="tag tag-cobalt">[코발트]</span></td>
+          <td>美, 북마리아나 심해저 채굴 경매 제안. 사모아-북마리아나-알래스카 3개준주 프로그램으로 확대.</td>
+          <td>
+            <div class="stance stance-watch">모니터링</div>
+            <div style="font-size:10px;margin-top:3px">12/16 입찰결과·법적대응 확인</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Supply Chain -->
+  <div class="supply-chain">
+    <div class="supply-chain-title">🌐 글로벌 공급망 구조</div>
+    <div class="supply-chain-sub">2026 기준 · 업스트림(채굴) / 미드스트림(정제) · 리튬·니켈·코발트 고정 섹션</div>
+
+    <div class="metal-block">
+      <div class="metal-block-title">리튬 (Lithium)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">호주</span><span class="pct">~50%</span></div>
+          <div class="flow-item"><span class="country">칠레</span><span class="pct">~22%</span></div>
+          <div class="flow-item"><span class="country">중국</span><span class="pct">~16%</span></div>
+          <div class="flow-item"><span class="country">아르헨티나</span><span class="pct">~10%</span></div>
+          <div class="flow-item"><span class="country">짐바브웨</span><span class="pct risk">~3% ⚠</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~67%</span></div>
+          <div class="flow-item"><span class="country">칠레·아르헨</span><span class="pct">~29%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~4%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>짐바브웨(수출쿼터제)</strong> — 비중은 작지만 스팟시장 incremental 공급의 핵심</div>
+    </div>
+
+    <div class="metal-block nickel">
+      <div class="metal-block-title">니켈 (Nickel)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct risk">~60%</span></div>
+          <div class="flow-item"><span class="country">필리핀</span><span class="pct">~9%</span></div>
+          <div class="flow-item"><span class="country">러시아</span><span class="pct">~7%</span></div>
+          <div class="flow-item"><span class="country">뉴칼레도니아</span><span class="pct">~6%</span></div>
+          <div class="flow-item"><span class="country">캐나다</span><span class="pct">~4%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~14%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~45%</span></div>
+          <div class="flow-item"><span class="country">인니 정제</span><span class="pct highlight">~30%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~25%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>인도네시아(채굴상한제/RKAB)</strong> — 정부가 연간 채굴 승인량을 직접 조절</div>
+    </div>
+
+    <div class="metal-block cobalt">
+      <div class="metal-block-title">코발트 (Cobalt)</div>
+      <div class="supply-flow">
+        <div class="flow-box">
+          <div class="flow-title">⛏ 채굴 (업스트림)</div>
+          <div class="flow-item"><span class="country">DRC(콩고)</span><span class="pct risk">~73%</span></div>
+          <div class="flow-item"><span class="country">인도네시아</span><span class="pct">~14%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~13%</span></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-title">🏭 정제 (미드스트림)</div>
+          <div class="flow-item"><span class="country">중국 정제</span><span class="pct highlight">~78%</span></div>
+          <div class="flow-item"><span class="country">기타</span><span class="pct">~22%</span></div>
+        </div>
+      </div>
+      <div class="flow-note"><strong>DRC 채굴 집중 + 중국 정제 집중 이중 리스크.</strong> 트리거 이벤트 발생 시만 별도 커버</div>
+    </div>
+
+    <div class="supply-source">Source: USGS MCS, Our World in Data, ASPI Strategist/C4ADS, ING Think, Metalshub/IEA</div>
+  </div>
+
+  <div class="footer">
+    본 리포트는 소싱 전략 수립 목적의 참고 자료입니다. 투자 권유 목적이 아닙니다.<br>
+    Generated: 2026.08.18 · Battery Metal MI v5
+  </div>
+
+</div>
+</body>
+</html>
