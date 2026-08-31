@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리 메탈 소싱 위클리 브리핑 — 2026.08.31</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Roboto+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --navy-950:#0a1628;
+    --navy-900:#0e1e35;
+    --navy-800:#142a47;
+    --navy-700:#1c3a5e;
+    --navy-600:#2a4d76;
+    --gold:#c8a24d;
+    --gold-light:#e0c27a;
+    --paper:#f7f5f0;
+    --paper-card:#ffffff;
+    --ink:#1a2230;
+    --ink-soft:#4a5568;
+    --line:#dfe3ea;
+    --fact-bg:#eef4fb;
+    --fact-line:#7fa8d0;
+    --insight-bg:#fbf3e4;
+    --insight-line:var(--gold);
+    --green:#1f7a4d;
+    --red:#b3402b;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Noto Sans KR', -apple-system, sans-serif;
+    line-height:1.75;
+    font-size:15.5px;
+  }
+  .mono{font-family:'Roboto Mono', monospace;}
+
+  /* ===== Header ===== */
+  .masthead{
+    background:linear-gradient(160deg, var(--navy-950) 0%, var(--navy-800) 70%, var(--navy-700) 100%);
+    color:#eef2f7;
+    padding:44px 8vw 36px;
+    position:relative;
+    overflow:hidden;
+  }
+  .masthead::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(115deg, rgba(200,162,77,0.06) 0px, rgba(200,162,77,0.06) 1px, transparent 1px, transparent 64px);
+    pointer-events:none;
+  }
+  .masthead-top{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'Roboto Mono', monospace;
+    font-size:11.5px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--gold-light);
+    border-bottom:1px solid rgba(200,162,77,0.35);
+    padding-bottom:14px; margin-bottom:26px;
+    position:relative;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .brand .mark{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--gold); display:inline-block;
+  }
+  h1.title{
+    font-size:clamp(26px,3.4vw,38px);
+    font-weight:900; letter-spacing:-0.01em;
+    margin:0 0 10px; color:#fff;
+    position:relative;
+  }
+  .subtitle{
+    color:#c3cedd; font-size:15px; font-weight:400; max-width:680px;
+    position:relative;
+  }
+  .scope-chips{
+    display:flex; gap:8px; margin-top:22px; flex-wrap:wrap; position:relative;
+  }
+  .chip{
+    font-family:'Roboto Mono',monospace; font-size:11px; letter-spacing:.05em;
+    padding:5px 12px; border-radius:20px; border:1px solid rgba(200,162,77,0.5);
+    color:var(--gold-light); background:rgba(200,162,77,0.08);
+  }
+
+  /* ===== container ===== */
+  .wrap{max-width:900px; margin:0 auto; padding:0 8vw;}
+  .body-wrap{padding-top:34px; padding-bottom:80px;}
+
+  /* ===== Executive summary ===== */
+  .exec{
+    background:var(--paper-card);
+    border:1px solid var(--line);
+    border-left:4px solid var(--navy-700);
+    border-radius:4px;
+    padding:22px 26px;
+    margin-bottom:44px;
+  }
+  .exec h2{margin:0 0 12px; font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--navy-700); font-family:'Roboto Mono',monospace;}
+  .exec ul{margin:0; padding-left:20px;}
+  .exec li{margin-bottom:8px; color:var(--ink-soft); font-size:14.5px;}
+  .exec li b{color:var(--ink); font-weight:600;}
+
+  /* ===== Article block ===== */
+  .article{
+    margin-bottom:56px;
+    padding-bottom:8px;
+  }
+  .article + .article{border-top:1px solid var(--line); padding-top:48px;}
+
+  .article-eyebrow{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Roboto Mono',monospace; font-size:11.5px; letter-spacing:.1em;
+    color:var(--navy-600); text-transform:uppercase; margin-bottom:10px;
+  }
+  .tag-metal{
+    background:var(--navy-800); color:var(--gold-light);
+    padding:3px 10px; border-radius:3px; font-weight:600;
+  }
+  .article h2.headline{
+    font-size:23px; font-weight:700; letter-spacing:-0.01em;
+    margin:0 0 8px; color:var(--navy-950);
+  }
+  .source-line{
+    font-size:12.5px; color:var(--ink-soft); margin-bottom:20px;
+    font-family:'Roboto Mono',monospace;
+  }
+  .source-line a{color:var(--navy-600); text-decoration:none; border-bottom:1px dotted var(--navy-600);}
+
+  /* stat strip */
+  .stat-strip{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(130px,1fr));
+    gap:1px; background:var(--line);
+    border:1px solid var(--line); border-radius:4px; overflow:hidden;
+    margin-bottom:22px;
+  }
+  .stat{
+    background:var(--paper-card); padding:14px 16px;
+  }
+  .stat .num{
+    font-family:'Roboto Mono',monospace; font-weight:700; font-size:19px; color:var(--navy-900);
+    display:block;
+  }
+  .stat .lbl{font-size:11px; color:var(--ink-soft); margin-top:2px; display:block;}
+
+  /* fact / insight boxes */
+  .box{
+    border-radius:4px; padding:20px 22px; margin-bottom:16px;
+  }
+  .box-label{
+    font-family:'Roboto Mono',monospace; font-size:11px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; margin-bottom:12px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .box-label .dot{width:7px;height:7px;border-radius:50%;}
+  .fact{background:var(--fact-bg); border-left:3px solid var(--fact-line);}
+  .fact .box-label{color:#2a5a8c;}
+  .fact .box-label .dot{background:var(--fact-line);}
+  .fact ul{margin:0; padding-left:19px;}
+  .fact li{margin-bottom:9px; font-size:14.5px;}
+  .fact li:last-child{margin-bottom:0;}
+  .fact b{font-weight:700; color:var(--navy-950);}
+
+  .insight{background:var(--insight-bg); border-left:3px solid var(--insight-line);}
+  .insight .box-label{color:#8a6d1f;}
+  .insight .box-label .dot{background:var(--gold);}
+  .insight-item{margin-bottom:16px;}
+  .insight-item:last-child{margin-bottom:0;}
+  .insight-item p{margin:0; font-size:14.5px;}
+  .flag{
+    display:inline-block; font-family:'Roboto Mono',monospace; font-size:10px; font-weight:700;
+    padding:2px 7px; border-radius:3px; margin-right:6px; letter-spacing:.03em;
+    vertical-align:middle; position:relative; top:-1px;
+  }
+  .flag-infer{background:#8a6d1f; color:#fff;}
+  .flag-fact{background:#2a5a8c; color:#fff;}
+
+  .bg-note{
+    background:#f0f1f4; border:1px dashed #c3c8d1; border-radius:4px;
+    padding:16px 20px; font-size:13.5px; color:var(--ink-soft); margin-top:16px;
+  }
+  .bg-note .bg-title{font-weight:700; color:var(--navy-900); font-size:12.5px; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; font-family:'Roboto Mono',monospace;}
+
+  .takeaway{
+    margin-top:18px; padding:16px 20px;
+    background:var(--navy-950); color:#eef2f7; border-radius:4px;
+  }
+  .takeaway .box-label{color:var(--gold-light);}
+  .takeaway p{margin:0; font-size:14.5px; color:#dbe2ec;}
+
+  /* legend */
+  .legend{
+    display:flex; gap:18px; flex-wrap:wrap; font-size:12px; color:var(--ink-soft);
+    background:var(--paper-card); border:1px solid var(--line); border-radius:4px;
+    padding:12px 18px; margin-bottom:36px; align-items:center;
+  }
+  .legend b{color:var(--ink);}
+  .legend-item{display:flex; align-items:center; gap:6px;}
+  .legend-dot{width:8px;height:8px;border-radius:50%;}
+
+  footer{
+    background:var(--navy-950); color:#8494a8; padding:30px 8vw; font-size:12px;
+    font-family:'Roboto Mono',monospace;
+  }
+  footer .foot-top{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px; margin-bottom:14px;}
+  footer a{color:var(--gold-light);}
+
+  @media (max-width:640px){
+    .masthead{padding:32px 6vw 28px;}
+    .wrap{padding:0 6vw;}
+    footer{padding:24px 6vw;}
+  }
+
+  @media print{
+    body{background:#fff;}
+    .masthead{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="wrap" style="padding:0;">
+    <div class="masthead-top">
+      <div class="brand"><span class="mark"></span> BATTERY METAL SOURCING INTELLIGENCE</div>
+      <div>ISSUE · 2026-08-31</div>
+    </div>
+    <h1 class="title">배터리 메탈 소싱 위클리 브리핑</h1>
+    <div class="subtitle">리튬 · 니켈 · 코발트 · 메탈 리사이클링 — 소싱처 관점의 공급망 인텔리전스. 1차 매체 팩트와 애널리스트 인사이트를 분리 표기합니다.</div>
+    <div class="scope-chips">
+      <span class="chip">LITHIUM</span>
+      <span class="chip">COBALT</span>
+      <span class="chip">SOURCE: MINING.COM</span>
+      <span class="chip">WEEK OF 08.24–08.31</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap body-wrap">
+
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:var(--fact-line)"></span> <b>파란 라벨</b> — 출처 기사에 명시된 팩트</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--gold)"></span> <b>금색 라벨</b> — 애널리스트 인사이트 (비검증 추론, 별도 확인 필요)</div>
+  </div>
+
+  <div class="exec">
+    <h2>Executive Summary</h2>
+    <ul>
+      <li><b>리튬 — 포스코 아르헨티나 증설:</b> IDB Invest가 POSCO 아르헨티나 '살 데 오로' 프로젝트에 최대 7억 달러 신용시설을 주도. 2018년부터 이어진 기존 수직계열화 자산의 증설 확정으로, 신규 프로젝트 착수가 아님.</li>
+      <li><b>코발트 — DRC EGC 직거래 모색:</b> 콩고 국영 ASM 코발트 집하기관 EGC가 올해 수출 쿼터를 100% 소진, 트레이더를 우회해 배터리 제조사와 직접 거래를 모색 중. DRC 정부의 자국 내 가치 포착 강화라는 큰 흐름의 한 갈래.</li>
+    </ul>
+  </div>
+
+  <!-- ============ ARTICLE 1 ============ -->
+  <section class="article">
+    <div class="article-eyebrow"><span class="tag-metal">LITHIUM</span> 광산 개발 · 프로젝트 파이낸싱 · 남미</div>
+    <h2 class="headline">포스코 아르헨티나 리튬 증설에 IDB Invest 최대 7억 달러 — 새 프로젝트 아닌 기존 전략의 진척</h2>
+    <div class="source-line">Mining.com · 2026.08.28 · <a href="https://www.mining.com/web/idb-invest-to-back-posco-argentina-lithium-expansion-with-up-to-700-million/" target="_blank">원문 보기 ↗</a></div>
+
+    <div class="stat-strip">
+      <div class="stat"><span class="num">$700M</span><span class="lbl">IDB Invest 주도 신용시설</span></div>
+      <div class="stat"><span class="num">100%</span><span class="lbl">POSCO 단독 지분(JV 아님)</span></div>
+      <div class="stat"><span class="num">48,000t</span><span class="lbl">완전 가동 시 연산 목표</span></div>
+      <div class="stat"><span class="num">2018</span><span class="lbl">최초 광권 인수 연도</span></div>
+    </div>
+
+    <div class="box fact">
+      <div class="box-label"><span class="dot"></span>팩트 — 출처 기사 기준</div>
+      <ul>
+        <li>IDB Invest(미주개발은행 산하 민간부문 투자기관)가 POSCO Argentina S.A.U.의 <b>'살 데 오로(Sal de Oro)'</b> 리튬 프로젝트에 최대 <b>7억 달러</b> 자금조달을 주도. Tranche A(IDB Invest 직접대출 최대 2.5억 달러) + Tranche B(상업은행 신디케이션 최대 4.5억 달러), 총 신디케이션 규모 8.1억 달러. 승인 2026.8.4, 서명 2026.8.6.</li>
+        <li>프로젝트 위치: 아르헨티나 북서부 살타(Salta)주·카타마르카(Catamarca)주 경계, 살라르 델 옴브레 무에르토(Salar del Hombre Muerto).</li>
+        <li><b>POSCO Argentina S.A.U.가 100% 단독 소유·운영</b> — JV 구조가 아님. 2018년 Galaxy Resources로부터 약 2.8억 달러에 해당 광권을 인수하며 사업이 시작됐고, 이번 자금조달은 그 이후 이어져 온 기존 자산의 증설 단계.</li>
+        <li>완전 가동 목표: 수산화리튬 연 최대 25,000톤 + 탄산리튬 연 최대 23,000톤 (합산 약 48,000톤/년). 약 620개 직접 일자리 창출 전망.</li>
+        <li><i>(별개 거래)</i> POSCO는 2026년 캐나다 상장사 Lithium South Development Corp로부터 살 데 오로 동쪽 인접 광권 'HMN(Hombre Muerto North)'을 최대 6,200만 달러에 100% 인수 추진 중 (측정+지시 자원 약 158만 톤 LCE, 품위 리튬 736mg/L). 이번 IDB 자금조달과는 별개의 자원 확장 거래.</li>
+        <li>POSCO는 아르헨티나 정부의 대형투자 인센티브제도 <b>RIGI</b>에 5억 4,700만 달러 규모 투자로 승인받은 이력 보유.</li>
+      </ul>
+    </div>
+
+    <div class="box insight">
+      <div class="box-label"><span class="dot"></span>애널리스트 인사이트</div>
+      <div class="insight-item">
+        <p><span class="flag flag-fact">FACT-BASED</span><b>신규 진입이 아닌 기존 전략의 진척.</b> POSCO는 2018년부터 이 광권을 보유하며 이미 1단계 플랜트를 가동해왔다. 이번 발표를 "새로운 남미 진출"로 읽기보다 "기존 수직계열화 자산의 증설 자금을 다자개발은행(MDB) 자금까지 끌어들여 확정한 단계"로 해석하는 것이 정확하다. 프로젝트 파이낸싱(PF) 자체는 광업처럼 자본집약적 프로젝트에서 흔히 쓰이는 표준적 자금조달 기법이라, 이 거래 하나만으로 과도한 전략적 의미를 부여하지 않는 것이 적절하다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>왜 지금 증설을 확정했는가</b> — 있을 법한 배경으로 ① POSCO그룹의 광물→제련/화학→양극재(POSCO퓨처엠)로 이어지는 수직계열화 전략의 연장, ② 미국 IRA 해외우려기업(FEOC) 규정 등으로 배터리 밸류체인 내 비중국산 원료 확보 압력 증가, ③ RIGI/Súper RIGI의 파격적 세제 인센티브(법인세 25%→15%, 수출입 관세 전액 면제 등)가 자본 배분 타이밍에 유리하게 작용했을 가능성을 들 수 있다. 다만 이는 업계 일반 논리에 기반한 추정이며, 기사 자체가 확인해주는 인과관계는 아니다 — POSCO 공시자료 등 1차 자료로 별도 검증 권장.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>소싱 관점 시사점.</b> 중국계 자본이 강세인 리튬 트라이앵글(아르헨티나·칠레·볼리비아) 내에서 한국 기업이 다자기구 자금까지 활용해 지분을 확대·증설하는 사례로서, 국내 배터리 밸류체인의 원료 다변화 흐름을 보여주는 참고 지표로 지속 모니터링할 가치가 있다.</p>
+      </div>
+    </div>
+
+    <div class="bg-note">
+      <div class="bg-title">배경지식 — RIGI(대형투자인센티브제도)란</div>
+      2024년 8월 밀레이 정부가 법률 27,742호로 도입한 아르헨티나의 투자 유치 제도. 전략 부문에서 최소 2억 달러(2026년 도입된 'Súper RIGI'는 10억 달러) 이상 투자 시 법인세를 일반 35%에서 25%(Súper RIGI는 15%)로 낮추고, 수출입 관세를 전액 면제하며 배당금 원천징수도 완화한다. 리오틴토의 살라르 데 린콘(27억 달러, 연산 6만 톤 목표) 등 다수의 리튬 프로젝트가 이 제도를 활용해 승인받았다.
+    </div>
+  </section>
+
+  <!-- ============ ARTICLE 2 ============ -->
+  <section class="article">
+    <div class="article-eyebrow"><span class="tag-metal">COBALT</span> 정책/규제 · 공급망 구조 · DRC</div>
+    <h2 class="headline">콩고 국영 EGC, ASM 코발트 쿼터 100% 소진 — 트레이더 우회한 직거래 모색</h2>
+    <div class="source-line">Mining.com · 2026.08.28 · <a href="https://www.mining.com/web/congos-egc-eyes-battery-maker-deals-after-filling-cobalt-quotas-executive-says/" target="_blank">원문 보기 ↗</a></div>
+
+    <div class="stat-strip">
+      <div class="stat"><span class="num">100%</span><span class="lbl">EGC 배정 쿼터 소진율</span></div>
+      <div class="stat"><span class="num">3,995t</span><span class="lbl">순코발트 수출 (금년)</span></div>
+      <div class="stat"><span class="num">75%+</span><span class="lbl">DRC의 세계 코발트 비중</span></div>
+      <div class="stat"><span class="num">15–25%</span><span class="lbl">ASM 채굴 비중</span></div>
+    </div>
+
+    <div class="box fact">
+      <div class="box-label"><span class="dot"></span>팩트 — 출처 기사 기준</div>
+      <ul>
+        <li><b>EGC(Entreprise Générale du Cobalt)</b>는 2019년 설립된 DRC 국영기업(Gécamines 계열)으로, 수공업 채굴(ASM) 코발트를 매입·거래할 <b>독점적 법적 권한</b>을 보유. 6년 지연 끝에 2023~2024년경 실가동을 시작했다.</li>
+        <li>2025년 10월 도입된 DRC 코발트 수출 쿼터제 하에서, EGC는 올해 배정 쿼터의 <b>100%를 선적 완료</b>: 순코발트 약 3,995톤, 구리 약 1,400톤 수출. 로비토 회랑(Lobito Corridor) 통한 첫 선적은 코발트 587톤, 구리 음극 500톤.</li>
+        <li>현재 Trafigura, Mercuria, Traxys 등 국제 트레이더를 통해 판매 중이나, 최종 수요자(배터리 제조사)와 <b>직접 거래</b>를 모색 중이라고 언급.</li>
+        <li>Daniel Saka Mbumba EGC 수석고문: "당사 모델이 추적 가능한(traceable) 공급을 상업 규모로 제공할 수 있음을 입증한다."</li>
+        <li>DRC는 전 세계 코발트 생산의 75% 이상을 공급하며, 이 중 ASM 비중은 15~25%. <b>대형 산업광산(Glencore, CMOC 등)은 이 정책과 무관</b>하게 독자적으로 운영·판매 중.</li>
+        <li>(동시기 별도 정책) DRC 정부는 2026년 6월 29일 구리·코발트 <b>정광(concentrate) 수출을 즉시 전면 금지</b> — 자국 가공 능력 확대 및 가치 포착이 목적. 국내 제련 확대의 최대 병목은 전력 부족(광산 부문 미충족 전력수요 1,500MW 초과).</li>
+      </ul>
+    </div>
+
+    <div class="box insight">
+      <div class="box-label"><span class="dot"></span>애널리스트 인사이트</div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>트레이더 마진의 경제적 의미.</b> 트레이딩 하우스는 별도 수수료가 아니라 구매가와 판매가의 스프레드(마진)로 수익을 얻는 구조다. 산지 셀러가 받는 가격은 사실상 이 마진만큼 낮아지는 효과가 있다. EGC의 직거래 모색은 이 스프레드를 국가(EGC) 쪽으로 흡수해 가치포착을 극대화하려는 시도로 해석할 수 있다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-fact">FACT-BASED</span><b>거래 주체를 정확히 볼 필요.</b> 이는 "DRC 광산업체 vs 배터리사"의 직거래가 아니라 "<b>EGC(ASM 코발트 국영 독점 집하기관) vs 최종수요자</b>"의 직거래 시도다. Glencore·CMOC 등 대형 산업광산의 코발트는 애초에 EGC의 법적 관할이 아니며, 이들은 이미 자체 트레이딩 조직과 장기 오프테이크 계약으로 별도 유통 중이다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>왜 ASM만 대상인가.</b> EGC가 다룰 수 있는 물건 자체가 법적으로 ASM분에 한정돼 있다는 것이 핵심 이유다. 결과적으로 물량이 상대적으로 작아(금년 순코발트 약 4천 톤 vs DRC 전체 20만 톤 이상) 다루기 쉬운 파일럿 성격을 띠는 것은 사실이나, 이를 "의도된 소규모 시범 전략"으로 단정하기보다 "EGC가 법적으로 팔 수 있는 유일한 물건이 ASM분이라서"로 보는 것이 더 정확하다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>'추적 가능성' 주장의 한계.</b> EGC 임원 발언은 제3자 검증이 없는 자체 주장이다. 공식 쿼터제 차원의 추적 데이터(쿼터 배정량·세금 납부·환경 인증·검사소 통과 기록)는 주로 대형 산업광산을 겨냥한 체계이며, ASM에 특화된 추적 방법론은 원문 기사에서 구체적으로 확인되지 않는다. RMI(Responsible Minerals Initiative)가 최근 인근 지역의 유사 추적시스템(주석·탄탈럼·텅스텐용 ITSCI)을 승인 목록에서 제외한 전례가 있어, 국제 인증 기준 충족 여부는 별도 검증이 필요하다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>정광 수출 전면금지와의 관계 — 직접적 인과보다는 병렬적 정책.</b> 같은 시기 시행된 정광 수출 전면금지(2026.6.29)는 주로 대형 산업광산의 미가공 원광 수출을 겨냥한 것으로, EGC가 다루는 ASM분과는 정책 대상이 다를 가능성이 크다. "정광 금지 때문에 EGC가 직거래로 전환했다"는 직접적 인과관계로 단정하기보다, <b>DRC 정부가 원자재 가치사슬의 여러 단계(원광 수출 제한 / 트레이더 마진 흡수)에서 동시다발적으로 자국 내 가치 포착을 강화하는 병렬적 정책 패키지</b>의 일부로 해석하는 것이 더 정확하다.</p>
+      </div>
+    </div>
+
+    <div class="bg-note">
+      <div class="bg-title">배경지식 — ASM(수공업 채굴) vs 산업 채굴</div>
+      산업 채굴(Glencore, CMOC 등)은 정식 허가(Permis d'Exploitation)를 받아 기계화 장비로 채굴하며 산출량이 지속적으로 계량·보고된다. 반면 ASM은 '수공업 채굴 구역(ZEA)'에서 개별 허가 없이 손 도구로 채굴하고 육안·수작업으로 선별하는 방식이라, 산출물이 소규모 단위로 현지 중개상(négociants)에게 팔리며 전통적으로 과소보고돼 왔다. 두 부문을 가르는 핵심은 산출물의 형태(정광 vs 수산화물)라기보다 <b>①공식성(허가·계량·과세 여부), ②유통 경로(자체 오프테이크 vs 중개상 경유), ③기존 시장 채널 유무</b>다. EGC는 이 중 ASM 부문을 공식 공급망으로 흡수하기 위해 설립된 국영기관이다.
+    </div>
+
+    <div class="takeaway">
+      <div class="box-label"><span class="dot" style="background:var(--gold)"></span>소싱 담당자 시사점</div>
+      <p>코발트 조달 다변화를 검토하는 소재·배터리사 입장에서 EGC發 직거래 채널은 향후 새로운 조달 옵션이 될 수 있으나, 초기 단계 물량·품질 이력이 짧고 국제 ESG 인증 공백이 있어 오프테이크 조건 설계 시 신중한 실사(due diligence)가 필요하다.</p>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap" style="padding:0;">
+    <div class="foot-top">
+      <div>BATTERY METAL SOURCING INTELLIGENCE · WEEKLY BRIEFING</div>
+      <div>ISSUE 2026-08-31</div>
+    </div>
+    <div>본 리포트는 1차/전문 매체(Reuters, Mining.com, SMM, Fastmarkets, Benchmark Minerals) 기사를 기반으로 작성되었으며, '애널리스트 인사이트' 표기 항목은 검증되지 않은 추론입니다. 수치·출처·인과관계는 원문 확인을 권장합니다. 링크드인 및 개인 포트폴리오(GitHub) 게시용 콘텐츠로 제작되었습니다.</div>
+  </div>
+</footer>
+
+</body>
+</html>
