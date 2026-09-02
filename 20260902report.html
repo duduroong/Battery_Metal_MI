@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배터리 메탈 소싱 위클리 브리핑 — 2026.09.02</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Roboto+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --navy-950:#0a1628;
+    --navy-900:#0e1e35;
+    --navy-800:#142a47;
+    --navy-700:#1c3a5e;
+    --navy-600:#2a4d76;
+    --gold:#c8a24d;
+    --gold-light:#e0c27a;
+    --paper:#f7f5f0;
+    --paper-card:#ffffff;
+    --ink:#1a2230;
+    --ink-soft:#4a5568;
+    --line:#dfe3ea;
+    --fact-bg:#eef4fb;
+    --fact-line:#7fa8d0;
+    --insight-bg:#fbf3e4;
+    --insight-line:var(--gold);
+    --green:#1f7a4d;
+    --red:#b3402b;
+    --warn-bg:#fbeceb;
+    --warn-line:#b3402b;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Noto Sans KR', -apple-system, sans-serif;
+    line-height:1.75;
+    font-size:15.5px;
+  }
+  .mono{font-family:'Roboto Mono', monospace;}
+
+  /* ===== Header ===== */
+  .masthead{
+    background:linear-gradient(160deg, var(--navy-950) 0%, var(--navy-800) 70%, var(--navy-700) 100%);
+    color:#eef2f7;
+    padding:44px 8vw 36px;
+    position:relative;
+    overflow:hidden;
+  }
+  .masthead::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(115deg, rgba(200,162,77,0.06) 0px, rgba(200,162,77,0.06) 1px, transparent 1px, transparent 64px);
+    pointer-events:none;
+  }
+  .masthead-top{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'Roboto Mono', monospace;
+    font-size:11.5px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--gold-light);
+    border-bottom:1px solid rgba(200,162,77,0.35);
+    padding-bottom:14px; margin-bottom:26px;
+    position:relative;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .brand .mark{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--gold); display:inline-block;
+  }
+  h1.title{
+    font-size:clamp(26px,3.4vw,38px);
+    font-weight:900; letter-spacing:-0.01em;
+    margin:0 0 10px; color:#fff;
+    position:relative;
+  }
+  .subtitle{
+    color:#c3cedd; font-size:15px; font-weight:400; max-width:680px;
+    position:relative;
+  }
+  .scope-chips{
+    display:flex; gap:8px; margin-top:22px; flex-wrap:wrap; position:relative;
+  }
+  .chip{
+    font-family:'Roboto Mono',monospace; font-size:11px; letter-spacing:.05em;
+    padding:5px 12px; border-radius:20px; border:1px solid rgba(200,162,77,0.5);
+    color:var(--gold-light); background:rgba(200,162,77,0.08);
+  }
+
+  /* ===== container ===== */
+  .wrap{max-width:900px; margin:0 auto; padding:0 8vw;}
+  .body-wrap{padding-top:34px; padding-bottom:80px;}
+
+  /* ===== draft notice ===== */
+  .draft-notice{
+    background:var(--warn-bg); border:1px solid rgba(179,64,43,0.35); border-left:4px solid var(--warn-line);
+    border-radius:4px; padding:18px 22px; margin-bottom:28px;
+  }
+  .draft-notice .dn-title{
+    font-family:'Roboto Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--red); margin-bottom:8px; display:flex; align-items:center; gap:8px;
+  }
+  .draft-notice p{margin:0; font-size:13.5px; color:var(--ink-soft);}
+
+  /* ===== Executive summary ===== */
+  .exec{
+    background:var(--paper-card);
+    border:1px solid var(--line);
+    border-left:4px solid var(--navy-700);
+    border-radius:4px;
+    padding:22px 26px;
+    margin-bottom:44px;
+  }
+  .exec h2{margin:0 0 12px; font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--navy-700); font-family:'Roboto Mono',monospace;}
+  .exec ul{margin:0; padding-left:20px;}
+  .exec li{margin-bottom:8px; color:var(--ink-soft); font-size:14.5px;}
+  .exec li b{color:var(--ink); font-weight:600;}
+
+  /* ===== Article block ===== */
+  .article{
+    margin-bottom:56px;
+    padding-bottom:8px;
+  }
+  .article + .article{border-top:1px solid var(--line); padding-top:48px;}
+
+  .article-eyebrow{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    font-family:'Roboto Mono',monospace; font-size:11.5px; letter-spacing:.1em;
+    color:var(--navy-600); text-transform:uppercase; margin-bottom:10px;
+  }
+  .tag-metal{
+    background:var(--navy-800); color:var(--gold-light);
+    padding:3px 10px; border-radius:3px; font-weight:600;
+  }
+  .tag-metal.secondary{background:var(--navy-600); color:#dbe6f2;}
+  .article h2.headline{
+    font-size:23px; font-weight:700; letter-spacing:-0.01em;
+    margin:0 0 8px; color:var(--navy-950);
+  }
+  .source-line{
+    font-size:12.5px; color:var(--ink-soft); margin-bottom:8px;
+    font-family:'Roboto Mono',monospace;
+  }
+  .source-line a{color:var(--navy-600); text-decoration:none; border-bottom:1px dotted var(--navy-600);}
+  .source-note{
+    font-size:12.5px; color:var(--ink-soft); margin-bottom:20px; font-style:italic;
+  }
+
+  /* stat strip */
+  .stat-strip{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(130px,1fr));
+    gap:1px; background:var(--line);
+    border:1px solid var(--line); border-radius:4px; overflow:hidden;
+    margin-bottom:22px;
+  }
+  .stat{
+    background:var(--paper-card); padding:14px 16px;
+  }
+  .stat .num{
+    font-family:'Roboto Mono',monospace; font-weight:700; font-size:19px; color:var(--navy-900);
+    display:block;
+  }
+  .stat .lbl{font-size:11px; color:var(--ink-soft); margin-top:2px; display:block;}
+
+  /* fact / insight boxes */
+  .box{
+    border-radius:4px; padding:20px 22px; margin-bottom:16px;
+  }
+  .box-label{
+    font-family:'Roboto Mono',monospace; font-size:11px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; margin-bottom:12px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .box-label .dot{width:7px;height:7px;border-radius:50%;}
+  .fact{background:var(--fact-bg); border-left:3px solid var(--fact-line);}
+  .fact .box-label{color:#2a5a8c;}
+  .fact .box-label .dot{background:var(--fact-line);}
+  .fact ul{margin:0; padding-left:19px;}
+  .fact li{margin-bottom:9px; font-size:14.5px;}
+  .fact li:last-child{margin-bottom:0;}
+  .fact b{font-weight:700; color:var(--navy-950);}
+
+  .insight{background:var(--insight-bg); border-left:3px solid var(--insight-line);}
+  .insight .box-label{color:#8a6d1f;}
+  .insight .box-label .dot{background:var(--gold);}
+  .insight-item{margin-bottom:16px;}
+  .insight-item:last-child{margin-bottom:0;}
+  .insight-item p{margin:0; font-size:14.5px;}
+  .flag{
+    display:inline-block; font-family:'Roboto Mono',monospace; font-size:10px; font-weight:700;
+    padding:2px 7px; border-radius:3px; margin-right:6px; letter-spacing:.03em;
+    vertical-align:middle; position:relative; top:-1px;
+  }
+  .flag-infer{background:#8a6d1f; color:#fff;}
+  .flag-fact{background:#2a5a8c; color:#fff;}
+
+  .bg-note{
+    background:#f0f1f4; border:1px dashed #c3c8d1; border-radius:4px;
+    padding:16px 20px; font-size:13.5px; color:var(--ink-soft); margin-top:16px;
+  }
+  .bg-note .bg-title{font-weight:700; color:var(--navy-900); font-size:12.5px; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; font-family:'Roboto Mono',monospace;}
+  .bg-note ul{margin:6px 0 0; padding-left:18px;}
+  .bg-note li{margin-bottom:6px;}
+  .bg-note li:last-child{margin-bottom:0;}
+
+  .verify-note{
+    background:var(--warn-bg); border:1px dashed rgba(179,64,43,0.45); border-radius:4px;
+    padding:16px 20px; font-size:13.5px; color:var(--ink-soft); margin-top:16px;
+  }
+  .verify-note .vn-title{font-weight:700; color:var(--red); font-size:12.5px; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; font-family:'Roboto Mono',monospace;}
+
+  .takeaway{
+    margin-top:18px; padding:16px 20px;
+    background:var(--navy-950); color:#eef2f7; border-radius:4px;
+  }
+  .takeaway .box-label{color:var(--gold-light);}
+  .takeaway p{margin:0; font-size:14.5px; color:#dbe2ec;}
+
+  /* legend */
+  .legend{
+    display:flex; gap:18px; flex-wrap:wrap; font-size:12px; color:var(--ink-soft);
+    background:var(--paper-card); border:1px solid var(--line); border-radius:4px;
+    padding:12px 18px; margin-bottom:24px; align-items:center;
+  }
+  .legend b{color:var(--ink);}
+  .legend-item{display:flex; align-items:center; gap:6px;}
+  .legend-dot{width:8px;height:8px;border-radius:50%;}
+
+  footer{
+    background:var(--navy-950); color:#8494a8; padding:30px 8vw; font-size:12px;
+    font-family:'Roboto Mono',monospace;
+  }
+  footer .foot-top{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px; margin-bottom:14px;}
+  footer a{color:var(--gold-light);}
+
+  @media (max-width:640px){
+    .masthead{padding:32px 6vw 28px;}
+    .wrap{padding:0 6vw;}
+    footer{padding:24px 6vw;}
+  }
+
+  @media print{
+    body{background:#fff;}
+    .masthead{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="wrap" style="padding:0;">
+    <div class="masthead-top">
+      <div class="brand"><span class="mark"></span> BATTERY METAL SOURCING INTELLIGENCE</div>
+      <div>ISSUE · 2026-09-02</div>
+    </div>
+    <h1 class="title">배터리 메탈 소싱 위클리 브리핑</h1>
+    <div class="subtitle">리튬 · 니켈 · 코발트 · 메탈 리사이클링 — 소싱처 관점의 공급망 인텔리전스. 1차 매체 팩트와 애널리스트 인사이트를 분리 표기합니다.</div>
+    <div class="scope-chips">
+      <span class="chip">LITHIUM</span>
+      <span class="chip">NICKEL</span>
+      <span class="chip">SOURCE: MINING.COM / BENCHMARK MINERALS / REUTERS</span>
+      <span class="chip">WEEK OF 08.31–09.02</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap body-wrap">
+
+  <div class="draft-notice" style="background:var(--fact-bg); border-color:rgba(127,168,208,0.4); border-left-color:var(--fact-line);">
+    <div class="dn-title" style="color:#2a5a8c;">✓ 사용자 토론을 거쳐 확정됨</div>
+    <p>본 회차는 예약 자동 실행 초안(뉴스①: Smackover Lithium·LG에너지솔루션 오프테이크, 뉴스②: 인니 니켈광 수입) 이후 사용자 토론을 거쳐 다음과 같이 수정·확정했습니다 — <b>뉴스①은 CATL 지안샤워 리튬광산 건으로 교체하고 중국 반내권(反內卷) 정책과 연결한 심화 인사이트를 추가</b>, <b>뉴스②는 RKAB-필리핀 수입의 인과관계(부분 완충 vs 완전 상쇄)에 대한 토론을 반영해 인사이트를 수정</b>했습니다. 붉은 라벨(⚠검증필요) 표시 항목은 여전히 원문 재확인이 권장됩니다. (토론 경과 전체: <span class="mono">news-drafts/2026-09-02.md</span>)</p>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:var(--fact-line)"></span> <b>파란 라벨</b> — 출처 기사/1차 자료에 명시된 팩트</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--gold)"></span> <b>금색 라벨</b> — 애널리스트 인사이트 (비검증 추론, 별도 확인 필요)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--red)"></span> <b>붉은 라벨</b> — 편집부 계산·별도 출처 보강 (원 기사에 없어 우선 검증 필요)</div>
+  </div>
+
+  <div class="exec">
+    <h2>Executive Summary</h2>
+    <ul>
+      <li><b>리튬 — CATL 지안샤워 광산, 환경영향평가(EIA) 재취소:</b> 2025.8 허가만료 이후 재가동 시도를 거듭했으나, 광물지정 변경발 신규 EIA가 취소되며 재차 가동중지. Benchmark는 2026년 생산전망을 62,500t→32,000t LCE로 약 49% 하향(2027년 전망은 99,000t으로 유지 — 일시적 이연으로 보는 시각). 반복된 좌절의 배경엔 중국의 반내권(反內卷) 공급규율 정책이 있다는 시각도 추가로 제시.</li>
+      <li><b>니켈 — 인도네시아, 1~7월 필리핀산 니켈광 수입 1,140만 톤(전년비 67.1%↑):</b> RKAB 감산분(약 1.1~1.2억 톤)에 비해 필리핀 수입 증가분(약 1,500만 톤)은 10~15%만 상쇄 — 완전 대체가 아닌 부분 완충. 인니 RKEF 가동률이 84%→76%로 실제 하락한 점이 이를 뒷받침.</li>
+    </ul>
+  </div>
+
+  <!-- ============ ARTICLE 1 ============ -->
+  <section class="article">
+    <div class="article-eyebrow"><span class="tag-metal">LITHIUM</span> 공급 차질 · 인허가 리스크 · 중국</div>
+    <h2 class="headline">CATL 지안샤워(이춘) 리튬광산, 환경영향평가(EIA) 재취소 — "재가동→재폐쇄" 반복</h2>
+    <div class="source-line">Mining.com(Cecilia Jamasmie) 2026.08.02 · Benchmark Minerals(Cameron Perks) 2026.09.01 · Mining Weekly(국영매체 인용) 2026.08.07 · <a href="https://www.mining.com/chinas-biggest-lithium-mine-loses-licence/" target="_blank">Mining.com 원문 ↗</a> · <a href="https://source.benchmarkminerals.com/article/catl-s-jianxiawo-lithium-mine-has-eia-revoked" target="_blank">Benchmark 원문 ↗</a> · <a href="https://www.miningweekly.com/article/catls-jianxiawo-lithium-mine-remains-closed-pending-environmental-approval-state-media-reports-2026-08-07" target="_blank">Mining Weekly 원문 ↗</a></div>
+
+    <div class="stat-strip">
+      <div class="stat"><span class="num">150,000t</span><span class="lbl">연산능력(LCE 환산)</span></div>
+      <div class="stat"><span class="num">~8%</span><span class="lbl">중국 리튬공급 비중(추정)</span></div>
+      <div class="stat"><span class="num">32,000t</span><span class="lbl">2026년 수정 생산전망(-49%)</span></div>
+      <div class="stat"><span class="num">99,000t</span><span class="lbl">2027년 전망(변동없음)</span></div>
+    </div>
+
+    <div class="box fact">
+      <div class="box-label"><span class="dot"></span>팩트 — 출처 기사 기준</div>
+      <ul>
+        <li><b>지안샤워(Jianxiawo) 리튬운모(레피돌라이트) 광산</b>은 CATL 소유, 장시성 이춘시 소재, 연산능력 약 15만 톤 LCE로 <b>중국 최대 리튬광산</b>. 중국 전체 리튬 공급의 약 8% 추정(UBS, 2025.12 보고서 기준 — 별도 시점 출처).</li>
+        <li>2025년 8월 채광 허가 만료로 가동 중단. 이후 재가동 절차가 1년 넘게 이어짐: 2025.11 진전 보도 → 2026.6.29 안전생산 허가 취득. 그러나 광물 지정이 "세라믹 점토"에서 "리튬광"으로 변경되며 <b>별도의 신규 EIA(환경영향평가)</b>가 필요해짐(2026.8.7, Mining Weekly가 국영매체 인용). 신규 EIA는 2026.7.27 대중 공개협의 절차에 부쳐짐.</li>
+        <li>2026년 7월 "짧고 비공식적인" 재가동 시도가 있었으나(Benchmark Minerals), 이후 EIA가 취소(revoked)되며 다시 <b>가동중지·유지보수(care and maintenance)</b> 상태로 복귀(Benchmark 2026.9.1 / Mining.com 2026.9.2 보도).</li>
+        <li>Mining.com(2026.9.2) 보도는 이번 취소의 배경으로 <b>광미(tailings) 저장소 관련 미해결 분쟁과 70건 이상의 공식 환경 민원</b>을 언급.</li>
+        <li>Benchmark Minerals는 이번 조치로 <b>2026년 생산 전망치를 기존 62,500톤 LCE에서 32,000톤 LCE로 약 49% 하향 조정</b>. 2027년 전망치는 약 99,000톤 LCE로 <b>유지</b>(변동 없음) — 공급 차질을 2026년 한정으로 보는 관측.</li>
+        <li>Benchmark는 환경 재검토 완료 시점이 <b>2026년 4분기 또는 2027년으로 지연</b>될 수 있다고 전망.</li>
+        <li>시장 배경: 중국 탄산리튬 가격은 2026.9.1 기준 ¥160,000/톤(글로벌 벤치마크 $23.8/kg, 당일 +4.66%)까지 상승 — 다만 이 상승은 배터리 ESS 수요 급증, 중국의 리튬이온배터리 소비세(2%) 재도입 등 복합 요인에 의한 것으로 보도되며, 이 기사에서 지안샤워 이슈와의 직접적 연결은 확인되지 않음.</li>
+      </ul>
+    </div>
+
+    <div class="box insight">
+      <div class="box-label"><span class="dot"></span>애널리스트 인사이트</div>
+      <div class="insight-item">
+        <p><span class="flag flag-fact">FACT-BASED</span><b>두 개의 서로 다른 규제 트랙이 순차적으로 병목.</b> 이 광산은 2025년 8월 최초 허가 만료 이후 1년 넘게 "허가 취득 시도 → 부분/비공식 재가동 → 재중단"을 반복하고 있는 구조적 불확실성 자산이다. 안전생산허가는 취득했으나 환경승인이라는 별도 관문에서 계속 막히고 있어, 단순 행정 지연이 아니라 서로 다른 두 규제 트랙(안전 vs 환경)이 순차적으로 병목이 되고 있는 모습이다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>사후적 용도전환 광산의 구조적 인허가 리스크.</b> 광물 지정이 "세라믹점토→리튬광"으로 뒤늦게 바뀌었다는 사실은, 이 광산이 애초 리튬 채굴용으로 설계된 인허가 체계 위에 있지 않았을 가능성을 시사한다. 중국 레피돌라이트 광산 중 배터리 리튬 붐에 편승해 기존 세라믹 원료 광산에서 빠르게 용도 전환된 사례가 다수라는 업계 일반 배경과 부합 — 이런 사후적 용도변경 광산들은 앞으로도 유사한 인허가 리스크에 반복 노출될 가능성이 있다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>지역주민 반발이라는 정치적 변수 추가 가능성.</b> "70건 이상 환경민원"이 사실이라면(단일 출처, 검증 필요) 순수 행정 문제가 아니라 지역주민 반발이라는 정치적 변수가 추가된 것으로, 향후 재가동 시점의 예측가능성을 더 낮추는 요인이다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>소싱담당자 시사점 — 단일광산 의존 원료의 인허가 리스크 프리미엄.</b> 중국 리튬운모 공급의 상당 부분이 이런 개별 광산의 인허가 리스크에 노출돼 있다는 점을 재확인시키는 사례다. 특정 단일 광산 의존도가 높은 원료는 인허가발 공급 변동성이 구조적으로 크다는 점을 조달 리스크 프리미엄에 반영할 필요가 있다. 다만 Benchmark의 2027년 전망(99,000톤, 변동없음)은 이번 이슈를 "일시적 이연"으로 보고 있다는 뜻이므로, 패닉성 장기계약 재검토보다는 2026년 4분기~2027년초 재가동 여부를 핵심 모니터링 포인트로 삼는 것이 합리적이다.</p>
+      </div>
+    </div>
+
+    <div class="verify-note">
+      <div class="vn-title">⚠ 검증 필요 — 소스 간 불일치·교차확인 필요</div>
+      "광미 분쟁·70건 민원"이라는 구체적 사유는 mining.com 단일 출처에서만 확인됨. Benchmark Minerals·Mining Weekly(국영매체 인용) 등 다른 소스는 이 사유를 직접 언급하지 않고, 대신 "광물 지정 변경에 따른 신규 EIA 필요"라는 절차적 사유만 제시한다. 두 설명이 모순된다기보다는(7.27 공개협의 과정에서 주민 민원이 제기돼 EIA가 반려됐다는 시나리오로 이어붙이면 앞뒤가 맞음) <b>편집부가 재구성한 추정 순서</b>이며, 원문에서 명시적으로 연결하지 않았으므로 별도 확인이 필요하다. 안전생산허가 취득(2026.6.29)과 EIA 재취소 사이의 정확한 재취소 일자·행정 근거도 확인하지 못했다.
+    </div>
+
+    <div class="box insight" style="margin-top:16px;">
+      <div class="box-label"><span class="dot"></span>심화 인사이트 — 왜 중국 정부는 자국 최대 리튬광산 재가동을 서두르지 않는가</div>
+      <p style="font-size:12.5px; color:var(--ink-soft); font-style:italic; margin:0 0 14px;">사용자 요청으로 추가한 시각. 오늘자(9.1~9.2) 기사가 아니라 2025.8~2026.1 시점의 별도 보도들을 종합해 재구성했으며, "반내권 정책이 이번 9월 EIA 재취소의 직접 원인"이라는 연결 자체는 어느 출처에서도 명시적으로 확인되지 않은 편집부의 해석입니다.</p>
+      <div class="insight-item">
+        <p><span class="flag flag-fact">FACT-BASED</span><b>이번이 처음이 아니라 2025년 8월 광역 단속의 연장선.</b> 2025.8 최초 허가 만료는 돌발 사건이 아니라, 장시성 리튬운모 광산 <b>7곳이 광물 분류 불일치(세라믹점토/석회암으로 등록된 채 실제로는 리튬 채굴)로 적발된 광역 단속</b>의 일환이었다(Asia Times, 2025.8.22/26). 이번 9월 재확인된 "세라믹점토→리튬광 지정 변경" 이슈는 1년 전부터 이어진 동일 규제 트랙이 아직 해소되지 않았음을 보여준다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-fact">FACT-BASED</span><b>반내권(反內卷) 공급측 개혁이라는 배경.</b> 이 단속은 극심한 공급과잉 국면에서 나왔다: 2022년 정점 톤당 약 8만 달러였던 리튬 가격이 2023년 한 해에만 약 90% 폭락, 2024년 9천 달러 아래까지 하락했고, 2025년 상반기 장시성 리튬운모 채굴량의 약 30%가 이미 유휴 상태였다(Asia Times). 이후 중국 정부는 2025.6 반부당경쟁법 개정(원가 이하 판매 금지), 2025.7 리튬 등 신소재의 "안정화 목록" 편입("무질서한 저가경쟁" 방지), 칭하이 장거(Zangge) 염호 등 지역 단위 감산 지도를 잇달아 시행했다(Asia Times). 2026.1 시점에도 "동력 배터리"는 반내권 캠페인의 명시적 타겟 산업으로 재확인된다(fredgao.com, 2026.1.15). <i>(각 조치의 구체 내용은 아래 배경지식 박스 참고)</i></p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>"허가를 안 내주는 정부"가 아니라 "허가를 공급조절 수단으로 쓰는 정부".</b> 이 맥락을 종합하면, 지안샤워의 반복된 재가동 좌절(안전허가는 취득했으나 환경승인에서 계속 막히는 패턴)은 순수 행정 지연이라기보다, 베이징이 자국 최대 리튬광산(CATL 소유)에조차 예외 없이 공급 규율을 관철시키는 신호로 해석할 여지가 있다 — 자국 전략자산이라도 봐주지 않는다는 점을 보여줌으로써 시장에 "가격전쟁 재점화 방지" 의지를 재확인시키는 효과가 있다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>선행지표는 EIA 서류가 아니라 중국의 목표 가격 밴드.</b> 이 해석이 맞다면, 향후 재가동 시점은 EIA의 기술적 통과 여부보다 중국 내 리튬 가격·재고가 정부가 용인 가능하다고 보는 밴드 안에 들어오는지에 더 크게 좌우될 수 있다. 2025.12~2026.2 재가동 "기대감"만으로 가격이 출렁였던 전례를 감안하면, 소싱담당자는 EIA 진행상황 자체보다 중국의 반내권 정책 기조 변화(목표 가격 밴드 상향·완화 시그널 등)를 선행지표로 모니터링하는 편이 더 유효할 수 있다.</p>
+      </div>
+    </div>
+
+    <div class="bg-note">
+      <div class="bg-title">배경지식 — 반내권 조치 3가지, 구체적으로 무엇인가</div>
+      <ul>
+        <li><b>① 반부당경쟁법(反不正当竞争法) 개정</b> — 2025.6.27 전국인민대표대회 통과, 2025.10.15 시행. 제14조가 플랫폼 사업자에게 입점업체를 대상으로 "원가 이하 판매를 강요하거나 사실상 강요하는 행위"를 금지, 제30조는 위반 시 5만~50만 위안(심각한 경우 50만~200만 위안) 과태료를 규정. 원래는 전자상거래·플랫폼 경제의 출혈경쟁(온라인 최저가 경쟁 등)을 겨냥한 일반법이며, 리튬·광업을 직접 명시한 조항은 아님 — "무질서한 저가경쟁을 억제한다"는 반내권 정책 기조를 상징하는 입법으로 함께 거론되는 것으로 파악. <span style="color:var(--red);">(법 조문 자체와 광업 부문의 직접적 연결은 원문에서 확인되지 않음 — 참고용 배경으로만 인용)</span></li>
+        <li><b>② 리튬 등 신소재 "안정화 목록" 편입</b> — Asia Times(2025.8.22/26) 보도에 따른 것으로, "무질서한 저가경쟁 방지" 목적의 목록 편입으로 설명됨. 다만 이와 별개로 확인되는 유사 조치로 <b>공업정보화부(MIIT) 등 8개 부처가 2025.9.29 발표한 "유색금속산업 안정성장 방안(2025~2026)"</b>이 있으며, 여기서 구리·알루미늄과 함께 리튬의 "국내 자원 개발"과 "반복적·저수준 건설을 피하는 과학적 프로젝트 배치"가 명시적으로 언급됨. <span style="color:var(--red);">(Asia Times가 언급한 7월 조치와 MIIT의 9월 방안이 동일 문서인지, 별개의 순차적 조치인지는 확인하지 못함 — 명칭·시점이 정확히 일치하지 않아 교차검증 필요)</span></li>
+        <li><b>③ 칭하이 장거(Zangge) 염호 감산</b> — 2025.7.17, 칭하이성 하이시(Haixi)주 지방정부가 Zangge Mining에 "규정 미준수 채광 활동의 즉시 중단"을 통지, 생산 중단(연간 목표 약 11,000톤 LCE 중 상반기 약 5,350톤 생산 후 중단). 구체적 미준수 사유는 공시되지 않았고, 지방정부 차원 조치로 중앙정부의 직접 지시는 확인되지 않음. 이 중단 소식만으로 광저우선물거래소 탄산리튬 선물가격이 3개월 고점 근처까지 급등 — 시장이 이를 공급규율 신호로 받아들였음을 보여주는 정황. <span style="color:var(--red);">(반내권 정책과의 직접적 연결은 원 보도에 명시되지 않음 — 편집부의 맥락적 해석)</span></li>
+        <li><b>④ (참고) 광물자원법 개정, 2025.7.1 시행</b> — 자연자원부(Ministry of Natural Resources)가 모든 채광 등록·승인 권한을 사실상 중앙집권화, 지방정부는 자연자원부의 개별 승인이 있을 때만 허가 부여 가능해짐. 지안샤워를 포함한 개별 광산의 인허가가 지방정부 재량만으로는 더 이상 신속히 처리되기 어려워진 제도적 배경으로 볼 수 있음 — 다만 이 역시 지안샤워 사례와의 직접적 연결이 원문에 명시된 것은 아님.</li>
+      </ul>
+    </div>
+
+    <div class="bg-note">
+      <div class="bg-title">배경지식 — 지안샤워 광산 인허가 타임라인</div>
+      <ul>
+        <li><b>2025.08</b> — 채광 허가 만료, 가동 중단</li>
+        <li><b>2025.11</b> — 재가동 절차 진전 보도</li>
+        <li><b>2026.06.29</b> — 안전생산 허가 취득</li>
+        <li><b>2026.07.27</b> — 광물지정 변경(세라믹점토→리튬광)에 따른 신규 EIA, 대중 공개협의 절차 개시</li>
+        <li><b>2026.07</b> — 짧고 비공식적인 재가동 시도</li>
+        <li><b>2026.09.01~02</b> — EIA 재취소 보도, 가동중지·유지보수 상태로 복귀. 재개는 2026년 4분기~2027년으로 지연 전망</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ ARTICLE 2 ============ -->
+  <section class="article">
+    <div class="article-eyebrow"><span class="tag-metal">NICKEL</span> 원료 수급 · 정책/규제 · 인도네시아·필리핀</div>
+    <h2 class="headline">인도네시아, 1~7월 필리핀산 니켈광 수입 1,140만 톤(전년비 67.1%↑) — RKAB 쿼터 감축발 원료 대체</h2>
+    <div class="source-line">Reuters(Bernadette Christina Munthe·Fransiska Nangoy 취재, Martin Petty 편집) via Mining.com · 2026.09.01 · <a href="https://www.mining.com/web/indonesia-nickel-ore-imports-from-philippines-rise-to-11-4-million-tons-in-january-july/" target="_blank">원문 보기 ↗</a></div>
+
+    <div class="stat-strip">
+      <div class="stat"><span class="num">11.4Mt</span><span class="lbl">1~7월 필리핀산 니켈광 수입량</span></div>
+      <div class="stat"><span class="num">+67.1%</span><span class="lbl">전년동기 대비 증가율</span></div>
+      <div class="stat"><span class="num">$696.5M</span><span class="lbl">동기간 수입액</span></div>
+      <div class="stat"><span class="num">6.82Mt</span><span class="lbl">2025년 동기 수입량</span></div>
+    </div>
+
+    <div class="box fact">
+      <div class="box-label"><span class="dot"></span>팩트 — 출처 기사 기준</div>
+      <ul>
+        <li>인도네시아 통계청(BPS) 발표 기준, 2026년 1~7월 필리핀산 니켈광 수입량 <b>1,140만 톤</b>, 수입액 <b>6억 9,650만 달러</b>.</li>
+        <li>전년동기(2025년 1~7월) <b>682만 톤</b> 대비 <b>67.1% 증가</b>.</li>
+        <li>기사는 이 증가의 배경으로 "인도네시아 정부가 니켈 가격 지지를 위해 연간 채광쿼터(RKAB)를 강화(축소)하고 있다"는 점을 명시.</li>
+      </ul>
+    </div>
+
+    <div class="box insight">
+      <div class="box-label"><span class="dot"></span>애널리스트 인사이트</div>
+      <div class="insight-item">
+        <p><span class="flag flag-fact">FACT-BASED</span><b>구조적 흐름 — 돌발적 무역 급증이 아님.</b> 이번 수입 급증은 2026년 초부터 예고돼 있던 인도네시아 RKAB 쿼터 감축에 따른 국내 스멜터 원료 부족을 해외(주로 필리핀)에서 메우는 구조적 흐름으로 보인다. 오늘 기사 자체가 "가격 지지 목적의 쿼터 강화"를 배경으로 명시하고 있어, 별도 출처(Benchmark Minerals)의 정책 기사와도 정합된다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>"원광 부족"이 아니라 "정책적으로 유발된 원광 부족".</b> 인도네시아는 세계 최대 니켈 매장국이지만, 자국 스멜터(RKEF 등) 가동률 유지를 위해 오히려 해외 원광에 의존하는 역설적 구조다. 스멜터 캐파는 지속 증설돼 온 반면 원광 공급이 정책적으로 조여지며 생긴 구조적 갭으로 해석하는 것이 합리적이나, "왜 인니가 스멜터 증설을 계속했는지"와 "쿼터 감축의 진짜 배경(가격방어 vs 자원보존)" 간 정합성은 별도 검증이 필요하다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정</span><b>필리핀 다운스트림 육성 전략과의 상충 가능성.</b> 필리핀은 그간 단순 "니켈 원광 수출국"으로 여겨졌으나, 인도네시아 스멜터向 공급이 늘며 필리핀 내 다운스트림(제련·정제) 투자 유인이 오히려 약화될 가능성이 있다(원광 수출이 더 남는 장사가 됨). 이는 필리핀 정부의 자체 다운스트림 육성 전략과 상충 소지가 있다.</p>
+      </div>
+      <div class="insight-item">
+        <p><span class="flag flag-infer">추정 — 사용자 토론 반영, 확인 완료</span><b>"부분 완충"이지 "완전 상쇄"가 아니다 — RKEF 가동률 하락이 방증.</b> 국내 감산분(2025년 3.79억 톤 → 2026년 2.6~2.7억 톤, 약 1.1~1.2억 톤 감소)에 비해 필리핀산 수입 증가분(2025년 연간 약 1,500만 톤 → 2026년 전망 최대 3,000만 톤, 약 1,500만 톤 증가)은 <b>10~15% 수준밖에 메우지 못한다</b>. 실제로 인니 RKEF(니켈선철 제련) 가동률은 필리핀 수입 급증에도 불구하고 2025년 84% → 2026.6월 76%로 하락했다(SMM, 2026.6.7) — 원료 대체가 정련 단계의 공급 제약을 완전히 상쇄하지 못하고 있다는 방증이며, 이는 "쿼터 감축=글로벌 공급축소"라는 인니 정부의 정책 논리를 오히려 뒷받침하는 정황으로 볼 수 있다. 다만 이 기간 인니 스멜터 명목 캐파 자체도 계속 확장돼 왔기 때문에, 가동률(%) 하락이 정련니켈 절대 생산량 감소로 직결되는지는 별도 확인이 필요하다.</p>
+      </div>
+    </div>
+
+    <div class="verify-note">
+      <div class="vn-title">⚠ 검증 필요 — 배경정보 출처 시점 상이</div>
+      배경지식 박스의 RKAB 쿼터 축소폭(2.6~2.7억 톤, -29~31%)과 필리핀 수출 전망치(2026년 최대 3,000만 톤), RKEF 가동률(84%→76%) 수치는 오늘 기사(Reuters, 09.01)가 아니라 <b>2026년 2월~6월 시점의 별도 보도</b>에서 가져온 배경정보입니다. 8월 기준 최신 RKAB 실집행 수치나 가동률 업데이트는 확인하지 못했습니다 — 원문 재확인을 권장합니다.
+    </div>
+
+    <div class="bg-note">
+      <div class="bg-title">배경지식 — 인도네시아 RKAB 쿼터·필리핀 니켈광 무역 흐름</div>
+      <ul>
+        <li>Benchmark Minerals(2026.02.12): 인도네시아 2026년 RKAB(연간 채광계획) 쿼터는 <b>2.6~2.7억 톤</b>으로, 2025년 <b>3.79억 톤</b> 대비 약 <b>29~31% 감소</b>. 정부는 가격 지지·자원 보존을 감축 배경으로 제시.</li>
+        <li>Mining.com(2026.02.13): 필리핀의 대(對)인도네시아 니켈광 수출은 2025년 약 1,500만 톤에서 2026년 최대 3,000만 톤(2배)으로 늘어날 전망. 업계 관계자: "국내 공급을 줄이면 어디선가는 조달해야 한다." 필리핀 연간 니켈광 총생산량은 약 6,500만 톤 수준.</li>
+        <li>SMM(2026.06.07): 인니 RKEF(니켈선철 제련) 가동률이 2025년 84% → 2026년 6월 76%로 하락(8%p↓). 원료 쿼터 축소가 배경으로 지목됨. 인니 국가경제위원회는 "기록적 잉여를 방지하기 위해 필요한 조치"라고 언급.</li>
+        <li>필리핀은 과거 니켈 원광 수출금지를 검토했다가 철회한 이력이 있음(정책 방향 유동성 존재).</li>
+      </ul>
+    </div>
+
+    <div class="takeaway">
+      <div class="box-label"><span class="dot" style="background:var(--gold)"></span>소싱 담당자 시사점</div>
+      <p>인니산 니켈 중간재(MHP·페로니켈·스테인리스 등)를 조달하는 국내 배터리·소재사 입장에서는, 인니 스멜터의 원료가 갈수록 필리핀 의존도를 높이고 있다는 점을 상류 리스크로 함께 모니터링할 필요가 있다. 필리핀 측 수출정책 변화 가능성(과거 철회된 수출금지의 재추진 등)이 곧 인니向 니켈 공급망 전체의 리스크로 전이될 수 있다.</p>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap" style="padding:0;">
+    <div class="foot-top">
+      <div>BATTERY METAL SOURCING INTELLIGENCE · WEEKLY BRIEFING</div>
+      <div>ISSUE 2026-09-02</div>
+    </div>
+    <div>본 리포트는 1차/전문 매체(Reuters, Mining.com, SMM, Fastmarkets, Benchmark Minerals) 및 기업 보도자료·공시 등 1차 자료를 기반으로 작성되었으며, '애널리스트 인사이트' 표기 항목은 검증되지 않은 추론입니다. <b>본 회차는 예약 자동 실행 초안에 사용자 토론(뉴스 교체, 인사이트 검증·수정, 배경정책 추가확인)을 반영해 확정되었습니다.</b> 붉은 라벨(⚠검증필요) 항목을 포함해 수치·출처·인과관계는 원문 확인을 권장합니다. 개인 포트폴리오(GitHub) 게시용 콘텐츠로 제작되었습니다.</div>
+  </div>
+</footer>
+
+</body>
+</html>
